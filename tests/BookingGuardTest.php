@@ -107,13 +107,26 @@ final class BookingGuardTest extends KernelTestCase
 
     public function testAReservationWithoutTheCaptchasTokenIsRefused(): void
     {
-        $form = $this->form();
+        // glitchr/omnibase shows a form's captcha only after a few refused tries (base.guard.captcha_after):
+        // a form that always asks it (captcha_after 0) refuses a reservation sent without its token.
+        $form = $this->form(['captcha_after' => 0]);
         if (!$form->has('guard_captcha')) {
             self::markTestSkipped('The host application has no captcha (glitchr/omnishield).');
         }
         $this->send($form, ['guard_captcha' => '']);
         self::assertFalse($form->isValid());
         self::assertGreaterThan(0, $form->get('guard_captcha')->getErrors()->count(), 'refused on the captcha');
+    }
+
+    public function testAReservationBeforeTheCaptchaIsShownNeedsNoToken(): void
+    {
+        // Below the host's threshold the captcha is neither printed nor asked: the trap, the time and the lists alone guard it.
+        $form = $this->form();
+        if (!$form->has('guard_captcha')) {
+            self::markTestSkipped('The host application has no captcha (glitchr/omnishield).');
+        }
+        $this->send($form, ['guard_captcha' => null]);
+        self::assertTrue($form->isValid(), implode(', ', $this->refusals($form)));
     }
 
     public function testWithoutACaptchaTheTrapAndTheTimeAlone(): void
