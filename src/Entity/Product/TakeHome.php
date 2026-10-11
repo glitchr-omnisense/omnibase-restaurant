@@ -5,17 +5,19 @@ namespace Base\Restaurant\Entity\Product;
 use Base\Database\Attribute\DiscriminatorEntry;
 use Base\Enum\Allergen;
 use Base\Marketplace\Entity\Product;
+use Base\Restaurant\Enum\Keeping;
 use Base\Restaurant\Repository\TakeHomeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * A fresh dish to cook at home, sold by the restaurant's take-home shop: an
- * omnibase/marketplace product (title and text, price before VAT and its
- * VAT - 5.5 % in France for food to take away that is not eaten at once -,
- * stock, availability) with what a chilled dish says besides: how cold it
- * is kept, how many days it keeps once made (its use-by date), its weight
- * and portions, how to cook it, its allergens, and whether it may travel in
- * a chilled parcel (Service\ColdChain).
+ * A dish to cook at home, sold by the restaurant's take-home shop - fresh,
+ * frozen, or kept on a shelf: an omnibase/marketplace product (title and
+ * text, price before VAT and its VAT - 5.5 % in France for food to take away
+ * that is not eaten at once -, stock, availability) with what such a dish
+ * says besides: how it is kept (Enum\Keeping) and at what temperature, how
+ * many days it keeps once made (its use-by date), its weight and portions,
+ * how to cook it, its allergens, and whether it may travel in a chilled
+ * parcel (Service\ColdChain).
  */
 #[ORM\Entity(repositoryClass: TakeHomeRepository::class)]
 #[DiscriminatorEntry(value: 'restaurant_take_home')]
@@ -38,13 +40,13 @@ class TakeHome extends Product
     #[ORM\Column(type: 'json', nullable: true)]
     protected ?array $allergens = [];
 
-    /** Kept cold: it leaves in an insulated bag, a chilled parcel. */
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    protected ?bool $chilled = true;
+    /** How it is kept: on a shelf, in the fridge (fresh), in the freezer (Enum\Keeping) */
+    #[ORM\Column(length: 10, nullable: true)]
+    protected ?string $keeping = Keeping::FRESH->value;
 
-    /** The highest temperature it is kept at, in °C ("à conserver entre 0 et 4 °C") */
+    /** The highest temperature it is kept at, in °C ("à conserver entre 0 et 4 °C"); null: its keeping's */
     #[ORM\Column(type: 'smallint', nullable: true)]
-    protected ?int $storageTemperature = 4;
+    protected ?int $storageTemperature = null;
 
     /** Days it keeps once made: its use-by date is the day it is made plus these */
     #[ORM\Column(type: 'smallint', nullable: true)]
@@ -84,11 +86,20 @@ class TakeHome extends Product
     /** @return list<Allergen> */
     public function getAllergenCases(): array { return Allergen::fromList($this->allergens ?? []); }
 
-    public function isChilled(): bool { return $this->chilled ?? true; }
-    public function getChilled(): bool { return $this->isChilled(); }
-    public function setChilled(?bool $chilled): self { $this->chilled = (bool) $chilled; return $this; }
-    public function getStorageTemperature(): int { return $this->storageTemperature ?? 4; }
-    public function setStorageTemperature(?int $celsius): self { $this->storageTemperature = $celsius ?? 4; return $this; }
+    public function getKeeping(): Keeping { return Keeping::tryFrom((string) $this->keeping) ?? Keeping::FRESH; }
+    public function setKeeping(Keeping|string|null $keeping): self
+    {
+        $this->keeping = ($keeping instanceof Keeping ? $keeping : (Keeping::tryFrom((string) $keeping) ?? Keeping::FRESH))->value;
+
+        return $this;
+    }
+    public function getKeepingName(): string { return $this->getKeeping()->value; }
+    public function setKeepingName(?string $keeping): self { return $this->setKeeping($keeping); }
+    public function isFrozen(): bool { return Keeping::FROZEN === $this->getKeeping(); }
+    /** Kept cold - fresh or frozen: it leaves in an insulated bag, travels in a chilled parcel only. */
+    public function isChilled(): bool { return $this->getKeeping()->isCold(); }
+    public function getStorageTemperature(): int { return $this->storageTemperature ?? $this->getKeeping()->temperature(); }
+    public function setStorageTemperature(?int $celsius): self { $this->storageTemperature = $celsius; return $this; }
     public function getShelfLife(): int { return max(0, $this->shelfLife ?? 0); }
     public function setShelfLife(?int $days): self { $this->shelfLife = max(0, (int) $days); return $this; }
     public function getNetWeight(): ?int { return $this->netWeight; }

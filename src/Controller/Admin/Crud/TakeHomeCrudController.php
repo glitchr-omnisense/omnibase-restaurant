@@ -10,11 +10,13 @@ use Base\Field\TextareaField;
 use Base\Field\TextField;
 use Base\Marketplace\Controller\Admin\Crud\ProductCrudController;
 use Base\Restaurant\Entity\Product\TakeHome;
+use Base\Restaurant\Enum\Keeping;
 
 /**
- * The take-home shop's fresh dishes: the shop's product screen (title, text,
- * price before VAT, stock, availability) with how each keeps, how it is
- * cooked at home, and whether it travels in a chilled parcel.
+ * The take-home shop's dishes - fresh, frozen, or kept on a shelf: the
+ * shop's product screen (title, text, price before VAT, stock, availability)
+ * with how each is kept and for how long, how it is cooked at home, and
+ * whether it travels in a chilled parcel.
  */
 class TakeHomeCrudController extends ProductCrudController
 {
@@ -34,8 +36,12 @@ class TakeHomeCrudController extends ProductCrudController
         yield IntegerField::new('portions', '@restaurant.admin.takehome.portions')->setColumns(2)->hideOnIndex();
         yield IntegerField::new('netWeight', '@restaurant.admin.takehome.weight')->setRequired(false)->setColumns(2)->hideOnIndex();
         yield IntegerField::new('shopPosition', '@restaurant.admin.takehome.position')->setColumns(2)->hideOnIndex();
-        yield BooleanField::new('chilled', '@restaurant.admin.takehome.chilled')->setColumns(2)->hideOnIndex();
-        yield IntegerField::new('storageTemperature', '@restaurant.admin.takehome.temperature')->setColumns(2)->hideOnIndex();
+        $keepings = [];
+        foreach (Keeping::cases() as $keeping) {
+            $keepings['@restaurant.'.$keeping->trans()] = $keeping->value;
+        }
+        yield SelectField::new('keepingName', '@restaurant.admin.takehome.keeping')->setChoices($keepings)->setColumns(2);
+        yield IntegerField::new('storageTemperature', '@restaurant.admin.takehome.temperature')->setRequired(false)->setColumns(2)->hideOnIndex();
         yield IntegerField::new('shelfLife', '@restaurant.admin.takehome.shelf_life')->setColumns(3);
         yield BooleanField::new('parcel', '@restaurant.admin.takehome.parcel')->setColumns(3);
         yield IntegerField::new('cookingTime', '@restaurant.admin.takehome.cooking_time')->setRequired(false)->setColumns(2)->hideOnIndex();

@@ -3,6 +3,7 @@
 namespace Base\Restaurant\Controller\Client;
 
 use Base\Restaurant\Entity\Order\Ticket;
+use Base\Restaurant\Omnifood\PlatformHealth;
 use Base\Restaurant\Omnifood\Receiver;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +18,12 @@ use Symfony\Component\Routing\Attribute\Route;
  * put in the book. Answered 200 once handled; 502 when the platform could
  * not be asked for the order (it retries: the event is not marked as seen).
  * 404 without glitchr/omnifood or for a platform the site does not have.
+ * A webhook handled clears the platform's error on the pass; one that could
+ * not be handled marks it (PlatformHealth).
  */
 class PlatformWebhookController extends AbstractController
 {
-    public function __construct(private readonly ?Receiver $receiver = null, private readonly ?LoggerInterface $logger = null)
+    public function __construct(private readonly ?Receiver $receiver = null, private readonly ?LoggerInterface $logger = null, private readonly ?PlatformHealth $health = null)
     {
     }
 
@@ -43,9 +46,11 @@ class PlatformWebhookController extends AbstractController
         } catch (\Omnifood\Exception\OmnifoodException $e) {
             // The platform could not be asked for the order: it retries, and so do we.
             $this->logger?->error('restaurant: a webhook could not be handled: '.$e->getMessage());
+            $this->health?->failed($name, $e->getMessage());
 
             return $this->json(['error' => 'unavailable'], 502);
         }
+        $this->health?->succeeded($name);
 
         return $this->json([
             'ok' => true,

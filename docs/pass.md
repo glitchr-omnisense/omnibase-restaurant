@@ -26,11 +26,22 @@ one screen for the floor.
   `takeaway` channel - "Retrait", "Livraison" or "Colis", the customer, the
   time - and moving it moves the hand-over its customer follows
   ([The take-home shop](take-home.md)).
-- **The day's book**: confirm or refuse a request, seat (the table's bill
-  opens, tied to the reservation), finish, absent; a form for a reservation
-  taken on the phone or a walk-in seated now.
+- **The day's book**: each reservation with where it came from (the site,
+  the phone, a walk-in, or the platform's name); confirm or refuse a request,
+  seat (the table's bill opens, tied to the reservation), finish, absent;
+  **move** a party still to come by a quick form - another day, time or size,
+  any free table, as a phone booking (`Reservations::reschedule()`; the
+  guest with an address is mailed); a form for a reservation taken on the
+  phone or a walk-in seated now.
 - **Run out**: a dish out of stock, or back.
-- **The platforms**: pause for 30 minutes, resume (with glitchr/omnifood).
+- **The platforms** (with glitchr/omnifood): every platform the site
+  declares, with the state of its connection - *connected* (every key its
+  factory needs is set, in the configuration or typed in the back office),
+  *not configured* (the keys missing are named; nothing is called, its
+  webhook answers 404), *in error* (the last call or webhook failed: what
+  the platform said, and when, until one succeeds - `Omnifood\PlatformHealth`,
+  kept in the cache). A connected platform that takes orders is paused for
+  30 minutes, or resumed.
 
 The board is drawn by the server (`_pass_board.html.twig`) and asked again
 when `Service\Revision` has grown - a number bumped on every write of a

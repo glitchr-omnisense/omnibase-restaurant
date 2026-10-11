@@ -27,13 +27,24 @@
             </div>
         </div>
         {% if platforms %}
+        {# Every platform the site declares, and how its connection stands: configured, not configured (which keys are missing), in error (what it said, when). Only a configured one that takes orders is paused. #}
         <details class="restaurant-pass-platforms">
-            <summary>{{ '@restaurant.pass.platforms'|trans }}</summary>
+            <summary>{{ '@restaurant.pass.platforms'|trans }}{% set troubled = platforms|filter(p => p.status != 'configured')|length %}{% if troubled %} <span class="restaurant-badge">{{ troubled }}</span>{% endif %}</summary>
+            <ul class="restaurant-pass-platform-list">
             {% for p in platforms %}
-            <p><span class="restaurant-platform">{{ p.name }}</span>
-                <button type="button" class="restaurant-button is-small is-quiet" data-action="restaurant-pass#post" data-url="{{ path('restaurant_pass_platform', {name: p.name, action: 'pause'}) }}" data-minutes="30">{{ '@restaurant.pass.pause'|trans }}</button>
-                <button type="button" class="restaurant-button is-small is-quiet" data-action="restaurant-pass#post" data-url="{{ path('restaurant_pass_platform', {name: p.name, action: 'resume'}) }}">{{ '@restaurant.pass.resume'|trans }}</button></p>
+                <li class="is-{{ p.status }}">
+                    <span class="restaurant-platform">{{ p.name }}</span>
+                    <span class="restaurant-pill is-{{ p.status }}">{{ ('@restaurant.pass.platform.' ~ p.status)|trans }}</span>
+                    {% if p.status == 'unconfigured' %}<small>{{ '@restaurant.pass.platform.missing'|trans({keys: p.missing|join(', ')}) }}</small>
+                    {% elseif p.status == 'error' %}<small>{{ p.error }}{% if p.since %} · {{ p.since|date('d/m H:i') }}{% endif %}</small>{% endif %}
+                    {% if p.store %}
+                    <button type="button" class="restaurant-button is-small is-quiet" data-action="restaurant-pass#post" data-url="{{ path('restaurant_pass_platform', {name: p.name, action: 'pause'}) }}" data-minutes="30">{{ '@restaurant.pass.pause'|trans }}</button>
+                    <button type="button" class="restaurant-button is-small is-quiet" data-action="restaurant-pass#post" data-url="{{ path('restaurant_pass_platform', {name: p.name, action: 'resume'}) }}">{{ '@restaurant.pass.resume'|trans }}</button>
+                    {% endif %}
+                </li>
             {% endfor %}
+            </ul>
+            <p class="restaurant-muted">{{ '@restaurant.pass.platform.about'|trans }}</p>
         </details>
         {% endif %}
         <details class="restaurant-pass-new">

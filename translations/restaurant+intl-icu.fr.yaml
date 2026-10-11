@@ -139,6 +139,11 @@ diet:
     no_pork: Sans porc
     gluten_free: Sans gluten
 
+keeping:
+    ambient: Se conserve à température ambiante
+    fresh: Frais
+    frozen: Surgelé
+
 day:
     monday: Lundi
     tuesday: Mardi
@@ -157,6 +162,12 @@ pass:
     platforms: Plateformes
     pause: Pause 30 min
     resume: Reprendre
+    platform:
+        configured: Connectée
+        unconfigured: Non configurée
+        error: En erreur
+        missing: "Identifiants manquants : {keys}. Rien n'est appelé tant qu'ils ne sont pas saisis (Clés API)."
+        about: "Les réservations et commandes des plateformes arrivent ici par leurs webhooks, avec leur origine ; ce que fait le passe leur est renvoyé. Une plateforme en erreur reste affichée jusqu'à ce qu'un appel réussisse."
     new: + Réservation / sans réservation
     source: Origine
     add: Ajouter
@@ -214,12 +225,15 @@ pass:
         finish: Terminer
         no_show: Absent
         cancel: Annuler
+        move: Déplacer
+        moved: Déplacer la réservation
     error:
         action: "Ce geste n'est pas possible."
         no_bill: "Pas d'addition ouverte à cette table."
         no_table: Table inconnue.
         table_taken: "Cette table est déjà occupée."
         platform: "Cette plateforme n'est pas configurée."
+        not_movable: "Cette réservation ne peut plus être déplacée."
 
 mail:
     hello: "Bonjour {name},"
@@ -254,7 +268,7 @@ mail:
 admin:
     takehome:
         native: Nom japonais
-        chilled: Réfrigéré
+        keeping: Conservation
         temperature: "Conservation (°C max.)"
         shelf_life: "DLC (jours après fabrication)"
         weight: Poids net (g)

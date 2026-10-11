@@ -10,6 +10,7 @@ use Base\Restaurant\Entity\Table;
 use Base\Restaurant\Enum\ReservationStatus;
 use Base\Restaurant\Enum\Station;
 use Base\Restaurant\Exception\RestaurantException;
+use Base\Restaurant\Omnifood\PlatformHealth;
 use Base\Restaurant\Omnifood\Platforms;
 use Base\Restaurant\Repository\DishRepository;
 use Base\Restaurant\Service\Pass;
@@ -39,6 +40,7 @@ class PassController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly TranslatorInterface $translator,
         private readonly ?Platforms $platforms = null,
+        private readonly ?PlatformHealth $health = null,
         #[Autowire('%restaurant.staff_role%')] private readonly string $staffRole = 'ROLE_STAFF',
         #[Autowire('%restaurant.layout%')] private readonly string $layout = 'layout1.html.twig',
         #[Autowire('%restaurant.pass.poll%')] private readonly int $poll = 6,
@@ -91,10 +93,16 @@ class PassController extends AbstractController
         });
     }
 
-    #[Route('/service/reservation/{id}/{action}', name: 'restaurant_pass_reservation', requirements: ['id' => '\d+', 'action' => 'confirm|refuse|seat|finish|no_show|cancel'], methods: ['POST'])]
+    #[Route('/service/reservation/{id}/{action}', name: 'restaurant_pass_reservation', requirements: ['id' => '\d+', 'action' => 'confirm|refuse|seat|finish|no_show|cancel|move'], methods: ['POST'])]
     public function reservation(Request $request, Reservation $id, string $action): Response
     {
-        return $this->act($request, function () use ($id, $action) {
+        return $this->act($request, function () use ($request, $id, $action) {
+            // Moved to another day, time or size: the quick form of the book (any free table, as a phone booking).
+            if ('move' === $action) {
+                $this->reservations->reschedule($id, (string) ($request->request->get('day') ?: $id->getDay()), (string) ($request->request->get('time') ?: $id->getTime()), $request->request->getInt('covers') ?: null);
+
+                return;
+            }
             $to = match ($action) {
                 'confirm' => ReservationStatus::CONFIRMED,
                 'refuse' => ReservationStatus::REFUSED,
@@ -188,12 +196,29 @@ class PassController extends AbstractController
         return Station::tryFrom((string) $request->query->get('poste'));
     }
 
-    /** @return array<string, array{name: string, open: ?bool}> the platforms that take orders, and whether they are open (null: unknown) */
+    /**
+     * Every platform the site declares, as the pass shows it: its state
+     * (configured, not configured - which keys are missing -, in error and
+     * why), and whether it takes orders that the pass may pause.
+     *
+     * @return array<string, array{name: string, factory: ?string, status: string, missing: list<string>, error: ?string, since: ?\DateTimeImmutable, store: bool}>
+     */
     private function platformStates(): array
     {
-        $states = [];
-        foreach ($this->platforms?->having(\Omnifood\StoreInterface::class) ?? [] as $name => $store) {
-            $states[$name] = ['name' => $name, 'open' => null];
+        if (!$this->platforms) {
+            return [];
+        }
+        $states = $this->health?->all() ?? [];
+        foreach ($this->platforms->names() as $name) {
+            $states[$name] ??= ['name' => $name, 'factory' => $this->platforms->factoryOf($name), 'status' => PlatformHealth::CONFIGURED, 'missing' => [], 'error' => null, 'since' => null];
+            $states[$name]['store'] = false;
+            if (PlatformHealth::UNCONFIGURED !== $states[$name]['status']) {
+                try {
+                    $states[$name]['store'] = null !== $this->platforms->store($name);
+                } catch (\Throwable) {
+                    // a platform that cannot be built: shown, not paused
+                }
+            }
         }
 
         return $states;

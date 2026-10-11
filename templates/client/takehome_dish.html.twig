@@ -1,4 +1,4 @@
-{# A fresh dish of the take-home shop: what it is, how it keeps, how to cook it at home. #}
+{# A dish of the take-home shop: what it is, how it is kept (fresh, frozen) and for how long, how to cook it at home. #}
 {% extends layout %}
 {% block title %}{{ dish.title }} · {{ '@restaurant.takehome.title'|trans }}{% endblock %}
 {% block description %}{{ dish.excerpt }}{% endblock %}
@@ -18,7 +18,7 @@
     <dl class="restaurant-facts">
         <div><dt>{{ '@restaurant.takehome.fact.price'|trans }}</dt><dd>{{ marketplace_price_with_vat(dish)|format_currency(dish.currency, {use_rate: false}) }}</dd></div>
         <div><dt>{{ '@restaurant.takehome.fact.portions'|trans }}</dt><dd>{{ '@restaurant.takehome.portions'|trans({count: dish.portions}) }}{% if dish.netWeight %} · {{ dish.netWeight }} g{% endif %}</dd></div>
-        <div><dt>{{ '@restaurant.takehome.fact.keeping'|trans }}</dt><dd>{{ '@restaurant.takehome.keeps'|trans({days: dish.shelfLife, temperature: dish.storageTemperature}) }}</dd></div>
+        <div><dt>{{ '@restaurant.takehome.fact.keeping'|trans }}</dt><dd><span class="restaurant-pill is-{{ dish.keeping.value }}">{{ ('@restaurant.' ~ dish.keeping.trans)|trans }}</span> {{ '@restaurant.takehome.keeps'|trans({days: dish.shelfLife, temperature: dish.storageTemperature}) }}</dd></div>
         {% if dish.cookingTime %}<div><dt>{{ '@restaurant.takehome.fact.cooking'|trans }}</dt><dd>{{ '@restaurant.takehome.cooking_time'|trans({minutes: dish.cookingTime}) }}</dd></div>{% endif %}
         <div><dt>{{ '@restaurant.takehome.fact.parcel'|trans }}</dt><dd>{{ dish.parcel ? '@restaurant.takehome.travels'|trans : '@restaurant.takehome.no_parcel'|trans }}</dd></div>
         {% if dish.allergenCases %}<div><dt>{{ '@restaurant.takehome.fact.allergens'|trans }}</dt><dd>{% for a in dish.allergenCases %}{{ ('@enums.' ~ a.trans)|trans }}{{ not loop.last ? ', ' }}{% endfor %}</dd></div>{% endif %}

@@ -21,6 +21,14 @@ omnibase/admin's API keys page, the fields of each configured platform
 (`api.food.<platform>.<option>`); `Omnifood\Platforms` builds each platform
 with them over the configured options (`Registry::create()`).
 
+**The state of each connection** is on the pass (`Omnifood\PlatformHealth`):
+connected, not configured (`Platforms::missing()` names the keys of
+`Platforms::KEYS` still empty - nothing is called before they are all set),
+or in error since a call or a webhook failed (the message kept in the cache
+until one succeeds). Without any credentials - the usual case before a
+partner agreement - every platform reads "not configured" and the site makes
+no call at all.
+
 **Webhooks.** `POST /restaurant/plateforme/{name}/webhook`
 (`restaurant_platform_webhook`): the platform's package checks the signature
 - 401 and nothing done when it does not hold -; an order becomes a ticket of

@@ -139,6 +139,11 @@ diet:
     no_pork: 豚肉不使用
     gluten_free: グルテンフリー
 
+keeping:
+    ambient: 常温保存
+    fresh: 冷蔵
+    frozen: 冷凍
+
 day:
     monday: 月曜日
     tuesday: 火曜日
@@ -157,6 +162,12 @@ pass:
     platforms: プラットフォーム
     pause: 30分停止
     resume: 再開
+    platform:
+        configured: 接続済み
+        unconfigured: 未設定
+        error: エラー
+        missing: "認証情報が不足しています：{keys}。入力されるまで（APIキー）何も呼び出しません。"
+        about: "各プラットフォームの予約と注文はウェブフックでここに届き、経路が表示されます。パスでの操作は各プラットフォームに返されます。エラーのプラットフォームは呼び出しが成功するまで表示されたままです。"
     new: + 予約／予約なし
     source: 経路
     add: 追加
@@ -214,12 +225,15 @@ pass:
         finish: 終了
         no_show: 無断キャンセル
         cancel: 取消
+        move: 変更
+        moved: 予約を変更する
     error:
         action: "この操作はできません。"
         no_bill: "このテーブルに未精算の会計はありません。"
         no_table: 不明なテーブルです。
         table_taken: "このテーブルはすでに使用中です。"
         platform: "このプラットフォームは設定されていません。"
+        not_movable: "この予約はもう変更できません。"
 
 mail:
     hello: "{name} 様"
@@ -254,7 +268,7 @@ mail:
 admin:
     takehome:
         native: 日本語名
-        chilled: 要冷蔵
+        keeping: 保存方法
         temperature: "保存温度（最高 °C）"
         shelf_life: "消費期限（製造後の日数）"
         weight: 内容量（g）

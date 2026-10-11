@@ -16,15 +16,16 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
  * What the pass does, told to the platforms: a platform's order accepted,
  * denied, ready or cancelled; a dish run out (or back) on every platform
  * whose menu it is on; a platform's reservation seated, finished, absent or
- * cancelled. A platform that fails is logged: the pass goes on (the
- * restaurant's tablet from the platform is the fallback).
+ * cancelled. A platform that fails is logged and marked in error on the pass
+ * (PlatformHealth) until a call succeeds: the pass goes on (the restaurant's
+ * tablet from the platform is the fallback).
  */
 final class PlatformSubscriber
 {
     /** Minutes a platform is told the kitchen needs, when it takes a time */
     public const PREPARATION = 15;
 
-    public function __construct(private readonly Platforms $platforms, private readonly ?LoggerInterface $logger = null)
+    public function __construct(private readonly Platforms $platforms, private readonly ?LoggerInterface $logger = null, private readonly ?PlatformHealth $health = null)
     {
     }
 
@@ -90,8 +91,10 @@ final class PlatformSubscriber
     {
         try {
             $call();
+            $this->health?->succeeded($name);
         } catch (\Throwable $e) {
             $this->logger?->warning(sprintf('restaurant: %s could not be told about %s: %s', $name, $what, $e->getMessage()), ['exception' => $e]);
+            $this->health?->failed($name, $e->getMessage());
         }
     }
 }

@@ -67,7 +67,8 @@
                 {% for r in reservations %}
                 <li class="is-{{ r.status.value }}">
                     <span class="restaurant-pass-time">{{ r.time }}</span>
-                    <span class="restaurant-pass-who"><b>{{ r.name }}</b> · {{ r.covers }} · {{ r.tablesLabel ?: '—' }}{% if r.fromPlatform %} · <span class="restaurant-platform">{{ r.source }}</span>{% endif %}
+                    {# Where it came from is always said: the site, the phone, a walk-in, or the platform's name. #}
+                    <span class="restaurant-pass-who"><b>{{ r.name }}</b> · {{ r.covers }} · {{ r.tablesLabel ?: '—' }} · {% if r.fromPlatform %}<span class="restaurant-platform">{{ r.source }}</span>{% else %}<span class="restaurant-pass-source">{{ ('@restaurant.source.' ~ r.source)|trans }}</span>{% endif %}
                         {% if r.allergies %}<small class="restaurant-line-note">{{ r.allergies }}</small>{% endif %}</span>
                     <span class="restaurant-pill">{{ ('@restaurant.' ~ r.status.trans)|trans }}</span>
                     <span class="restaurant-pass-do">
@@ -75,6 +76,19 @@
                         {% set action = {confirmed: 'confirm', refused: 'refuse', seated: 'seat', finished: 'finish', no_show: 'no_show', cancelled: 'cancel'}[to.value] %}
                         <button type="button" class="restaurant-button is-small{{ to.value in ['refused', 'cancelled', 'no_show'] ? ' is-quiet' }}" data-action="restaurant-pass#post" data-url="{{ path('restaurant_pass_reservation', {id: r.id, action: action}) }}"{% if to.value in ['refused', 'cancelled'] %} data-confirm="{{ '@restaurant.pass.sure'|trans }}"{% endif %}>{{ ('@restaurant.pass.reservation.' ~ action)|trans }}</button>
                         {% endfor %}
+                        {# A party still to come is moved by a quick form: another day, time or size, any free table. #}
+                        {% if r.status.value in ['requested', 'confirmed'] %}
+                        <details class="restaurant-pass-move">
+                            <summary class="restaurant-button is-small is-quiet">{{ '@restaurant.pass.reservation.move'|trans }}</summary>
+                            <form method="post" action="{{ path('restaurant_pass_reservation', {id: r.id, action: 'move'}) }}" data-action="submit->restaurant-pass#submit">
+                                <input type="hidden" name="_token" value="{{ csrf_token('restaurant-pass') }}">
+                                <label>{{ '@restaurant.book.day'|trans }} <input type="date" name="day" value="{{ r.day }}" required></label>
+                                <label>{{ '@restaurant.book.time'|trans }} <input type="time" name="time" value="{{ r.time }}" step="300" required></label>
+                                <label>{{ '@restaurant.book.covers'|trans }} <input type="number" name="covers" value="{{ r.covers }}" min="1" max="40" required></label>
+                                <button type="submit" class="restaurant-button is-small">{{ '@restaurant.pass.reservation.moved'|trans }}</button>
+                            </form>
+                        </details>
+                        {% endif %}
                     </span>
                 </li>
                 {% else %}

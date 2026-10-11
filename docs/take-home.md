@@ -5,20 +5,28 @@ order: 6
 
 # The take-home shop
 
-Fresh dishes to cook at home, sold beside the menu: `/traiteur`. The shop is
-omnibase/marketplace's (products, prices before VAT, VAT, payment, the
-hand-over `Entity\Order\Pickup`); what a restaurant adds is the dish, the cold
-chain, and the pass.
+Dishes to cook at home - fresh, frozen, or kept on a shelf -, sold beside
+the menu: `/traiteur`. The shop is omnibase/marketplace's (products, prices
+before VAT, VAT, payment, the hand-over `Entity\Order\Pickup`); what a
+restaurant adds is the dish, the cold chain, and the pass.
 
-## TakeHome: a fresh dish
+## TakeHome: a dish, and how it is kept
 
 `Entity\Product\TakeHome` extends the marketplace's `Product` (table
 `restaurantProductTakeHome`): `nativeName`, `illustration`, `allergens`
-(`Base\Enum\Allergen`), `chilled` and `storageTemperature` (°C at most),
+(`Base\Enum\Allergen`), `keeping` (`Enum\Keeping`: `ambient`, `fresh` - the
+fridge, the default -, `frozen`; `isChilled()` is true for fresh and frozen,
+`isFrozen()` for frozen) and `storageTemperature` (°C at most; null: the
+keeping's own, 20, 4 or -18),
 `shelfLife` (days it keeps once made: `useBy($madeOn)`), `netWeight` (g),
 `portions`, `cookingTime` (min), `cookingSteps` (by language:
 `{fr: […], en: […]}`), `parcel` (may travel in a chilled parcel),
 `shopPosition`. Back office: `TakeHomeCrudController`.
+
+The shop's pages show each dish's keeping as a pill ("Frais", "Surgelé") with
+how long and how cold it keeps: a frozen dish keeps for months at -18 °C, a
+fresh one for days at 4 °C. Both leave in an insulated bag and travel in a
+chilled parcel only (`isParcel()` says whether this one does).
 
 Food taken home that is not eaten at once is at 5.5 % in France, the menu at
 10 %: give the take-home dishes a product taxon and a VAT scoped to it (a

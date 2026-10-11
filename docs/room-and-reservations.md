@@ -60,7 +60,8 @@ $availability->slots($day, 4);                 // list<Model\Slot>: time, servic
 $availability->openDays(2, null, 5);           // the next five days with a table for two
 $reservations->request($booking, $locale);     // from the public form: booked, mailed (ICS attached)
 $reservations->take($reservation, $day, '20:00', Reservation::SOURCE_PHONE);   // by the staff
-$reservations->change($reservation, $day, $time, $covers);   // the guest, through the link
+$reservations->change($reservation, $day, $time, $covers);   // the guest, through the link (the online rules hold)
+$reservations->reschedule($reservation, $day, $time, $covers); // the staff, from the pass: any free table
 $reservations->cancel($reservation);
 $reservations->move($reservation, ReservationStatus::SEATED);                  // the pass
 ```

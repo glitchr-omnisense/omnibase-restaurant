@@ -185,7 +185,20 @@
 .restaurant-pass-new summary, .restaurant-pass-platforms summary { cursor: pointer; color: var(--_accent); font-weight: 600; }
 .restaurant-pass-new form { position: absolute; z-index: 30; right: 0; top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; width: min(26rem, 90vw); padding: 1rem; border-radius: var(--_radius); background: var(--_bg); box-shadow: 0 10px 30px rgba(0, 0, 0, .2); }
 .restaurant-pass-new label { display: grid; gap: .2rem; font-size: .8rem; color: var(--_soft); }
-.restaurant-pass-platforms > p { display: flex; gap: .4rem; align-items: center; margin: .3rem 0; }
+.restaurant-pass-platform-list { display: grid; gap: .35rem; margin: .4rem 0 0; padding: 0; list-style: none; }
+.restaurant-pass-platform-list li { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: 0; font-size: .9rem; }
+.restaurant-pass-platform-list small { flex-basis: 100%; color: var(--_soft); }
+.restaurant-pass-platforms > .restaurant-muted { margin: .5rem 0 0; font-size: .8rem; max-width: 36rem; }
+.restaurant-pill.is-configured { color: #2f6b3a; border-color: rgba(47, 107, 58, .3); background: rgba(47, 107, 58, .08); }
+.restaurant-pill.is-error { color: #fff; border-color: var(--_hot); background: var(--_hot); }
+.restaurant-pill.is-frozen { color: #1f5f8b; border-color: rgba(31, 95, 139, .3); background: rgba(31, 95, 139, .08); }
+.restaurant-pass-source { color: var(--_soft); }
+.restaurant-pass-move { position: relative; display: inline-block; }
+.restaurant-pass-move summary { list-style: none; cursor: pointer; }
+.restaurant-pass-move summary::-webkit-details-marker { display: none; }
+.restaurant-pass-move form { position: absolute; z-index: 30; left: 0; top: calc(100% + .3rem); display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; width: min(22rem, 86vw); padding: .8rem; border-radius: var(--_radius); background: var(--_bg); box-shadow: 0 10px 30px rgba(0, 0, 0, .2); }
+.restaurant-pass-move label { display: grid; gap: .2rem; font-size: .8rem; color: var(--_soft); }
+.restaurant-pass-move button[type="submit"] { grid-column: 1 / -1; justify-self: start; }
 .restaurant-pass-summary { display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; align-items: baseline; padding: .5rem .9rem; margin-bottom: .75rem; border-radius: var(--_radius); background: var(--_paper); }
 .restaurant-pass-summary b { font-size: 1.3rem; color: var(--_accent); }
 .restaurant-pass-summary .is-alert b { color: var(--_hot); }

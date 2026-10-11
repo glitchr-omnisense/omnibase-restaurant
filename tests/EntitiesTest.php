@@ -9,7 +9,9 @@ use Base\Restaurant\Entity\MealService;
 use Base\Restaurant\Entity\Order\Session;
 use Base\Restaurant\Entity\Order\Ticket;
 use Base\Restaurant\Entity\Order\TicketLine;
+use Base\Restaurant\Entity\Product\TakeHome;
 use Base\Restaurant\Entity\Room;
+use Base\Restaurant\Enum\Keeping;
 use Base\Restaurant\Enum\ReservationStatus;
 use Base\Restaurant\Enum\SessionStatus;
 use Base\Restaurant\Enum\Station;
@@ -215,5 +217,33 @@ class EntitiesTest extends TestCase
 
         self::assertSame([12, 15], $line->optionIds());
         self::assertSame(['sans oignons'], $line->optionWords());
+    }
+
+    public function testATakeHomeDishIsKeptFreshFrozenOrOnAShelf(): void
+    {
+        $dish = (new \ReflectionClass(TakeHome::class))->newInstanceWithoutConstructor();
+
+        self::assertSame(Keeping::FRESH, $dish->getKeeping(), 'fresh unless said otherwise');
+        self::assertTrue($dish->isChilled());
+        self::assertFalse($dish->isFrozen());
+        self::assertSame(4, $dish->getStorageTemperature(), 'the fridge');
+
+        $dish->setKeeping(Keeping::FROZEN)->setShelfLife(90);
+        self::assertTrue($dish->isFrozen());
+        self::assertTrue($dish->isChilled(), 'frozen is kept cold too: an insulated bag, a chilled parcel');
+        self::assertSame(-18, $dish->getStorageTemperature(), 'the freezer, unless the dish says a temperature of its own');
+        self::assertSame('2027-01-08', $dish->useBy(new \DateTimeImmutable('2026-10-10 15:00'))->format('Y-m-d'));
+
+        $dish->setStorageTemperature(-20);
+        self::assertSame(-20, $dish->getStorageTemperature());
+
+        $dish->setKeepingName('ambient');
+        self::assertSame(Keeping::AMBIENT, $dish->getKeeping());
+        self::assertFalse($dish->isChilled(), 'a jar on a shelf');
+        self::assertSame('ambient', $dish->getKeepingName());
+
+        $dish->setKeeping('whatever');
+        self::assertSame(Keeping::FRESH, $dish->getKeeping(), 'an unknown word: fresh');
+        self::assertSame('keeping.fresh', Keeping::FRESH->trans());
     }
 }

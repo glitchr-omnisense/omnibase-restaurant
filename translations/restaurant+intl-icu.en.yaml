@@ -139,6 +139,11 @@ diet:
     no_pork: Pork-free
     gluten_free: Gluten-free
 
+keeping:
+    ambient: Keeps at room temperature
+    fresh: Fresh
+    frozen: Frozen
+
 day:
     monday: Monday
     tuesday: Tuesday
@@ -157,6 +162,12 @@ pass:
     platforms: Platforms
     pause: Pause 30 min
     resume: Resume
+    platform:
+        configured: Connected
+        unconfigured: Not configured
+        error: In error
+        missing: "Missing credentials: {keys}. Nothing is called until they are typed in (API keys)."
+        about: "The platforms' reservations and orders come in here through their webhooks, with their origin; what the pass does is sent back to them. A platform in error stays shown until a call succeeds."
     new: + Reservation / walk-in
     source: Source
     add: Add
@@ -214,12 +225,15 @@ pass:
         finish: Finish
         no_show: No-show
         cancel: Cancel
+        move: Move
+        moved: Move the reservation
     error:
         action: "That cannot be done."
         no_bill: "No open bill at this table."
         no_table: Unknown table.
         table_taken: "That table is already taken."
         platform: "That platform is not configured."
+        not_movable: "This reservation cannot be moved any more."
 
 mail:
     hello: "Hello {name},"
@@ -254,7 +268,7 @@ mail:
 admin:
     takehome:
         native: Japanese name
-        chilled: Chilled
+        keeping: Keeping
         temperature: "Kept at (°C max.)"
         shelf_life: "Use-by (days after it is made)"
         weight: Net weight (g)

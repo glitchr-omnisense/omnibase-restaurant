@@ -117,6 +117,39 @@ class Platforms
     }
 
     /**
+     * The keys this platform still lacks - of those its factory needs (KEYS),
+     * neither configured nor typed. Empty: the platform may be built and
+     * called. A factory not listed is taken as configured.
+     *
+     * @return list<string>
+     */
+    public function missing(string $name): array
+    {
+        if (!$this->has($name)) {
+            return [];
+        }
+        $factory = $this->factoryOf($name);
+        if (null === $factory) {
+            return [];
+        }
+        $options = array_replace($this->registry->options($name), $this->typed($name));
+        $missing = [];
+        foreach (self::KEYS[$factory] as $key) {
+            $value = $options[$key] ?? null;
+            if (!\is_scalar($value) || '' === trim((string) $value)) {
+                $missing[] = $key;
+            }
+        }
+
+        return $missing;
+    }
+
+    public function isConfigured(string $name): bool
+    {
+        return $this->has($name) && [] === $this->missing($name);
+    }
+
+    /**
      * The options typed for this platform, the empty ones left out.
      *
      * @return array<string, string>

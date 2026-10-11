@@ -99,6 +99,35 @@ class Reservations
         return $reservation;
     }
 
+    /**
+     * Moved by the staff, from the pass or the book: another day, time or size,
+     * at any free table - whatever the online rules say (the notice, the
+     * minimum of a table), as take(). A guest with an address is told.
+     *
+     * @throws UnavailableException|TransitionException
+     */
+    public function reschedule(Reservation $reservation, string $day, string $time, ?int $covers = null): Reservation
+    {
+        $previous = $reservation->getStatus();
+        if (!$previous->holds() || ReservationStatus::SEATED === $previous) {
+            throw new TransitionException('pass.error.not_movable');
+        }
+        $was = $reservation->getCovers();
+        $reservation->setCovers($covers ?? $was);
+        try {
+            $this->availability->book($reservation, $day, $time, false);
+        } catch (UnavailableException $e) {
+            $reservation->setCovers($was);
+            $this->entityManager->refresh($reservation);
+
+            throw $e;
+        }
+        $this->changed($reservation, $previous);
+        $this->mail($reservation, 'changed');
+
+        return $reservation;
+    }
+
     /** Cancelled by the guest (the link) or by the staff. */
     public function cancel(Reservation $reservation, bool $byGuest = true): void
     {

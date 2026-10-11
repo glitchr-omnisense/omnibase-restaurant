@@ -1,6 +1,6 @@
 {#
- # One fresh dish of the take-home shop: its name and the kitchen's, what it
- # is, how it keeps, its price VAT included. `order` adds the quantity field
+ # One dish of the take-home shop: its name and the kitchen's, what it is,
+ # how it is kept (fresh, frozen) and for how long, its price VAT included. `order` adds the quantity field
  # of the order form (lines[<id>]).
  #}
 {% set price = marketplace_price_with_vat(dish) %}
@@ -15,6 +15,7 @@
         {% if dish.excerpt %}<p class="restaurant-dish-text">{{ dish.excerpt }}</p>{% endif %}
         <p class="restaurant-dish-meta">
             <span class="restaurant-pill">{{ '@restaurant.takehome.portions'|trans({count: dish.portions}) }}</span>
+            <span class="restaurant-pill is-{{ dish.keeping.value }}">{{ ('@restaurant.' ~ dish.keeping.trans)|trans }}</span>
             {% if dish.chilled %}<span class="restaurant-pill">{{ '@restaurant.takehome.keeps'|trans({days: dish.shelfLife, temperature: dish.storageTemperature}) }}</span>{% endif %}
             {% if dish.cookingTime %}<span class="restaurant-pill">{{ '@restaurant.takehome.cooking_time'|trans({minutes: dish.cookingTime}) }}</span>{% endif %}
             {% if not dish.parcel %}<span class="restaurant-pill is-diet">{{ '@restaurant.takehome.no_parcel'|trans }}</span>{% endif %}
