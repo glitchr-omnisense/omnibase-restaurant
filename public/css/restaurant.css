@@ -245,12 +245,13 @@
 .restaurant-transfer { display: inline-flex; gap: .3rem; align-items: center; font-size: .85rem; }
 .restaurant-transfer select { width: auto; min-height: 2rem; padding: .15rem .4rem; }
 .restaurant-pass-columns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem; }
-.restaurant-pass-column { display: grid; gap: .5rem; align-content: start; min-height: 10rem; padding: .5rem; border-radius: var(--_radius); background: var(--_paper); }
-.restaurant-pass-column h2 { margin: 0; font: 600 .95rem/1.2 var(--_font); color: var(--_accent); display: flex; justify-content: space-between; }
+.restaurant-pass-column { display: grid; grid-template-columns: minmax(0, 1fr); gap: .5rem; align-content: start; min-width: 0; min-height: 10rem; padding: .5rem; border-radius: var(--_radius); background: var(--_paper); }
+.restaurant-pass-column h2 { margin: 0; font: 600 .95rem/1.2 var(--_font); color: var(--_accent); display: flex; justify-content: space-between; align-items: center; gap: .4rem; }
+.restaurant-pass-column h2 .restaurant-badge { flex: none; }
 .restaurant-pass-column.is-new { background: color-mix(in srgb, var(--_hot) 12%, var(--_paper)); }
-.restaurant-pass-ticket { padding: .6rem .7rem; border-radius: 10px; background: var(--_bg); border-top: 5px solid var(--_accent); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); font-size: .92rem; }
-.restaurant-pass-ticket header { display: flex; justify-content: space-between; gap: .4rem; }
-.restaurant-pass-ticket time { color: var(--_soft); font-variant-numeric: tabular-nums; }
+.restaurant-pass-ticket { min-width: 0; overflow-wrap: break-word; padding: .6rem .7rem; border-radius: 10px; background: var(--_bg); border-top: 5px solid var(--_accent); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); font-size: .92rem; }
+.restaurant-pass-ticket header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .2rem .4rem; }
+.restaurant-pass-ticket time { flex: none; white-space: nowrap; color: var(--_soft); font-variant-numeric: tabular-nums; }
 .restaurant-pass-ticket ul { margin: .4rem 0; padding: 0; list-style: none; }
 .restaurant-pass-ticket li { padding: .15rem 0; border-bottom: 1px dashed var(--_line); }
 .restaurant-pass-ticket li b { display: inline-block; min-width: 1.4rem; color: var(--_accent); }

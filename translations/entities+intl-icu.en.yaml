@@ -1,0 +1,36 @@
+# The names of omnibase/restaurant's entities, which omnibase/admin titles its screens with
+# (en of /admin/meal-services, /admin/reservations...).
+restaurant:
+  meal_service:
+    _singular: "meal service"
+    _plural: "meal services"
+  reservation:
+    _singular: "reservation"
+    _plural: "reservations"
+  room:
+    _singular: "room"
+    _plural: "rooms"
+  table:
+    _singular: "table"
+    _plural: "tables"
+  layout:
+    _singular: "layout"
+    _plural: "layouts"
+  menu:
+    dish:
+      _singular: "dish"
+      _plural: "dishes"
+    menu_section:
+      _singular: "menu section"
+      _plural: "menu sections"
+    set_menu:
+      _singular: "set menu"
+      _plural: "set menus"
+  order:
+    ticket:
+      _singular: "ticket"
+      _plural: "tickets"
+  product:
+    take_home:
+      _singular: "take-home dish"
+      _plural: "take-home dishes"
