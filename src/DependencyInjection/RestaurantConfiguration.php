@@ -22,6 +22,7 @@ class RestaurantConfiguration extends AbstractBaseConfiguration
                 ->scalarNode('layout')->defaultValue('layout1.html.twig')->info('The site\'s page frame the public pages extend (blocks title, content, stylesheets, javascripts).')->end()
                 ->scalarNode('staff_role')->defaultValue('ROLE_STAFF')->info('Who runs the pass (/service): seats guests, moves tickets along, settles tables.')->end()
                 ->scalarNode('manager_role')->defaultValue('ROLE_ADMIN')->info('Who edits the floor plan, prints the QR posters, pauses the platforms.')->end()
+                ->scalarNode('poster_color')->defaultValue('#432B52')->info('The band across the top of the QR posters (a hex colour): the restaurant\'s own.')->validate()->ifTrue(static fn ($v) => !\is_string($v) || !preg_match('/^#[0-9a-f]{3,8}$/i', $v))->thenInvalid('restaurant.poster_color is a hex colour: #B5121B.')->end()->end()
                 ->scalarNode('from_email')->defaultNull()->info('Sender of the reservation mails; null: the mailer\'s default sender.')->end()
                 ->scalarNode('notify_email')->defaultNull()->info('Where a reservation request to confirm is announced; null: nobody is mailed.')->end()
                 ->arrayNode('reservation')->addDefaultsIfNotSet()

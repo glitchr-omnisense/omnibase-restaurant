@@ -44,6 +44,7 @@ restaurant:
     layout: 'layout1.html.twig'      # the site's frame: blocks title, description, content, stylesheets
     staff_role: ROLE_STAFF           # who runs the pass
     manager_role: ROLE_ADMIN         # who edits the floor plan and prints the posters
+    poster_color: '#432B52'          # the band across the top of the QR posters
     from_email: ~                    # sender of the reservation mails
     notify_email: ~                  # where a request to confirm is announced
     reservation:

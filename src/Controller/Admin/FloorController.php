@@ -39,6 +39,7 @@ class FloorController extends AbstractController
         private readonly AdminContext $adminContext,
         private readonly MenuBuilder $menuBuilder,
         #[Autowire('%restaurant.manager_role%')] private readonly string $managerRole = 'ROLE_ADMIN',
+        #[Autowire('%restaurant.poster_color%')] private readonly string $posterColor = '#432B52',
     ) {
     }
 
@@ -194,7 +195,7 @@ class FloorController extends AbstractController
             return new Response($sheet->render($items, $format, 'Tables', max(0, $request->query->getInt('skip'))));
         }
 
-        return $this->render('@Restaurant/admin/posters.html.twig', ['items' => $items, 'pages' => $sheet->pages($items, 'a4')]);
+        return $this->render('@Restaurant/admin/posters.html.twig', ['items' => $items, 'pages' => $sheet->pages($items, 'a4'), 'color' => $this->posterColor]);
     }
 
     /** A table's code renewed: its printed poster stops working. */

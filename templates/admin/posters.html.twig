@@ -8,7 +8,7 @@
         * { box-sizing: border-box; }
         body { margin: 0; font-family: "Roboto Slab", Georgia, serif; color: #241b2b; background: #eee; }
         .poster { width: 210mm; height: 297mm; margin: 0 auto 10mm; background: #fff; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8mm; page-break-after: always; break-after: page; overflow: hidden; }
-        .poster::before { content: ""; position: absolute; inset: 0 0 auto; height: 22mm; background: var(--poster, #432B52); }
+        .poster::before { content: ""; position: absolute; inset: 0 0 auto; height: 22mm; background: {{ color|default('#432B52') }}; }
         .poster h1 { margin: 0; font-size: 34pt; font-weight: 400; }
         .poster h1 b { font-size: 64pt; display: block; text-align: center; line-height: 1; }
         .poster img { width: 120mm; height: 120mm; }
