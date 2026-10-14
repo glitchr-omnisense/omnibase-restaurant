@@ -33,16 +33,16 @@ class TakeHomeCrudController extends ProductCrudController
             $allergens['@enums.'.$allergen->trans()] = $allergen->value;
         }
         yield TextField::new('nativeName', '@restaurant.admin.takehome.native')->setRequired(false)->setColumns(4)->hideOnIndex();
-        yield IntegerField::new('portions', '@restaurant.admin.takehome.portions')->setColumns(2)->hideOnIndex();
+        yield IntegerField::new('portions', '@restaurant.admin.takehome.portions')->setRequired(false)->setColumns(2)->hideOnIndex();
         yield IntegerField::new('netWeight', '@restaurant.admin.takehome.weight')->setRequired(false)->setColumns(2)->hideOnIndex();
-        yield IntegerField::new('shopPosition', '@restaurant.admin.takehome.position')->setColumns(2)->hideOnIndex();
+        yield IntegerField::new('shopPosition', '@restaurant.admin.takehome.position')->setRequired(false)->setColumns(2)->hideOnIndex();
         $keepings = [];
         foreach (Keeping::cases() as $keeping) {
             $keepings['@restaurant.'.$keeping->trans()] = $keeping->value;
         }
-        yield SelectField::new('keepingName', '@restaurant.admin.takehome.keeping')->setChoices($keepings)->setColumns(2);
+        yield SelectField::new('keepingName', '@restaurant.admin.takehome.keeping')->setRequired(false)->setChoices($keepings)->setColumns(2);
         yield IntegerField::new('storageTemperature', '@restaurant.admin.takehome.temperature')->setRequired(false)->setColumns(2)->hideOnIndex();
-        yield IntegerField::new('shelfLife', '@restaurant.admin.takehome.shelf_life')->setColumns(3);
+        yield IntegerField::new('shelfLife', '@restaurant.admin.takehome.shelf_life')->setRequired(false)->setColumns(3);
         yield BooleanField::new('parcel', '@restaurant.admin.takehome.parcel')->setColumns(3);
         yield IntegerField::new('cookingTime', '@restaurant.admin.takehome.cooking_time')->setRequired(false)->setColumns(2)->hideOnIndex();
         yield TextareaField::new('cookingText', '@restaurant.admin.takehome.cooking')->setRequired(false)->hideOnIndex();

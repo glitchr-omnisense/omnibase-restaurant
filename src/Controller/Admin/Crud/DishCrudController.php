@@ -42,11 +42,11 @@ class DishCrudController extends ProductCrudController
         }
         yield TextField::new('nativeName', '@restaurant.admin.dish.native')->setRequired(false)->setColumns(4)->hideOnIndex();
         yield SelectField::new('section', '@restaurant.admin.dish.section')->setClass(MenuSection::class)->setRequired(false)->setColumns(4);
-        yield IntegerField::new('menuPosition', '@restaurant.admin.position')->setColumns(2)->hideOnIndex();
-        yield SelectField::new('stationName', '@restaurant.admin.dish.station')->setChoices($stations)->setColumns(2)->hideOnIndex();
+        yield IntegerField::new('menuPosition', '@restaurant.admin.position')->setRequired(false)->setColumns(2)->hideOnIndex();
+        yield SelectField::new('stationName', '@restaurant.admin.dish.station')->setRequired(false)->setChoices($stations)->setColumns(2)->hideOnIndex();
         yield SelectField::new('allergens', '@restaurant.admin.dish.allergens')->setChoices($allergens)->allowMultipleChoices()->setRequired(false)->setColumns(6)->hideOnIndex();
         yield SelectField::new('diets', '@restaurant.admin.dish.diets')->setChoices($diets)->allowMultipleChoices()->setRequired(false)->setColumns(4)->hideOnIndex();
-        yield IntegerField::new('spice', '@restaurant.admin.dish.spice')->setColumns(2)->hideOnIndex();
+        yield IntegerField::new('spice', '@restaurant.admin.dish.spice')->setRequired(false)->setColumns(2)->hideOnIndex();
         yield BooleanField::new('tableOrder', '@restaurant.admin.dish.table_order')->setColumns(2)->hideOnIndex();
         yield TextField::new('illustration', '@restaurant.admin.dish.illustration')->setRequired(false)->setColumns(6)->hideOnIndex();
     }

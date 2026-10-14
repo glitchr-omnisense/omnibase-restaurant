@@ -47,7 +47,7 @@ class MealServiceCrudController extends AbstractCrudController
         yield SelectField::new('layout', '@restaurant.admin.service.layout')->setClass(Layout::class)->setRequired(false)->setColumns(6);
         yield IntegerField::new('maxCovers', '@restaurant.admin.service.max_covers')->setRequired(false)->setColumns(3);
         yield IntegerField::new('autoConfirm', '@restaurant.admin.service.auto_confirm')->setRequired(false)->setColumns(3)->setHelp('@restaurant.admin.service.auto_confirm_help');
-        yield TextareaField::new('durationsText', '@restaurant.admin.service.durations')->hideOnIndex()->setColumns(6)->setHelp('@restaurant.admin.service.durations_help');
+        yield TextareaField::new('durationsText', '@restaurant.admin.service.durations')->setRequired(false)->hideOnIndex()->setColumns(6)->setHelp('@restaurant.admin.service.durations_help');
         yield IntegerField::new('position', '@restaurant.admin.position')->setColumns(2)->hideOnIndex();
     }
 }

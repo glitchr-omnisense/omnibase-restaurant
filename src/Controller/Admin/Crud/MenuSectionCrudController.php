@@ -29,7 +29,7 @@ class MenuSectionCrudController extends AbstractCrudController
         yield IdField::new('id')->onlyOnIndex();
         yield TextField::new('label', '@restaurant.admin.section.label')->setColumns(5);
         yield TextField::new('nativeName', '@restaurant.admin.section.native')->setRequired(false)->setColumns(3);
-        yield SlugField::new('slug')->setColumns(2)->hideOnIndex();
-        yield IntegerField::new('menuPosition', '@restaurant.admin.position')->setColumns(2);
+        yield SlugField::new('slug')->setTargetFieldName('label')->setColumns(2)->hideOnIndex();
+        yield IntegerField::new('menuPosition', '@restaurant.admin.position')->setRequired(false)->setColumns(2);
     }
 }
