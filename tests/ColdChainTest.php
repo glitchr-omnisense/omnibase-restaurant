@@ -44,7 +44,7 @@ class ColdChainTest extends TestCase
         return array_map(fn (TakeHome $dish) => ['product' => $dish, 'quantity' => 2], $dishes);
     }
 
-    private function at(string $moment): \DateTimeImmutable
+    private function moment(string $moment): \DateTimeImmutable
     {
         return new \DateTimeImmutable($moment, new \DateTimeZone(self::ZONE));
     }
@@ -63,20 +63,20 @@ class ColdChainTest extends TestCase
     public function testAFreshDishCollectedTomorrow(): void
     {
         $chain = $this->chain();
-        $now = $this->at('2026-10-05 15:00'); // a Monday
+        $now = $this->moment('2026-10-05 15:00'); // a Monday
         $basket = $this->basket($this->dish('Gyoza'));
 
-        $chain->check(PickupMode::PICKUP, $basket, $this->at('2026-10-06'), null, $now);
-        self::assertSame('takehome.error.too_soon', $this->refusal(fn () => $chain->check(PickupMode::PICKUP, $basket, $this->at('2026-10-05'), null, $now)), 'the kitchen needs a day');
+        $chain->check(PickupMode::PICKUP, $basket, $this->moment('2026-10-06'), null, $now);
+        self::assertSame('takehome.error.too_soon', $this->refusal(fn () => $chain->check(PickupMode::PICKUP, $basket, $this->moment('2026-10-05'), null, $now)), 'the kitchen needs a day');
         self::assertSame('2026-10-06', $chain->days($now)[0]->format('Y-m-d'));
-        self::assertSame('takehome.error.empty', $this->refusal(fn () => $chain->check(PickupMode::PICKUP, [], $this->at('2026-10-06'), null, $now)));
+        self::assertSame('takehome.error.empty', $this->refusal(fn () => $chain->check(PickupMode::PICKUP, [], $this->moment('2026-10-06'), null, $now)));
     }
 
     public function testLocalDeliveryByPostcode(): void
     {
         $chain = $this->chain(minimum: 2000);
-        $now = $this->at('2026-10-05 15:00');
-        $day = $this->at('2026-10-07');
+        $now = $this->moment('2026-10-05 15:00');
+        $day = $this->moment('2026-10-07');
 
         $chain->check(PickupMode::DELIVERY, $this->basket($this->dish('Curry', price: 1200)), $day, '67000', $now);
         $chain->check(PickupMode::DELIVERY, $this->basket($this->dish('Curry', price: 1200)), $day, '67 400', $now);
@@ -88,25 +88,25 @@ class ColdChainTest extends TestCase
     public function testAChilledParcelLeavesFromMondayToWednesday(): void
     {
         $chain = $this->chain();
-        $now = $this->at('2026-10-05 09:00'); // Monday
+        $now = $this->moment('2026-10-05 09:00'); // Monday
         $basket = $this->basket($this->dish('Gyoza'), $this->dish('Karaage'));
 
-        $chain->check(PickupMode::SHIPPING, $basket, $this->at('2026-10-06'), null, $now); // Tuesday
-        $chain->check(PickupMode::SHIPPING, $basket, $this->at('2026-10-07'), null, $now); // Wednesday
+        $chain->check(PickupMode::SHIPPING, $basket, $this->moment('2026-10-06'), null, $now); // Tuesday
+        $chain->check(PickupMode::SHIPPING, $basket, $this->moment('2026-10-07'), null, $now); // Wednesday
         foreach (['2026-10-08' => 'Thursday', '2026-10-09' => 'Friday', '2026-10-10' => 'Saturday', '2026-10-11' => 'Sunday'] as $day => $name) {
-            self::assertSame('takehome.error.parcel_day', $this->refusal(fn () => $chain->check(PickupMode::SHIPPING, $basket, $this->at($day), null, $now)), $name);
+            self::assertSame('takehome.error.parcel_day', $this->refusal(fn () => $chain->check(PickupMode::SHIPPING, $basket, $this->moment($day), null, $now)), $name);
         }
         self::assertSame(['2026-10-06', '2026-10-07', '2026-10-12', '2026-10-13', '2026-10-14', '2026-10-19'], array_map(fn ($d) => $d->format('Y-m-d'), $chain->shippingDays($now)));
-        self::assertSame('2026-10-07', $chain->arrival($this->at('2026-10-06'))->format('Y-m-d'));
+        self::assertSame('2026-10-07', $chain->arrival($this->moment('2026-10-06'))->format('Y-m-d'));
     }
 
     public function testOrderedOnAThursdayTheParcelWaitsForMonday(): void
     {
         $chain = $this->chain();
-        $thursday = $this->at('2026-10-08 10:00');
+        $thursday = $this->moment('2026-10-08 10:00');
         $basket = $this->basket($this->dish('Gyoza'));
 
-        self::assertSame('takehome.error.parcel_day', $this->refusal(fn () => $chain->check(PickupMode::SHIPPING, $basket, $this->at('2026-10-09'), null, $thursday)));
+        self::assertSame('takehome.error.parcel_day', $this->refusal(fn () => $chain->check(PickupMode::SHIPPING, $basket, $this->moment('2026-10-09'), null, $thursday)));
         self::assertSame('2026-10-12', $chain->shippingDays($thursday)[0]->format('Y-m-d'));
         $options = $chain->options($basket, null, $thursday);
         self::assertTrue($options['shipping']->available);
@@ -118,8 +118,8 @@ class ColdChainTest extends TestCase
     public function testTheWholeBasketMustTravelAndKeep(): void
     {
         $chain = $this->chain();
-        $now = $this->at('2026-10-05 09:00');
-        $tuesday = $this->at('2026-10-06');
+        $now = $this->moment('2026-10-05 09:00');
+        $tuesday = $this->moment('2026-10-06');
 
         self::assertSame('takehome.error.parcel_dish', $this->refusal(fn () => $chain->check(PickupMode::SHIPPING, $this->basket($this->dish('Gyoza'), $this->dish('Œuf mariné', parcel: false)), $tuesday, null, $now)));
         // One day on the road, two days left on arrival: three days of shelf life at least.
@@ -138,12 +138,12 @@ class ColdChainTest extends TestCase
 
     public function testNoCarrierNoParcel(): void
     {
-        $now = $this->at('2026-10-05 09:00');
+        $now = $this->moment('2026-10-05 09:00');
         $basket = $this->basket($this->dish('Gyoza'));
 
-        self::assertSame('takehome.error.mode', $this->refusal(fn () => $this->chain(carrier: false)->check(PickupMode::SHIPPING, $basket, $this->at('2026-10-06'), null, $now)));
+        self::assertSame('takehome.error.mode', $this->refusal(fn () => $this->chain(carrier: false)->check(PickupMode::SHIPPING, $basket, $this->moment('2026-10-06'), null, $now)));
         self::assertFalse($this->chain(carrier: false)->options($basket, null, $now)['shipping']->available);
-        self::assertSame('takehome.error.mode', $this->refusal(fn () => $this->chain(parcel: ['enabled' => false])->check(PickupMode::SHIPPING, $basket, $this->at('2026-10-06'), null, $now)));
+        self::assertSame('takehome.error.mode', $this->refusal(fn () => $this->chain(parcel: ['enabled' => false])->check(PickupMode::SHIPPING, $basket, $this->moment('2026-10-06'), null, $now)));
     }
 
     public function testMadeToOrderTodayAParcelLeavesTomorrowOnceTheCutOffIsPast(): void
@@ -151,13 +151,13 @@ class ColdChainTest extends TestCase
         $chain = $this->chain(notice: 0);
         $basket = $this->basket($this->dish('Gyoza'));
 
-        $chain->check(PickupMode::SHIPPING, $basket, $this->at('2026-10-05'), null, $this->at('2026-10-05 09:00'));
-        self::assertSame('takehome.error.too_soon', $this->refusal(fn () => $chain->check(PickupMode::SHIPPING, $basket, $this->at('2026-10-05'), null, $this->at('2026-10-05 14:00'))));
+        $chain->check(PickupMode::SHIPPING, $basket, $this->moment('2026-10-05'), null, $this->moment('2026-10-05 09:00'));
+        self::assertSame('takehome.error.too_soon', $this->refusal(fn () => $chain->check(PickupMode::SHIPPING, $basket, $this->moment('2026-10-05'), null, $this->moment('2026-10-05 14:00'))));
     }
 
     public function testTheBasketsUseByDateIsItsShortest(): void
     {
-        $made = $this->at('2026-10-06');
+        $made = $this->moment('2026-10-06');
         $basket = $this->basket($this->dish('Gyoza', 5), $this->dish('Bouillon', 3));
 
         self::assertSame('2026-10-09', $this->chain()->useBy($basket, $made)->format('Y-m-d'));
