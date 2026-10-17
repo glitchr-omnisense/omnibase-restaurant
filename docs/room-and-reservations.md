@@ -29,7 +29,7 @@ out, and the joins (select several, "Jumeler"). Saved as JSON
 ## QR posters
 
 `/admin/restaurant/affiches`: one A4 poster per table, or
-`?format=L7121|L7160|L7163` for label sheets (glitchr/omnibase's `QrSheet`).
+`?format=L7121|L7160|L7163` for label sheets (omniscient/omnibase's `QrSheet`).
 Each code is the table's `/t/{token}`. "Renouveler le QR" on a table gives
 it a new token: the poster printed before stops working.
 
@@ -72,7 +72,7 @@ dispatches `Event\ReservationChangedEvent`.
 
 **Times.** A reservation's `startsAt` is the restaurant's wall clock, stored
 and compared as written (`datetime_immutable`). Moments (a ticket's arrival,
-a deadline, when a table was settled) are columns of glitchr/omnibase's type
+a deadline, when a table was settled) are columns of omniscient/omnibase's type
 `utc_datetime_immutable`, written in UTC and read back as UTC: omnibase sets
 PHP's zone per visitor, and a plain `datetime_immutable` would be written in
 whatever zone the request is in. In a query, such a column is compared with
@@ -84,7 +84,7 @@ whatever zone the request is in. In a query, such a column is compared with
 |---|---|
 | `restaurant_book` `/reserver` | the form (`Form\BookingType` on `Model\Booking`): day, covers, a time among those free (asked again from `/reserver/creneaux` as they change), name, e-mail, phone, allergies, a note; a trap field and a minimum delay; omnibase's `PrivacyType` notice |
 | `restaurant_manage` `/reservation/{token}` | the guest's page: status, calendar file, another time, cancellation - until `cancel_until` minutes before |
-| `restaurant_manage_ics` | the ICS (glitchr/omnibase's `Calendar\Ics`), in the restaurant's time zone |
+| `restaurant_manage_ics` | the ICS (omniscient/omnibase's `Calendar\Ics`), in the restaurant's time zone |
 
 Mails (`@Restaurant/email/reservation.html.twig`, in the guest's language):
 confirmed, requested, changed, cancelled, refused; the restaurant is told of

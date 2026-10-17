@@ -103,11 +103,11 @@ named by `fee_product`): a quick order has no shipping charge of its own.
 The form works without JavaScript; a refusal comes back as a flash message
 with what was typed. It is `Form\TakeHomeOrderType` on `Model\TakeHomeOrder`, a
 root without a name (its fields keep the page's names: `email`, `lines[12]`,
-`day`), guarded as glitchr/omnibase guards a public form - its option `guard`,
+`day`), guarded as omniscient/omnibase guards a public form - its option `guard`,
 action `takehome`: a trap, the time it takes, the lists, the captcha when the
 site has glitchr/omnishield. The page writes its fields by hand and prints the
 guard's (trap, stamp, captcha - shown only after a few refused tries, as
-glitchr/omnibase's `base.guard.captcha_after` says: a field the guard has
+omniscient/omnibase's `base.guard.captcha_after` says: a field the guard has
 already rendered is skipped) and the token from the form's view, before the
 button. A test posts those hidden fields as the page prints them
 (`tests/TakeHomeGuardTest.php`). Without the quick order, the page lists the dishes and
