@@ -9,7 +9,7 @@
         "php": "^8.2",
         "doctrine/orm": "^2.15|^3.0",
         "omnibridge/symfony": "1.x-dev",
-        "omniscient/omnibase": "3.0.*-dev || 4.0.*-dev",
+        "omnisense/omnibase": "3.0.*-dev || 4.0.*-dev",
         "omnibase/admin": "dev-main",
         "omnibase/marketplace": "dev-main",
         "symfony/config": "^7.0|^8.0",
@@ -27,8 +27,8 @@
         "phpunit/phpunit": "^12.5"
     },
     "suggest": {
-        "omniscient/omnifood": "The delivery and booking platforms (omnifood/ubereats, omnifood/deliveroo, omnifood/justeat, omnifood/thefork): their orders become tickets on the pass, their reservations join the book, the menu and the out-of-stock dishes are pushed to them.",
-        "omniscient/omnireview": "What guests say elsewhere (omnireview/google, omnireview/tripadvisor, omnireview/trustpilot): the rating and latest reviews on the restaurant's page, the dashboard's tile (restaurant.reviews); not on Packagist yet - https://github.com/glitchr-studio/omnireview"
+        "omnisense/omnifood": "The delivery and booking platforms (omnifood/ubereats, omnifood/deliveroo, omnifood/justeat, omnifood/thefork): their orders become tickets on the pass, their reservations join the book, the menu and the out-of-stock dishes are pushed to them.",
+        "omnisense/omnireview": "What guests say elsewhere (omnireview/google, omnireview/tripadvisor, omnireview/trustpilot): the rating and latest reviews on the restaurant's page, the dashboard's tile (restaurant.reviews); not on Packagist yet - https://github.com/glitchr-omnisense/omnireview"
     },
     "autoload": {"psr-4": {"Base\\Restaurant\\": "./src"}},
     "autoload-dev": {"psr-4": {"Base\\Restaurant\\Tests\\": "./tests"}},

@@ -6,7 +6,7 @@ order: 2
 # Installation
 
 ```sh
-composer require omnibase/restaurant          # needs omniscient/omnibase 3.x, omnibase/admin, omnibase/marketplace
+composer require omnibase/restaurant          # needs omnisense/omnibase 3.x, omnibase/admin, omnibase/marketplace
 composer require glitchr/omnifood omnifood/ubereats omnifood/thefork   # optional: the platforms
 ```
 
@@ -67,14 +67,14 @@ restaurant:
         accept_warning: 180          # seconds before a platform's deadline the ticket turns red
 ```
 
-When the restaurant is open - and closed - is omniscient/omnibase's
+When the restaurant is open - and closed - is omnisense/omnibase's
 (`base.opening_hours`, `Base\Entity\Hours\*`): a time is only offered when the
 place is open then. omnibase stores no `ROLE_STAFF` on an account: give it
 through a `Base\Entity\User\Group` (roles `['ROLE_STAFF']`).
 
 ## Demonstration accounts
 
-In omniscient/omnibase's `demo` environment (its `docs/20-architecture/demo.md`)
+In omnisense/omnibase's `demo` environment (its `docs/20-architecture/demo.md`)
 the sign-in page offers one button for each of a restaurant's people.
 `Base\Restaurant\Demo\RestaurantDemoAccounts` declares them:
 
@@ -106,11 +106,11 @@ nobody.
 ## Front end
 
 The public pages use Stimulus controllers the site registers, with
-omniscient/omnibase's `poll`:
+omnisense/omnibase's `poll`:
 
 ```js
 // assets/bootstrap.js
-import Poll from '../vendor/omniscient/omnibase/assets/controllers/poll_controller.js';
+import Poll from '../vendor/omnisense/omnibase/assets/controllers/poll_controller.js';
 import Booking from '../vendor/omnibase/restaurant/assets/controllers/booking_controller.js';
 import Filter from '../vendor/omnibase/restaurant/assets/controllers/filter_controller.js';
 import Table from '../vendor/omnibase/restaurant/assets/controllers/table_controller.js';

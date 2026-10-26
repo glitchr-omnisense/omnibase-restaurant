@@ -7,7 +7,7 @@ order: 7
 
 The restaurant's rating and its latest reviews on Google, Tripadvisor or Trustpilot, on its page
 (`/carte`, the menu) and on a tile of the back office's dashboard - through
-[glitchr/omnireview](https://github.com/glitchr-studio/omnireview). **Without the family, or without
+[glitchr/omnireview](https://github.com/glitchr-omnisense/omnireview). **Without the family, or without
 a key, nothing shows**: no section, no tile, no call.
 
 ## Setting it up
