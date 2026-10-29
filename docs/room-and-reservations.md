@@ -1,9 +1,11 @@
 ---
 title: The room and the reservations
-order: 3
+order: 30
 ---
 
-# The room
+# The room and the reservations
+
+## The room
 
 | Entity | |
 |---|---|
@@ -15,7 +17,7 @@ order: 3
 joined groups: a layout taking over that date, else the service's, else the
 room's default, else the tables where they stand.
 
-## The floor editor
+### The floor editor
 
 `/admin/restaurant/salle` (`restaurant_admin_floor`, the manager's role; it
 opens in the nest on `@Admin/layout.html.twig`). The room is drawn to scale
@@ -26,14 +28,14 @@ the tables' own places are saved; in a layout, their places there, which are
 out, and the joins (select several, "Jumeler"). Saved as JSON
 (`FloorController::save`).
 
-## QR posters
+### QR posters
 
 `/admin/restaurant/affiches`: one A4 poster per table, or
 `?format=L7121|L7160|L7163` for label sheets (omnisense/omnibase's `QrSheet`).
 Each code is the table's `/t/{token}`. "Renouveler le QR" on a table gives
 it a new token: the poster printed before stops working.
 
-# Reservations
+## Reservations
 
 A `MealService` says which days it runs, the first and last seating, the
 step, how long a table is kept by party size (`durations`: `{2: 75, 4: 90,
@@ -78,7 +80,7 @@ PHP's zone per visitor, and a plain `datetime_immutable` would be written in
 whatever zone the request is in. In a query, such a column is compared with
 `Base\Database\Type\Utc::from($moment)` or `Utc::now()`.
 
-## Public pages
+### Public pages
 
 | Route | |
 |---|---|

@@ -16,8 +16,11 @@ booking platforms. The site carries the identity; the bundle does the work.
 | [The menu and ordering at the table](menu-and-table.md) | dishes, sections, set menus, allergens, `/t/{token}`, sessions and tickets |
 | [The take-home shop](take-home.md) | fresh dishes to cook at home, the cold chain (pickup, local delivery, chilled parcels), ordering without an account, `/suivi/{token}` |
 | [The pass](pass.md) | `/service`: the floor, the tickets, the book, what the staff do there |
-| [The platforms](platforms.md) | glitchr/omnifood: webhooks, answers, the menu, the keys |
-| [What guests say elsewhere](reviews.md) | glitchr/omnireview: the rating and latest reviews on the page, the dashboard's tile |
+| [The platforms](platforms.md) | omnisense/omnifood: webhooks, answers, the menu, the keys |
+| [What guests say elsewhere](reviews.md) | omnisense/omnireview: the rating and latest reviews on the page, the dashboard's tile |
+| [Configuration reference](configuration.md) | `restaurant:` dumped |
+| [Reference](reference.md) | every route and who may call it, the commands, the events, the Twig functions |
+| [Testing](testing.md) | the suite, what it checks |
 | [Roadmap](roadmap.md) | where it stands, what is left |
 
 Namespace `Base\Restaurant\`, translations in the `restaurant` domain (fr, en,

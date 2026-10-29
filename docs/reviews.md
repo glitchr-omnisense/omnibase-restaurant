@@ -1,19 +1,19 @@
 ---
 title: What guests say elsewhere
-order: 7
+order: 35
 ---
 
 # What guests say elsewhere
 
 The restaurant's rating and its latest reviews on Google, Tripadvisor or Trustpilot, on its page
 (`/carte`, the menu) and on a tile of the back office's dashboard - through
-[glitchr/omnireview](https://github.com/glitchr-omnisense/omnireview). **Without the family, or without
+[omnisense/omnireview](https://github.com/glitchr-omnisense/omnireview). **Without the family, or without
 a key, nothing shows**: no section, no tile, no call.
 
 ## Setting it up
 
 ```sh
-composer require glitchr/omnireview omnireview/google      # tripadvisor, trustpilot as wanted
+composer require omnisense/omnireview omnireview/google      # tripadvisor, trustpilot as wanted
 ```
 
 Register `Omnireview\Bridge\Symfony\OmnireviewBundle` (its Twig functions, the cache), configure its

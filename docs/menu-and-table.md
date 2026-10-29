@@ -1,9 +1,11 @@
 ---
 title: The menu and ordering at the table
-order: 4
+order: 31
 ---
 
-# The menu
+# The menu and ordering at the table
+
+## The menu
 
 `Entity\Menu\Dish` extends `Base\Marketplace\Entity\Product`: its title and
 text, its price **before VAT** and the store's VAT, its stock and
@@ -27,7 +29,7 @@ A dish run out on the pass (`Dish::runOut()`, `ProductAvailability::OUT_OF_STOCK
 stays on the menu, greyed, cannot be ordered, and is suspended on the
 platforms (`Event\DishAvailabilityEvent`).
 
-# Ordering at the table
+## Ordering at the table
 
 `/t/{token}` is what a table's QR code opens: the menu with a stepper per
 dish, the round being put together (kept on the phone until sent), "Envoyer
@@ -43,7 +45,7 @@ waiter, ask for the bill; the bill asked for, the phones send no more rounds.
 | `restaurant_table_call`, `restaurant_table_bill` | the waiter, the bill |
 | `restaurant_table_state` | the table's state, for the poll |
 
-## A dish's options
+### A dish's options
 
 A dish's options are omnibase/marketplace's (`Product\OptionGroup`, `Option`:
 a cooking, extras - one or several, a minimum, a maximum, a surcharge before
@@ -54,7 +56,7 @@ choice missing or one too many is refused in the guest's words), a group
 left untouched takes its preselected option, and the surcharge - with the
 dish's VAT - is in the line's price; the ticket shows their labels.
 
-## Paying from the phone
+### Paying from the phone
 
 With `restaurant.table.pay_online: true` and omnibase/marketplace's quick
 order, the "Notre table" tab offers "Payer depuis mon téléphone": an e-mail

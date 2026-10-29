@@ -1,9 +1,11 @@
 ---
 title: Roadmap
-order: 9
+order: 80
 ---
 
-# Where it stands
+# Roadmap
+
+## Where it stands
 
 Done with omnibase/marketplace's third pass (`Entity\Order\Pickup`,
 `Product\OptionGroup`): the take-home dishes, the cold chain, the tracking
@@ -13,7 +15,7 @@ page, the shop's orders on the pass, the dishes' options at the table
 On omnibase/marketplace's quick order (`Service\QuickOrder`), loaded only
 where it exists: the order without an account, the bill paid from a phone.
 
-# What is left
+## What is left
 
 | To come | Why not yet |
 |---|---|

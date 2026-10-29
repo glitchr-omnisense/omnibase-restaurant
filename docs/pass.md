@@ -1,6 +1,6 @@
 ---
 title: The pass
-order: 5
+order: 32
 ---
 
 # The pass
@@ -34,7 +34,7 @@ one screen for the floor.
   guest with an address is mailed); a form for a reservation taken on the
   phone or a walk-in seated now.
 - **Run out**: a dish out of stock, or back.
-- **The platforms** (with glitchr/omnifood): every platform the site
+- **The platforms** (with omnisense/omnifood): every platform the site
   declares, with the state of its connection - *connected* (every key its
   factory needs is set, in the configuration or typed in the back office),
   *not configured* (the keys missing are named; nothing is called, its

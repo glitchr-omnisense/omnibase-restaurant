@@ -1,6 +1,6 @@
 ---
 title: The take-home shop
-order: 6
+order: 33
 ---
 
 # The take-home shop
@@ -68,7 +68,7 @@ restaurant:
         minimum: 2000                    # cents before VAT
         fee_product: livraison-locale    # slug of the product charged for it; null: free
     parcel:
-        shipping_method: colis-frais     # slug of the shop's ShippingMethod; its carrier is a glitchr/omnibus gateway
+        shipping_method: colis-frais     # slug of the shop's ShippingMethod; its carrier is a omnisense/omnibus gateway
         fee_product: colis-frais
         ship_days: [1, 2, 3]             # ISO weekdays
         transit_days: 1
@@ -105,7 +105,7 @@ with what was typed. It is `Form\TakeHomeOrderType` on `Model\TakeHomeOrder`, a
 root without a name (its fields keep the page's names: `email`, `lines[12]`,
 `day`), guarded as omnisense/omnibase guards a public form - its option `guard`,
 action `takehome`: a trap, the time it takes, the lists, the captcha when the
-site has glitchr/omnishield. The page writes its fields by hand and prints the
+site has omnisense/omnishield. The page writes its fields by hand and prints the
 guard's (trap, stamp, captcha - shown only after a few refused tries, as
 omnisense/omnibase's `base.guard.captcha_after` says: a field the guard has
 already rendered is skipped) and the token from the form's view, before the

@@ -1,9 +1,9 @@
 ---
 title: The platforms
-order: 6
+order: 34
 ---
 
-# The platforms (glitchr/omnifood)
+# The platforms (omnisense/omnifood)
 
 Loaded only when `Omnifood\Registry` exists (`config/services.php`); without
 it the webhook answers 404 and the pass shows no platform.
@@ -50,4 +50,4 @@ bin/console restaurant:reservations:sync [--days=30]      # from the cron contai
 ```
 
 Not verified against the live APIs: the platforms give no credentials without
-a partner agreement (see glitchr/omnifood's own notes).
+a partner agreement (see omnisense/omnifood's own notes).

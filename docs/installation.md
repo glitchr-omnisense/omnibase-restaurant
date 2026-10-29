@@ -1,19 +1,19 @@
 ---
 title: Installation
-order: 2
+order: 10
 ---
 
 # Installation
 
 ```sh
 composer require omnibase/restaurant          # needs omnisense/omnibase 3.x, omnibase/admin, omnibase/marketplace
-composer require glitchr/omnifood omnifood/ubereats omnifood/thefork   # optional: the platforms
+composer require omnisense/omnifood omnifood/ubereats omnifood/thefork   # optional: the platforms
 ```
 
 ```php
 // config/bundles.php
 Base\Restaurant\RestaurantBundle::class => ['all' => true],
-Omnifood\Bridge\Symfony\OmnifoodBundle::class => ['all' => true],   // with glitchr/omnifood
+Omnifood\Bridge\Symfony\OmnifoodBundle::class => ['all' => true],   // with omnisense/omnifood
 ```
 
 ```yaml
