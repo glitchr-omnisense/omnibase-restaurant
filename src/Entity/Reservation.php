@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Entity;
 
 use Base\Database\Type\Utc;
-use Base\Database\Type\UtcDateTimeImmutableType;
+use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
 use Base\Restaurant\Enum\ReservationStatus;
 use Base\Restaurant\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;

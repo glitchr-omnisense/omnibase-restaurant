@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Entity\Order;
 
 use Base\Database\Type\Utc;
-use Base\Database\Type\UtcDateTimeImmutableType;
+use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
 use Base\Restaurant\Entity\Reservation;
 use Base\Restaurant\Entity\Table;
 use Base\Restaurant\Enum\SessionStatus;

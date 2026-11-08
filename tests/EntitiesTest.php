@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Tests;
 
 use Base\Database\Type\Utc;
-use Base\Database\Type\UtcDateTimeImmutableType;
+use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
 use Base\Restaurant\Entity\Layout;
 use Base\Restaurant\Entity\MealService;
 use Base\Restaurant\Entity\Order\Session;

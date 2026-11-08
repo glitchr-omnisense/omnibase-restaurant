@@ -2,7 +2,7 @@
 
 namespace Base\Restaurant\Form;
 
-use Base\Form\Type\PrivacyType;
+use Omnibridge\Symfony\Omnibase\Form\Type\PrivacyType;
 use Base\Restaurant\Model\Booking;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;

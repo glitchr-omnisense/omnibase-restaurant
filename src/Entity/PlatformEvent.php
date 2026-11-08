@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Entity;
 
 use Base\Database\Type\Utc;
-use Base\Database\Type\UtcDateTimeImmutableType;
+use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
