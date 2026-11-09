@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 
 /*
  * restaurant-pass: the pass's board. Redrawn (its HTML asked again) when
- * the state's revision grows - glitchr/omnibase's poll controller says so
+ * the state's revision grows - omnisense/omnibase's poll controller says so
  * (poll:change) - or right after a tap. Each tap is a POST with the pass's
  * token; the table tapped on the floor opens its card, kept open across
  * redraws. The waiting tickets' clocks tick here, between two redraws.

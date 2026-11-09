@@ -93,7 +93,7 @@ restaurant:
     parcel:
         enabled:              true
 
-        # Slug of the shop's shipping method that carries chilled parcels (its carrier: a glitchr/omnibus gateway, omnibus/chronopost with product "fresh"). Null, or its carrier not configured: no parcel.
+        # Slug of the shop's shipping method that carries chilled parcels (its carrier: an omnisense/omnibus gateway, omnibus/chronopost with product "fresh"). Null, or its carrier not configured: no parcel.
         shipping_method:      null
 
         # Slug of the product sold as the parcel's charge (a line of the order).

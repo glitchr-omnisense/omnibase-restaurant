@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * The booking platforms' reservations read and put in the book - what
  * their webhooks missed. Run by the cron container every few minutes.
  */
-#[AsCommand(name: 'restaurant:reservations:sync', description: 'Read the booking platforms\' reservations into the book (glitchr/omnifood).')]
+#[AsCommand(name: 'restaurant:reservations:sync', description: 'Read the booking platforms\' reservations into the book (omnisense/omnifood).')]
 final class ReservationsSyncCommand extends Command
 {
     public function __construct(private readonly Platforms $platforms, private readonly Receiver $receiver)

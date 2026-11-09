@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * is kept by party size, how many covers it takes in all, up to how many a
  * reservation is confirmed without the manager, and the layout of the room.
  *
- * When the restaurant is open at all is glitchr/omnibase's
+ * When the restaurant is open at all is omnisense/omnibase's
  * Base\Service\OpeningHours (the usual week, the days off): a time is only
  * offered when the place is open then.
  */

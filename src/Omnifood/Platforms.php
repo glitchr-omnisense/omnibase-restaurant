@@ -12,7 +12,7 @@ use Omnifood\ReservationsInterface;
 use Omnifood\StoreInterface;
 
 /**
- * The restaurant's platforms (glitchr/omnifood's Registry), each built with
+ * The restaurant's platforms (omnisense/omnifood's Registry), each built with
  * the keys typed in the back office over the configured ones - settings
  * api.food.<platform>.<option> (Settings\FoodKeysSection declares the
  * fields), as omnibase/marketplace does for its payment gateways.

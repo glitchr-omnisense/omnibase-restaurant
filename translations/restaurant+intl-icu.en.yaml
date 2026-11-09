@@ -491,6 +491,6 @@ demo:
     client:
         label: Customer
         description: "The take-home shop: an order paid with the trial payment, then followed."
-# What guests say elsewhere (glitchr/omnireview), on the restaurant's page.
+# What guests say elsewhere (omnisense/omnireview), on the restaurant's page.
 reviews:
     title: "What our guests say"

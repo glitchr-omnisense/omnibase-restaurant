@@ -4,7 +4,7 @@ import { Controller } from '@hotwired/stimulus';
  * restaurant-table: a table's phone. The round is put together dish by dish
  * (kept on the phone until sent: a reload loses nothing), sent to the pass
  * as JSON; the waiter called, the bill asked for; the rounds already sent
- * redrawn when the state changes (poll:change, glitchr/omnibase's poll).
+ * redrawn when the state changes (poll:change, omnisense/omnibase's poll).
  */
 export default class extends Controller {
     static targets = ['dish', 'count', 'cart', 'cartList', 'cartCount', 'cartTotal', 'note', 'sendButton', 'rounds', 'roundCount', 'total', 'toast', 'callButton', 'billButton', 'pay', 'payEmail', 'payButton'];

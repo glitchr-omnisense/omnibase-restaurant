@@ -8,7 +8,7 @@ A restaurant on [omnibase](https://github.com/glitchr-omnisense/omnibase): one b
 - **Ordering at the table**: `/t/{token}` from the table's QR code, no account; rounds (`Ticket`) on the table's bill (`Session`), a dish's options (a cooking, extras); the bill paid from the phone where the site allows it; the waiter called, the bill asked for; `symfony/rate-limiter` per table.
 - **The take-home shop** (`/traiteur`): fresh dishes to cook at home (`TakeHome`: how it keeps, its use-by days, how to cook it), the cold chain (`ColdChain`: collected on a slot, brought to the postcodes around, a chilled parcel only when the whole basket travels and keeps, Monday to Wednesday), an order without an account and followed by its link (`/suivi/{token}`), prepared on the pass.
 - **The pass** (`/service`): the floor live, the tickets of every channel in columns, the day's book, dishes run out - polled with omnisense/omnibase's `poll` controller.
-- **The platforms**, when [glitchr/omnifood](https://github.com/glitchr-omnisense/omnifood) is installed: webhooks made tickets and reservations, the pass's answers sent back, the menu pushed, keys typed in the back office.
+- **The platforms**, when [omnisense/omnifood](https://github.com/glitchr-omnisense/omnifood) is installed: webhooks made tickets and reservations, the pass's answers sent back, the menu pushed, keys typed in the back office.
 
 ```sh
 composer require omnibase/restaurant

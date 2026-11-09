@@ -23,11 +23,11 @@ use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter;
 
 /**
- * What guests say of the restaurant elsewhere (glitchr/omnireview): the
+ * What guests say of the restaurant elsewhere (omnisense/omnireview): the
  * platforms its page shows - those configured, their gateway set up -, the
  * latest reviews over them and those not answered, the page's section by
  * the family's widget (origin, date, link, no JSON-LD) and the dashboard's
- * tile; nothing at all without a gateway. Skipped without glitchr/omnireview
+ * tile; nothing at all without a gateway. Skipped without omnisense/omnireview
  * and Twig: the platforms are stubs made here, no key is used.
  */
 final class ReviewsTest extends TestCase
@@ -35,7 +35,7 @@ final class ReviewsTest extends TestCase
     protected function setUp(): void
     {
         if (!class_exists(Registry::class) || !class_exists(OmnireviewExtension::class) || !class_exists(Environment::class)) {
-            self::markTestSkipped('Needs glitchr/omnireview and twig/twig.');
+            self::markTestSkipped('Needs omnisense/omnireview and twig/twig.');
         }
     }
 
@@ -100,7 +100,7 @@ final class ReviewsTest extends TestCase
         self::assertSame(['google'], array_column($places, 'gateway'), 'tripadvisor has no gateway (no key), trustpilot no ID: left out');
         self::assertSame(['ChIJ-nakaya', 'accounts/1/locations/2'], [$places[0]['place']->id, $places[0]['place']->owner]);
         self::assertSame([], (new RestaurantReviews(null, null, ['google' => 'ChIJ-nakaya']))->places(), 'without the family\'s bundle: none');
-        self::assertSame([], (new ReviewsTwigExtension(null))->getFunctions()[0]->getCallable()(), 'without glitchr/omnireview: none');
+        self::assertSame([], (new ReviewsTwigExtension(null))->getFunctions()[0]->getCallable()(), 'without omnisense/omnireview: none');
     }
 
     public function testTheLatestReviewsAndThoseNotAnswered(): void

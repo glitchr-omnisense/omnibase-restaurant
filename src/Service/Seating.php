@@ -14,7 +14,7 @@ use Base\Service\OpeningHours;
  * written (Availability does that, under a lock):
  *
  *  - a time is offered when the service runs that day, the place is open
- *    then (glitchr/omnibase's OpeningHours: the usual week and the days
+ *    then (omnisense/omnibase's OpeningHours: the usual week and the days
  *    off), it is far enough ahead, the service has covers left, and a table
  *    - or tables joined in the layout - is free for as long as such a party
  *    keeps it;

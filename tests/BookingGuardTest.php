@@ -10,10 +10,10 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The reservation form is guarded as glitchr/omnibase guards a form (option `guard`, action "book"), in
+ * The reservation form is guarded as omnisense/omnibase guards a form (option `guard`, action "book"), in
  * place of its own `website` trap and `startedAt` time: a filled trap, a reservation sent faster than
  * its delay and a missing captcha token are refused on the form; a reservation made as a person makes
- * it goes through. Without a captcha (no glitchr/omnishield: `challenge: false`), the trap and the time
+ * it goes through. Without a captcha (no omnisense/omnishield: `challenge: false`), the trap and the time
  * alone. Run by a host application's PHPUnit, its test captcha being omnishield's "fixed" gateway.
  */
 final class BookingGuardTest extends KernelTestCase
@@ -25,7 +25,7 @@ final class BookingGuardTest extends KernelTestCase
             self::markTestSkipped('Needs a host application (its kernel).');
         }
         if (!class_exists(FormGuard::class)) {
-            self::markTestSkipped('Needs a glitchr/omnibase with the forms\' guard.');
+            self::markTestSkipped('Needs an omnisense/omnibase with the forms\' guard.');
         }
         self::bootKernel();
         static::getContainer()->get('request_stack')->push(Request::create('https://localhost/reserver', 'POST', server: ['REMOTE_ADDR' => '203.0.113.9']));
@@ -107,11 +107,11 @@ final class BookingGuardTest extends KernelTestCase
 
     public function testAReservationWithoutTheCaptchasTokenIsRefused(): void
     {
-        // glitchr/omnibase shows a form's captcha only after a few refused tries (base.guard.captcha_after):
+        // omnisense/omnibase shows a form's captcha only after a few refused tries (base.guard.captcha_after):
         // a form that always asks it (captcha_after 0) refuses a reservation sent without its token.
         $form = $this->form(['captcha_after' => 0]);
         if (!$form->has('guard_captcha')) {
-            self::markTestSkipped('The host application has no captcha (glitchr/omnishield).');
+            self::markTestSkipped('The host application has no captcha (omnisense/omnishield).');
         }
         $this->send($form, ['guard_captcha' => '']);
         self::assertFalse($form->isValid());
@@ -123,7 +123,7 @@ final class BookingGuardTest extends KernelTestCase
         // Below the host's threshold the captcha is neither printed nor asked: the trap, the time and the lists alone guard it.
         $form = $this->form();
         if (!$form->has('guard_captcha')) {
-            self::markTestSkipped('The host application has no captcha (glitchr/omnishield).');
+            self::markTestSkipped('The host application has no captcha (omnisense/omnishield).');
         }
         $this->send($form, ['guard_captcha' => null]);
         self::assertTrue($form->isValid(), implode(', ', $this->refusals($form)));

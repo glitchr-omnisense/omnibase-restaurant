@@ -18,10 +18,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * The public reservation form, on a model (Model\Booking): the day, how
  * many, the time among those offered (the page fills them as the day and
- * the size change), who, what they ask, and glitchr/omnibase's
- * data-protection notice. Guarded as glitchr/omnibase guards a form (its
+ * the size change), who, what they ask, and omnisense/omnibase's
+ * data-protection notice. Guarded as omnisense/omnibase guards a form (its
  * option `guard`, action "book"): a trap, the time it takes, the lists, the
- * captcha when the site has glitchr/omnishield.
+ * captcha when the site has omnisense/omnishield.
  */
 class BookingType extends AbstractType
 {

@@ -1,6 +1,6 @@
 {
     "name": "omnibase/restaurant",
-    "description": "A restaurant on omnibase: the dining room and its layouts (a floor-plan editor, a QR poster per table), meal services and table reservations (availability under a lock, a public form, a management link, ICS), the menu (dishes as omnibase/marketplace products, sections, set menus, EU allergens), ordering at the table by QR code (sessions, rounds, tickets), the pass for the staff, and the delivery and booking platforms through glitchr/omnifood.",
+    "description": "A restaurant on omnibase: the dining room and its layouts (a floor-plan editor, a QR poster per table), meal services and table reservations (availability under a lock, a public form, a management link, ICS), the menu (dishes as omnibase/marketplace products, sections, set menus, EU allergens), ordering at the table by QR code (sessions, rounds, tickets), the pass for the staff, and the delivery and booking platforms through omnisense/omnifood.",
     "type": "symfony-bundle",
     "keywords": ["restaurant", "reservations", "floor plan", "qr code", "table ordering", "kitchen display", "omnibase", "omnifood"],
     "license": "MIT",

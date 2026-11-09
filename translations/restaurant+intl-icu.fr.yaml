@@ -491,6 +491,6 @@ demo:
     client:
         label: Client
         description: "La boutique à emporter : une commande payée par le paiement d'essai, puis suivie."
-# What guests say elsewhere (glitchr/omnireview), on the restaurant's page.
+# What guests say elsewhere (omnisense/omnireview), on the restaurant's page.
 reviews:
     title: "Ce que nos hôtes en disent"

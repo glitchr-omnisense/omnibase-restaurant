@@ -44,7 +44,7 @@ class ReservationController extends AbstractController
             'min' => $this->availability->today()->format('Y-m-d'),
             'max' => $this->availability->lastDay()->format('Y-m-d'),
             'max_covers' => $this->availability->maxCovers(),
-            // glitchr/omnibase's forms' guard, with the restaurant's delay (restaurant.reservation.min_delay).
+            // omnisense/omnibase's forms' guard, with the restaurant's delay (restaurant.reservation.min_delay).
             'guard' => ['action' => 'book', 'min_delay' => $this->minDelay],
         ]);
         $form->handleRequest($request);

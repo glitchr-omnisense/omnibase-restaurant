@@ -18,7 +18,7 @@ class RestaurantDemoAccountsTest extends TestCase
     protected function setUp(): void
     {
         if (!class_exists(DemoAccountRegistry::class)) {
-            self::markTestSkipped('Requires a glitchr/omnibase with the demo environment.');
+            self::markTestSkipped('Requires an omnisense/omnibase with the demo environment.');
         }
     }
 

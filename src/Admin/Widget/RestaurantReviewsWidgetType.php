@@ -7,7 +7,7 @@ use Base\Admin\Widget\DashboardWidgetTypeInterface;
 use Base\Restaurant\Reviews\RestaurantReviews;
 
 /**
- * What guests said lately on the review platforms (glitchr/omnireview):
+ * What guests said lately on the review platforms (omnisense/omnireview):
  * the latest reviews, and those not answered yet where the platform tells
  * (the owner's side: Google Business Profile, Trustpilot). Empty - the tile
  * shows nothing - without the family or without a configured gateway.

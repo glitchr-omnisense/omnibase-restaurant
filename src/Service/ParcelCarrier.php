@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 /**
  * Who carries the chilled parcels: the shop's shipping method named by
  * restaurant.parcel.shipping_method (its slug), whose carrier is a
- * glitchr/omnibus gateway - omnibus/chronopost with the Chronofresh product.
+ * omnisense/omnibus gateway - omnibus/chronopost with the Chronofresh product.
  * Without the method, without the package or without the carrier's account,
  * there is no chilled parcel and the mode is not offered.
  */

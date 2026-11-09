@@ -8,10 +8,10 @@ use Symfony\Component\RateLimiter\Storage\CacheStorage;
 /*
  * Autowiring over src/. Entities, enums, models, events and exceptions are
  * not services. The back office's screens and widgets need omnibase/admin;
- * the platforms' bridge (src/Omnifood) is loaded only when glitchr/omnifood
+ * the platforms' bridge (src/Omnifood) is loaded only when omnisense/omnifood
  * is installed - and its keys' section only with omnibase/admin too; the
- * review platforms' (src/Reviews) only with glitchr/omnireview. The
- * demonstration accounts (src/Demo) need a glitchr/omnibase with the demo
+ * review platforms' (src/Reviews) only with omnisense/omnireview. The
+ * demonstration accounts (src/Demo) need an omnisense/omnibase with the demo
  * environment.
  */
 return function (ContainerConfigurator $configurator) {
@@ -36,7 +36,7 @@ return function (ContainerConfigurator $configurator) {
             $src.'/Omnifood/',
             $src.'/Demo/',
             $src.'/RestaurantBundle.php',
-            // What guests say on the review platforms: only with glitchr/omnireview (none of its interfaces implemented here).
+            // What guests say on the review platforms: only with omnisense/omnireview (none of its interfaces implemented here).
             ...(class_exists('Omnireview\\Registry') ? [] : [$src.'/Reviews/']),
             // An order without an account, a bill paid from a phone: on omnibase/marketplace's quick order.
             ...($quickOrder ? [] : [$src.'/Service/TakeHomeOrders.php', $src.'/Service/TablePayments.php', $src.'/EventListener/QuickOrderListener.php']),
@@ -70,7 +70,7 @@ return function (ContainerConfigurator $configurator) {
         $services->load('Base\\Restaurant\\Admin\\', $src.'/Admin/');
     }
 
-    // The demonstration accounts of a restaurant, when the installed glitchr/omnibase has the demo environment.
+    // The demonstration accounts of a restaurant, when the installed omnisense/omnibase has the demo environment.
     if (interface_exists('Base\\Demo\\DemoAccountProviderInterface')) {
         $services->load('Base\\Restaurant\\Demo\\', $src.'/Demo/');
     }

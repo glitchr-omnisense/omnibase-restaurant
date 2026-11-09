@@ -91,7 +91,7 @@ class EntitiesTest extends TestCase
             $ticket = new Ticket(TicketChannel::TABLE);
             self::assertSame('UTC', $ticket->getCreatedAt()->getTimezone()->getName());
 
-            // The column is glitchr/omnibase's utc_datetime_immutable: written in UTC, read back as UTC, whatever PHP's zone.
+            // The column is omnisense/omnibase's utc_datetime_immutable: written in UTC, read back as UTC, whatever PHP's zone.
             $column = (new \ReflectionProperty(Ticket::class, 'createdAt'))->getAttributes(Column::class)[0]->newInstance();
             self::assertSame(UtcDateTimeImmutableType::NAME, $column->type);
             $type = new UtcDateTimeImmutableType();

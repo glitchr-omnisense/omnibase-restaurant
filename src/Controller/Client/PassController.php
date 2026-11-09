@@ -27,7 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Le passe (/service): the floor's one screen, a page of the site for the
  * staff (restaurant.staff_role). It draws the board (Service\Pass), asks its
- * state every few seconds (glitchr/omnibase's poll controller: "revision"
+ * state every few seconds (omnisense/omnibase's poll controller: "revision"
  * redraws, "latest" rings for a ticket to accept), and takes the staff's
  * taps - each a POST with the pass's token, answered with the new state
  * when asked from the page's script, with the page otherwise.

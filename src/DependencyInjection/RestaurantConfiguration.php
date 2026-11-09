@@ -62,7 +62,7 @@ class RestaurantConfiguration extends AbstractBaseConfiguration
                 ->arrayNode('parcel')->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultTrue()->end()
-                        ->scalarNode('shipping_method')->defaultNull()->info('Slug of the shop\'s shipping method that carries chilled parcels (its carrier: a glitchr/omnibus gateway, omnibus/chronopost with product "fresh"). Null, or its carrier not configured: no parcel.')->end()
+                        ->scalarNode('shipping_method')->defaultNull()->info('Slug of the shop\'s shipping method that carries chilled parcels (its carrier: an omnisense/omnibus gateway, omnibus/chronopost with product "fresh"). Null, or its carrier not configured: no parcel.')->end()
                         ->scalarNode('fee_product')->defaultNull()->info('Slug of the product sold as the parcel\'s charge (a line of the order).')->end()
                         ->arrayNode('ship_days')->integerPrototype()->min(1)->max(7)->end()->defaultValue([1, 2, 3])->info('ISO weekdays a parcel is handed to the carrier: Monday to Wednesday.')->end()
                         ->integerNode('transit_days')->min(1)->defaultValue(1)->info('Days on the road.')->end()
@@ -70,7 +70,7 @@ class RestaurantConfiguration extends AbstractBaseConfiguration
                         ->scalarNode('cutoff')->defaultValue('12:00')->info('With notice_days 0: past this hour, a parcel leaves tomorrow at the earliest.')->end()
                     ->end()
                 ->end()
-                // What guests say of the restaurant elsewhere (glitchr/omnireview): its rating and latest reviews on its
+                // What guests say of the restaurant elsewhere (omnisense/omnireview): its rating and latest reviews on its
                 // page, a tile of the back office's dashboard. Nothing shows without the family, nor without a key.
                 ->arrayNode('reviews')->addDefaultsIfNotSet()
                     ->children()

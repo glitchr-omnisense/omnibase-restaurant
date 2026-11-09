@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /** The menu sent to the delivery platforms (each replaces its own): all of them, or the one named. */
-#[AsCommand(name: 'restaurant:menu:push', description: 'Send the menu to the delivery platforms (glitchr/omnifood).')]
+#[AsCommand(name: 'restaurant:menu:push', description: 'Send the menu to the delivery platforms (omnisense/omnifood).')]
 final class MenuPushCommand extends Command
 {
     public function __construct(private readonly Platforms $platforms, private readonly MenuExport $export)

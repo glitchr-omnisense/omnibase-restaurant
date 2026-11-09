@@ -7,7 +7,7 @@ use Base\Demo\DemoAccountProviderInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
- * The demonstration accounts of a restaurant (glitchr/omnibase's `demo`
+ * The demonstration accounts of a restaurant (omnisense/omnibase's `demo`
  * environment): one for each of its people. The manager holds
  * restaurant.manager_role - the floor plan, the menu, the services, the
  * book; the floor team and the kitchen hold restaurant.staff_role through
@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  * reservations for the pass. A restaurant without one of them leaves it out:
  * base.demo.exclude.
  *
- * Registered when the installed glitchr/omnibase has the demo environment
+ * Registered when the installed omnisense/omnibase has the demo environment
  * (config/services.php).
  */
 final class RestaurantDemoAccounts implements DemoAccountProviderInterface

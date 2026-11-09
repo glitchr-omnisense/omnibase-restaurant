@@ -2,7 +2,7 @@
 
 namespace Base\Restaurant\Enum;
 
-/** What a dish suits, shown as pills and filtered on the menu (the allergens are glitchr/omnibase's Base\Enum\Allergen). */
+/** What a dish suits, shown as pills and filtered on the menu (the allergens are omnisense/omnibase's Base\Enum\Allergen). */
 enum Diet: string
 {
     case VEGETARIAN = 'vegetarian';

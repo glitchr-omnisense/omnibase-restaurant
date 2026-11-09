@@ -26,7 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * staff's from the phone, the guest's change and cancellation through the
  * management link, the evening's steps on the pass. Each one dispatched
  * (ReservationChangedEvent) and, for the guest, mailed: the confirmation
- * carries the management link and the calendar file (glitchr/omnibase's Ics).
+ * carries the management link and the calendar file (omnisense/omnibase's Ics).
  */
 class Reservations
 {

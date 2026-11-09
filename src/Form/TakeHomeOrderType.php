@@ -15,9 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * An order of the take-home shop (/traiteur/commander), as its page's form
  * posts it: the dishes and how many (lines[<dish id>]), how it leaves and
  * when, who. A root form without a name (createNamed('')): its fields keep
- * the page's names - email, lines[12], day. Guarded as glitchr/omnibase
+ * the page's names - email, lines[12], day. Guarded as omnisense/omnibase
  * guards a public form (its option `guard`, action "takehome": a trap, the
- * time it takes, the lists, the captcha when the site has glitchr/omnishield),
+ * time it takes, the lists, the captcha when the site has omnisense/omnishield),
  * in place of the page's own trap. Its fields are validated as
  * Model\TakeHomeOrder's constraints say.
  *

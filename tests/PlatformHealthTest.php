@@ -12,7 +12,7 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
  * How the pass tells a platform's connection: configured when every key its
  * factory needs is set (configured or typed), not configured otherwise -
  * with the keys missing -, in error after a failed call until one succeeds.
- * Needs glitchr/omnifood (skipped without it); no platform is built, no
+ * Needs omnisense/omnifood (skipped without it); no platform is built, no
  * call is made.
  */
 class PlatformHealthTest extends TestCase
@@ -20,7 +20,7 @@ class PlatformHealthTest extends TestCase
     protected function setUp(): void
     {
         if (!class_exists(Registry::class)) {
-            self::markTestSkipped('glitchr/omnifood is not installed.');
+            self::markTestSkipped('omnisense/omnifood is not installed.');
         }
     }
 

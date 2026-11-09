@@ -10,14 +10,14 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Environment;
 
 /**
- * The restaurant on the review platforms (glitchr/omnireview): where it
+ * The restaurant on the review platforms (omnisense/omnireview): where it
  * is on each (restaurant.reviews.places), its latest reviews, those it has
  * not answered. Everything is asked through the family's Twig functions
  * (OmnireviewExtension): kept no longer than each platform allows, nothing
  * when a platform does not answer. A platform whose gateway is not
  * configured - no key - is left out: nothing shows.
  *
- * Registered only when glitchr/omnireview is installed; it implements none
+ * Registered only when omnisense/omnireview is installed; it implements none
  * of its interfaces.
  */
 class RestaurantReviews

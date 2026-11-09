@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * SVG, tables dragged on a snapping grid, turned, duplicated, joined in a
  * layout, walls and the counter drawn, saved as JSON (public/js/floor.js) -
  * and the QR posters of the tables, an A4 page each or labels
- * (glitchr/omnibase's QrSheet), a table's code renewed.
+ * (omnisense/omnibase's QrSheet), a table's code renewed.
  */
 class FloorController extends AbstractController
 {

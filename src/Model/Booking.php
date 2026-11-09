@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * What the public reservation form holds (omnibase's FormFactory takes a
  * model, not an entity): the day, the time, how many, who, what they ask.
- * The robots are the form's guard's (glitchr/omnibase's option `guard`).
+ * The robots are the form's guard's (omnisense/omnibase's option `guard`).
  */
 class Booking
 {

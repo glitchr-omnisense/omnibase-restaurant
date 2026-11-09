@@ -16,13 +16,13 @@ use Omnifood\Model\OrderStatus;
 use Omnifood\Model\OrderType;
 use PHPUnit\Framework\TestCase;
 
-/** A platform's order made a ticket (needs glitchr/omnifood: skipped without it). */
+/** A platform's order made a ticket (needs omnisense/omnifood: skipped without it). */
 class OrderTicketsTest extends TestCase
 {
     protected function setUp(): void
     {
         if (!class_exists(Order::class)) {
-            self::markTestSkipped('glitchr/omnifood is not installed.');
+            self::markTestSkipped('omnisense/omnifood is not installed.');
         }
     }
 

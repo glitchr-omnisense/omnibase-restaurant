@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * The take-home order (/traiteur/commander) is a form - Form\TakeHomeOrderType, a root without a name,
- * its fields keeping the page's names - guarded as glitchr/omnibase guards a public form (option
+ * its fields keeping the page's names - guarded as omnisense/omnibase guards a public form (option
  * `guard`, action "takehome") in place of the page's own `website` trap: a filled trap, an order sent
  * faster than its delay and a missing captcha token are refused on the form; an order placed as a
  * person places it goes through, into Model\TakeHomeOrder. Run by a host application's PHPUnit, its
@@ -26,7 +26,7 @@ final class TakeHomeGuardTest extends KernelTestCase
             self::markTestSkipped('Needs a host application (its kernel).');
         }
         if (!class_exists(FormGuard::class)) {
-            self::markTestSkipped('Needs a glitchr/omnibase with the forms\' guard.');
+            self::markTestSkipped('Needs an omnisense/omnibase with the forms\' guard.');
         }
         self::bootKernel();
         static::getContainer()->get('request_stack')->push(Request::create('https://localhost/traiteur/commander', 'POST', server: ['REMOTE_ADDR' => '203.0.113.9']));
@@ -113,11 +113,11 @@ final class TakeHomeGuardTest extends KernelTestCase
 
     public function testAnOrderWithoutTheCaptchasTokenIsRefused(): void
     {
-        // glitchr/omnibase shows a form's captcha only after a few refused tries (base.guard.captcha_after):
+        // omnisense/omnibase shows a form's captcha only after a few refused tries (base.guard.captcha_after):
         // a form that always asks it (captcha_after 0) refuses an order sent without its token.
         $form = $this->form(['captcha_after' => 0]);
         if (!$form->has('guard_captcha')) {
-            self::markTestSkipped('The host application has no captcha (glitchr/omnishield).');
+            self::markTestSkipped('The host application has no captcha (omnisense/omnishield).');
         }
         $this->send($form, ['guard_captcha' => '']);
         self::assertFalse($form->isValid());
@@ -129,7 +129,7 @@ final class TakeHomeGuardTest extends KernelTestCase
         // Below the host's threshold the captcha is neither printed nor asked: the trap, the time and the lists alone guard it.
         $form = $this->form();
         if (!$form->has('guard_captcha')) {
-            self::markTestSkipped('The host application has no captcha (glitchr/omnishield).');
+            self::markTestSkipped('The host application has no captcha (omnisense/omnishield).');
         }
         $this->send($form, ['guard_captcha' => null]);
         self::assertTrue($form->isValid(), implode(', ', $this->refusals($form)));

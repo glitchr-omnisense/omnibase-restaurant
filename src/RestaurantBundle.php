@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * A restaurant on omnibase: the dining room, the services and their
  * reservations, the menu, ordering at the table and the pass - and the
- * delivery and booking platforms through glitchr/omnifood when it is there.
+ * delivery and booking platforms through omnisense/omnifood when it is there.
  */
 class RestaurantBundle extends AbstractBaseBundle
 {

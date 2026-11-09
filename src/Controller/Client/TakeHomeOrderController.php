@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Ordering at the take-home shop, without an account: the form of /traiteur
- * (Form\TakeHomeOrderType, guarded as glitchr/omnibase guards a form) posts here, the payment follows (omnibase/marketplace's quick order), and
+ * (Form\TakeHomeOrderType, guarded as omnisense/omnibase guards a form) posts here, the payment follows (omnibase/marketplace's quick order), and
  * the customer ends on the page that follows the order (/suivi/{token}).
  * Loaded only where the marketplace has its quick order.
  */

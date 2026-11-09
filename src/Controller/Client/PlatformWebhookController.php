@@ -12,12 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Where a delivery or booking platform calls (glitchr/omnifood): its
+ * Where a delivery or booking platform calls (omnisense/omnifood): its
  * signature checked by the platform's package - 401 and nothing done when
  * it does not hold -, the order made a ticket on the pass, the reservation
  * put in the book. Answered 200 once handled; 502 when the platform could
  * not be asked for the order (it retries: the event is not marked as seen).
- * 404 without glitchr/omnifood or for a platform the site does not have.
+ * 404 without omnisense/omnifood or for a platform the site does not have.
  * A webhook handled clears the platform's error on the pass; one that could
  * not be handled marks it (PlatformHealth).
  */

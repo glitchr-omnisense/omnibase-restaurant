@@ -9,7 +9,7 @@ use Twig\TwigFunction;
 
 /**
  * restaurant_reviews(): the platforms the restaurant's page shows reviews
- * from - none without glitchr/omnireview, none without a configured
+ * from - none without omnisense/omnireview, none without a configured
  * gateway. restaurant_review_widget(gateway, place): the family's own
  * widget (omnireview_widget(), @Omnireview/reviews.html.twig), named here so
  * that the bundle's templates compile on a site without the family.
