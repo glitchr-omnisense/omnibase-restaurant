@@ -10,7 +10,7 @@ use Symfony\Component\RateLimiter\Storage\CacheStorage;
  * not services. The back office's screens and widgets need omnibase/admin;
  * the platforms' bridge (src/Omnifood) is loaded only when omnisense/omnifood
  * is installed - and its keys' section only with omnibase/admin too; the
- * review platforms' (src/Reviews) only with omnisense/omnireview. The
+ * review platforms' (src/Reviews) only with omnisense/omnipulse. The
  * demonstration accounts (src/Demo) need an omnisense/omnibase with the demo
  * environment.
  */
@@ -36,8 +36,8 @@ return function (ContainerConfigurator $configurator) {
             $src.'/Omnifood/',
             $src.'/Demo/',
             $src.'/RestaurantBundle.php',
-            // What guests say on the review platforms: only with omnisense/omnireview (none of its interfaces implemented here).
-            ...(class_exists('Omnireview\\Registry') ? [] : [$src.'/Reviews/']),
+            // What guests say on the review platforms: only with omnisense/omnipulse (none of its interfaces implemented here).
+            ...(class_exists('Omnipulse\\Registry') ? [] : [$src.'/Reviews/']),
             // An order without an account, a bill paid from a phone: on omnibase/marketplace's quick order.
             ...($quickOrder ? [] : [$src.'/Service/TakeHomeOrders.php', $src.'/Service/TablePayments.php', $src.'/EventListener/QuickOrderListener.php']),
         ]);
@@ -58,10 +58,10 @@ return function (ContainerConfigurator $configurator) {
 
     // The platforms' reviews through the family's registry and Twig functions (its bundle registered): their
     // terms - what may be kept, and how long - are the family's to keep.
-    if (class_exists('Omnireview\\Registry')) {
+    if (class_exists('Omnipulse\\Registry')) {
         $services->get('Base\\Restaurant\\Reviews\\RestaurantReviews')
-            ->arg('$registry', service('Omnireview\\Registry')->nullOnInvalid())
-            ->arg('$omnireview', service('Omnireview\\Bridge\\Twig\\OmnireviewExtension')->nullOnInvalid());
+            ->arg('$registry', service('Omnipulse\\Registry')->nullOnInvalid())
+            ->arg('$omnipulse', service('Omnipulse\\Bridge\\Twig\\OmnipulseExtension')->nullOnInvalid());
     }
 
     if (class_exists('Base\\Admin\\Controller\\AbstractCrudController')) {

@@ -28,7 +28,10 @@
     },
     "suggest": {
         "omnisense/omnifood": "The delivery and booking platforms (omnifood/ubereats, omnifood/deliveroo, omnifood/justeat, omnifood/thefork): their orders become tickets on the pass, their reservations join the book, the menu and the out-of-stock dishes are pushed to them.",
-        "omnisense/omnireview": "What guests say elsewhere (omnireview/google, omnireview/tripadvisor, omnireview/trustpilot): the rating and latest reviews on the restaurant's page, the dashboard's tile (restaurant.reviews); not on Packagist yet - https://github.com/glitchr-omnisense/omnireview"
+        "omnisense/omnipulse": "What guests say elsewhere: the rating and latest reviews on the restaurant's page, the dashboard's tile (restaurant.reviews), through the family's reviews (Omnipulse\\Registry, Omnipulse\\Bridge\\Twig\\OmnipulseExtension) and one of its review providers below",
+        "omnipulse/google-reviews": "Google reviews (Places API; Business Profile API with the owner's access: every review, and whether it was answered), with omnisense/omnipulse",
+        "omnipulse/tripadvisor": "Tripadvisor (Content API): the rating, the latest reviews, the link to write one, with omnisense/omnipulse",
+        "omnipulse/trustpilot": "Trustpilot: the TrustScore, the latest reviews and whether they were answered (with a business user), with omnisense/omnipulse"
     },
     "autoload": {"psr-4": {"Base\\Restaurant\\": "./src"}},
     "autoload-dev": {"psr-4": {"Base\\Restaurant\\Tests\\": "./tests"}},

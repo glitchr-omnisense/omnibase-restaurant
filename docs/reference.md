@@ -79,6 +79,6 @@ whenever anything of the restaurant is written, so the pass redraws.
 
 | Function | Returns |
 |---|---|
-| `restaurant_reviews()` | the places of omnisense/omnireview, with their rating and latest reviews; none without it |
+| `restaurant_reviews()` | the places of omnisense/omnipulse's review providers, with their rating and latest reviews; none without it |
 | `restaurant_reviews_limit()` | how many reviews a place shows (3 by default) |
-| `restaurant_review_widget(gateway, ...)` | the family's own widget for a platform ([What guests say elsewhere](reviews.md)) |
+| `restaurant_review_widget(gateway, ...)` | the family's own widget for a platform, by its provider's name ([What guests say elsewhere](reviews.md)) |

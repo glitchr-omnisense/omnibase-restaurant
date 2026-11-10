@@ -17,7 +17,7 @@ booking platforms. The site carries the identity; the bundle does the work.
 | [The take-home shop](take-home.md) | fresh dishes to cook at home, the cold chain (pickup, local delivery, chilled parcels), ordering without an account, `/suivi/{token}` |
 | [The pass](pass.md) | `/service`: the floor, the tickets, the book, what the staff do there |
 | [The platforms](platforms.md) | omnisense/omnifood: webhooks, answers, the menu, the keys |
-| [What guests say elsewhere](reviews.md) | omnisense/omnireview: the rating and latest reviews on the page, the dashboard's tile |
+| [What guests say elsewhere](reviews.md) | omnisense/omnipulse: the rating and latest reviews on the page, the dashboard's tile |
 | [Configuration reference](configuration.md) | `restaurant:` dumped |
 | [Reference](reference.md) | every route and who may call it, the commands, the events, the Twig functions |
 | [Testing](testing.md) | the suite, what it checks |

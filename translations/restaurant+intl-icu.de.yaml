@@ -491,6 +491,6 @@ demo:
     client:
         label: Gast
         description: "Der Shop zum Mitnehmen: eine Bestellung, mit der Testzahlung bezahlt und dann verfolgt."
-# What guests say elsewhere (omnisense/omnireview), on the restaurant's page.
+# What guests say elsewhere (omnisense/omnipulse), on the restaurant's page.
 reviews:
     title: "Was unsere Gäste sagen"

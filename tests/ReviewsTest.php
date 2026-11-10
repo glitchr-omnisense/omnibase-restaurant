@@ -4,55 +4,57 @@ namespace Base\Restaurant\Tests;
 
 use Base\Restaurant\Reviews\RestaurantReviews;
 use Base\Restaurant\Twig\ReviewsTwigExtension;
-use Omnireview\Bridge\Twig\OmnireviewExtension;
-use Omnireview\Config;
-use Omnireview\GatewayFactory;
-use Omnireview\GatewayInterface;
-use Omnireview\Model\Capabilities;
-use Omnireview\Model\Place;
-use Omnireview\Model\Rating;
-use Omnireview\Model\Reply;
-use Omnireview\Model\Review;
-use Omnireview\Model\Terms;
-use Omnireview\RatingInterface;
-use Omnireview\Registry;
-use Omnireview\ReviewsInterface;
+use Omnipulse\Bridge\Twig\OmnipulseExtension;
+use Omnipulse\Capabilities;
+use Omnipulse\Config;
+use Omnipulse\Model\Place;
+use Omnipulse\Model\Rating;
+use Omnipulse\Model\Reply;
+use Omnipulse\Model\Review;
+use Omnipulse\Model\Terms;
+use Omnipulse\ProviderFactory;
+use Omnipulse\ProviderInterface;
+use Omnipulse\RatingInterface;
+use Omnipulse\Registry;
+use Omnipulse\ReviewsInterface;
+use Omnipulse\Testing\FixedReachFactory;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter;
 
 /**
- * What guests say of the restaurant elsewhere (omnisense/omnireview): the
- * platforms its page shows - those configured, their gateway set up -, the
- * latest reviews over them and those not answered, the page's section by
- * the family's widget (origin, date, link, no JSON-LD) and the dashboard's
- * tile; nothing at all without a gateway. Skipped without omnisense/omnireview
- * and Twig: the platforms are stubs made here, no key is used.
+ * What guests say of the restaurant elsewhere (omnisense/omnipulse): the
+ * platforms its page shows - those configured, their review provider set
+ * up -, the latest reviews over them and those not answered, the page's
+ * section by the family's widget (origin, date, link, no JSON-LD) and the
+ * dashboard's tile; nothing at all without a provider. Skipped without
+ * omnisense/omnipulse and Twig: the platforms are stubs made here, no key
+ * is used.
  */
 final class ReviewsTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(Registry::class) || !class_exists(OmnireviewExtension::class) || !class_exists(Environment::class)) {
-            self::markTestSkipped('Needs omnisense/omnireview and twig/twig.');
+        if (!class_exists(Registry::class) || !class_exists(OmnipulseExtension::class) || !class_exists(Environment::class)) {
+            self::markTestSkipped('Needs omnisense/omnipulse and twig/twig.');
         }
     }
 
     /** A platform kept in memory: its rating, two reviews (one answered), a reply where its owner may. */
-    private static function factory(string $name, bool $owner): GatewayFactory
+    private static function factory(string $name, bool $owner): ProviderFactory
     {
-        return new class($name, $owner) extends GatewayFactory {
+        return new class($name, $owner) extends ProviderFactory {
             public function __construct(private readonly string $name, private readonly bool $owner)
             {
             }
 
             protected function populate(Config $c): void
             {
-                $c->defaults(['omnireview.factory_name' => $this->name, 'omnireview.factory_title' => ucfirst($this->name), 'omnireview.required_options' => []]);
+                $c->defaults(['omnipulse.factory_name' => $this->name, 'omnipulse.factory_title' => ucfirst($this->name), 'omnipulse.required_options' => []]);
             }
 
-            protected function build(Config $c): GatewayInterface
+            protected function build(Config $c): ProviderInterface
             {
                 return new class($this->name, $this->owner) implements RatingInterface, ReviewsInterface {
                     public function __construct(private readonly string $name, private readonly bool $owner)
@@ -88,19 +90,21 @@ final class ReviewsTest extends TestCase
 
     private static function reviews(array $places = ['google' => 'ChIJ-nakaya', 'tripadvisor' => '1234567', 'trustpilot' => ''], array $owners = ['google' => 'accounts/1/locations/2']): RestaurantReviews
     {
-        $registry = new Registry([self::factory('google', true), self::factory('trustpilot', false)], ['google' => ['factory' => 'google'], 'trustpilot' => ['factory' => 'trustpilot']]);
+        // "stats": the family's audience provider, which a site may name as it names a review platform.
+        $registry = new Registry([self::factory('google', true), self::factory('trustpilot', false), new FixedReachFactory()], ['google' => ['factory' => 'google'], 'trustpilot' => ['factory' => 'trustpilot'], 'stats' => ['factory' => 'fixed']]);
 
-        return new RestaurantReviews($registry, new OmnireviewExtension($registry), $places, $owners, 3);
+        return new RestaurantReviews($registry, new OmnipulseExtension($registry), $places, $owners, 3);
     }
 
     public function testThePlatformsShownAreThoseConfigured(): void
     {
         $places = self::reviews()->places();
 
-        self::assertSame(['google'], array_column($places, 'gateway'), 'tripadvisor has no gateway (no key), trustpilot no ID: left out');
+        self::assertSame(['google'], array_column($places, 'gateway'), 'tripadvisor has no provider (no key), trustpilot no ID: left out');
         self::assertSame(['ChIJ-nakaya', 'accounts/1/locations/2'], [$places[0]['place']->id, $places[0]['place']->owner]);
         self::assertSame([], (new RestaurantReviews(null, null, ['google' => 'ChIJ-nakaya']))->places(), 'without the family\'s bundle: none');
-        self::assertSame([], (new ReviewsTwigExtension(null))->getFunctions()[0]->getCallable()(), 'without omnisense/omnireview: none');
+        self::assertSame([], (new ReviewsTwigExtension(null))->getFunctions()[0]->getCallable()(), 'without omnisense/omnipulse: none');
+        self::assertSame(['google'], array_column(self::reviews(['google' => 'ChIJ-nakaya', 'stats' => 'https://example.org/'])->places(), 'gateway'), 'an audience provider is no review platform: left out');
     }
 
     public function testTheLatestReviewsAndThoseNotAnswered(): void
@@ -116,7 +120,7 @@ final class ReviewsTest extends TestCase
     {
         $loader = new FilesystemLoader();
         $loader->addPath(__DIR__.'/../templates', 'Restaurant');
-        $loader->addPath(\dirname((string) (new \ReflectionClass(OmnireviewExtension::class))->getFileName()).'/templates', 'Omnireview');
+        $loader->addPath(\dirname((string) (new \ReflectionClass(OmnipulseExtension::class))->getFileName()).'/templates', 'Omnipulse');
         $twig = new Environment($loader, ['strict_variables' => true]);
         $twig->addFilter(new TwigFilter('trans', static fn (string $key, array $parameters = []) => $key.($parameters ? json_encode($parameters) : '')));
 
@@ -140,7 +144,7 @@ final class ReviewsTest extends TestCase
         self::assertStringNotContainsString('AggregateRating', $html);
     }
 
-    public function testTheTileListsTheLatestAndThoseToAnswerAndNothingWithoutAGateway(): void
+    public function testTheTileListsTheLatestAndThoseToAnswerAndNothingWithoutAProvider(): void
     {
         $reviews = self::reviews(['google' => 'ChIJ-nakaya', 'trustpilot' => 'unit-42']);
         $twig = $this->twig();
@@ -154,6 +158,6 @@ final class ReviewsTest extends TestCase
         self::assertSame(4, substr_count($html, '<li'), 'the latest reviews');
         self::assertStringContainsString('href="https://trustpilot.example/r/1"', $html);
 
-        self::assertSame('', trim($twig->render('@Restaurant/admin/widget/reviews.html.twig', ['widget' => $widget, 'shown' => false, 'latest' => [], 'unanswered' => []])), 'no gateway: nothing at all');
+        self::assertSame('', trim($twig->render('@Restaurant/admin/widget/reviews.html.twig', ['widget' => $widget, 'shown' => false, 'latest' => [], 'unanswered' => []])), 'no provider: nothing at all');
     }
 }

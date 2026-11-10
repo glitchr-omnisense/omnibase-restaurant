@@ -491,6 +491,6 @@ demo:
     client:
         label: お客様
         description: "お持ち帰りショップ：お試し決済で支払い、ご注文の状況を確認。"
-# What guests say elsewhere (omnisense/omnireview), on the restaurant's page.
+# What guests say elsewhere (omnisense/omnipulse), on the restaurant's page.
 reviews:
     title: "お客様の声"

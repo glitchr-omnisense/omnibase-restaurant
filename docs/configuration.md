@@ -117,17 +117,17 @@ restaurant:
         cutoff:               '12:00'
     reviews:
 
-        # The restaurant on each platform, by its omnireview gateway's name: {google: "ChIJ...", tripadvisor: "1234567", trustpilot: "<business unit>"}.
+        # The restaurant on each platform, by the name of its provider in omnipulse.providers: {google: "ChIJ...", tripadvisor: "1234567", trustpilot: "<business unit>"}.
         places:
 
             # Prototype
-            gateway:              ~
+            provider:             ~
 
         # The owner's side of a platform: {google: "accounts/<a>/locations/<l>"} (Business Profile: every review, and whether it was answered).
         owners:
 
             # Prototype
-            gateway:              ~
+            provider:             ~
 
         # Reviews shown per platform on the restaurant's page.
         limit:                3

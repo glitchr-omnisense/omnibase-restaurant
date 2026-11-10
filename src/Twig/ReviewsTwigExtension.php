@@ -9,10 +9,11 @@ use Twig\TwigFunction;
 
 /**
  * restaurant_reviews(): the platforms the restaurant's page shows reviews
- * from - none without omnisense/omnireview, none without a configured
- * gateway. restaurant_review_widget(gateway, place): the family's own
- * widget (omnireview_widget(), @Omnireview/reviews.html.twig), named here so
- * that the bundle's templates compile on a site without the family.
+ * from - none without omnisense/omnipulse, none without a configured
+ * review provider. restaurant_review_widget(gateway, place): the family's
+ * own widget (omnipulse_reviews_widget(), @Omnipulse/reviews.html.twig) for
+ * the provider so named, named here so that the bundle's templates compile
+ * on a site without the family.
  */
 final class ReviewsTwigExtension extends AbstractExtension
 {

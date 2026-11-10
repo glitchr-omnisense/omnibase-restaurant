@@ -7,10 +7,10 @@ use Base\Admin\Widget\DashboardWidgetTypeInterface;
 use Base\Restaurant\Reviews\RestaurantReviews;
 
 /**
- * What guests said lately on the review platforms (omnisense/omnireview):
+ * What guests said lately on the review platforms (omnisense/omnipulse):
  * the latest reviews, and those not answered yet where the platform tells
  * (the owner's side: Google Business Profile, Trustpilot). Empty - the tile
- * shows nothing - without the family or without a configured gateway.
+ * shows nothing - without the family or without a configured provider.
  *
  *     yield MenuItem::block('restaurant_reviews', 'Avis', 'fa-solid fa-star')->setSize(4);
  */

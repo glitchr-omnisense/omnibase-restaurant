@@ -30,7 +30,22 @@ Tests: 69, Assertions: 462, Skipped: 11.
 
 The skipped tests are the platforms' (`OrderTicketsTest`,
 `PlatformHealthTest`: omnisense/omnifood is not in the image), the reviews'
-(`ReviewsTest`: omnisense/omnireview is not either) and the captcha's.
+(`ReviewsTest`: omnisense/omnipulse is not either) and the captcha's.
+
+`ReviewsTest` runs with a checkout of omnisense/omnipulse (`$OMNIPULSE_CORE`, absolute) mounted beside the bundle and a
+bootstrap that registers its namespace after the harness's own (`Omnipulse\` to
+`/srv/omnipulse/`, then `require '/srv/demo/tests/harness.php'` first):
+
+```bash
+docker run --rm --network none \
+    -v "$PWD":/srv/demo/vendor/omnibase/restaurant:ro \
+    -v "$OMNIPULSE_CORE":/srv/omnipulse:ro -v "$BOOT_DIR":/srv/h:ro \
+    omnisense/omnibase-harness:latest test restaurant --bootstrap /srv/h/boot.php
+```
+
+```text
+Tests: 69, Assertions: 481, Skipped: 7.
+```
 
 ## What the tests check
 
