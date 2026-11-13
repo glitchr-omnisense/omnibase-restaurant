@@ -14,6 +14,31 @@ A restaurant on [omnibase](https://github.com/glitchr-omnisense/omnibase): one b
 composer require omnibase/restaurant
 ```
 
+Stable releases follow semantic versioning: this installs the latest 1.x, with omnisense/omnibase 5.1 or later
+on Symfony (omnibridge/symfony) and Doctrine ORM (DoctrineBundle), omnibase/admin and omnibase/marketplace. No `minimum-stability` setting is needed.
+
+Under Symfony, register the bundle and its pages, then create its tables:
+
+```php
+// config/bundles.php
+Base\Restaurant\RestaurantBundle::class => ['all' => true],
+Omnifood\Bridge\Symfony\OmnifoodBundle::class => ['all' => true],   // only with omnisense/omnifood
+```
+
+```yaml
+# config/routes.yaml
+restaurant_controller:
+    resource: "@RestaurantBundle/src/Controller/Client"
+    type: attribute
+```
+
+```sh
+bin/console make:migration && bin/console doctrine:migrations:migrate
+```
+
+First use: in the back office, draw a room and its tables, add a meal service and a few dishes; each table's QR
+poster then opens `/t/{token}`, its order page. [docs/installation.md](docs/installation.md) has the rest.
+
 Documentation: [docs/](docs/index.md). Tests: `vendor/bin/phpunit` (no kernel needed).
 
 The order without an account and the bill paid from a phone stand on omnibase/marketplace's quick order, and are loaded only where it exists; what is left is in [docs/roadmap.md](docs/roadmap.md).

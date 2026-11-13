@@ -51,7 +51,7 @@ final class BookingGuardTest extends KernelTestCase
             'time' => '20:00',
             'name' => 'Camille Weber',
             'email' => 'camille@example.org',
-            'phone' => '06 12 34 56 78',
+            'phone' => '06 00 00 00 00',
             'guard_website' => '',
             'guard_opened' => static::getContainer()->get(FormGuard::class)->stamp(time() - 10),
         ];

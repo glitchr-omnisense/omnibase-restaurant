@@ -1,0 +1,1033 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to method getMessage\(\) on an unknown class Omnifood\\Exception\\OmnifoodException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PassController.php
+
+		-
+			message: '#^Call to method pause\(\) on an unknown class Omnifood\\StoreInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PassController.php
+
+		-
+			message: '#^Call to method resume\(\) on an unknown class Omnifood\\StoreInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PassController.php
+
+		-
+			message: '#^Caught class Omnifood\\Exception\\OmnifoodException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PassController.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 2
+			path: src/Controller/Client/PassController.php
+
+		-
+			message: '#^Call to method getMessage\(\) on an unknown class Omnifood\\Exception\\InvalidConfigException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PlatformWebhookController.php
+
+		-
+			message: '#^Call to method getMessage\(\) on an unknown class Omnifood\\Exception\\InvalidSignatureException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PlatformWebhookController.php
+
+		-
+			message: '#^Call to method getMessage\(\) on an unknown class Omnifood\\Exception\\NotSupportedException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PlatformWebhookController.php
+
+		-
+			message: '#^Call to method getMessage\(\) on an unknown class Omnifood\\Exception\\OmnifoodException\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Controller/Client/PlatformWebhookController.php
+
+		-
+			message: '#^Caught class Omnifood\\Exception\\InvalidConfigException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PlatformWebhookController.php
+
+		-
+			message: '#^Caught class Omnifood\\Exception\\InvalidSignatureException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PlatformWebhookController.php
+
+		-
+			message: '#^Caught class Omnifood\\Exception\\NotSupportedException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PlatformWebhookController.php
+
+		-
+			message: '#^Caught class Omnifood\\Exception\\OmnifoodException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Controller/Client/PlatformWebhookController.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: src/Controller/Client/ReservationController.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: src/Controller/Client/TakeHomeOrderController.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<non\-falsy\-string\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: src/Entity/Layout.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\Layout\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Layout.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\MealService\:\:\$durations \(array\<string, int\>\) does not accept array\<int, int\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Entity/MealService.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\MealService\:\:\$durations \(array\<string, int\>\) does not accept default value of type array\<int, int\>\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: src/Entity/MealService.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\MealService\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/MealService.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\Order\\Session\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Order/Session.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\Order\\Ticket\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Order/Ticket.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\Order\\TicketLine\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Order/TicketLine.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\PlatformEvent\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/PlatformEvent.php
+
+		-
+			message: '#^Call to function array_is_list\(\) with non\-empty\-array\<string, list\<string\>\> will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 2
+			path: src/Entity/Product/TakeHome.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\) to function array_filter contains falsy values only, the result will always be an empty array\.$#'
+			identifier: arrayFilter.alwaysEmpty
+			count: 1
+			path: src/Entity/Product/TakeHome.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\{\}\) to function array_values is empty, call has no effect\.$#'
+			identifier: arrayValues.empty
+			count: 1
+			path: src/Entity/Product/TakeHome.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\Product\\TakeHome\:\:\$cookingSteps \(array\<string, list\<string\>\>\|null\) does not accept list\<non\-falsy\-string\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Entity/Product/TakeHome.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\Reservation\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Reservation.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\Room\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Room.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Entity\\Table\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Table.php
+
+		-
+			message: '#^Access to property \$categories on an unknown class Omnifood\\Model\\Menu\\Menu\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Omnifood/Command/MenuPushCommand.php
+
+		-
+			message: '#^Call to method getMessage\(\) on an unknown class Omnifood\\Exception\\InvalidMenuException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Command/MenuPushCommand.php
+
+		-
+			message: '#^Call to method items\(\) on an unknown class Omnifood\\Model\\Menu\\Menu\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Command/MenuPushCommand.php
+
+		-
+			message: '#^Call to method pushMenu\(\) on an unknown class Omnifood\\PlatformInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Command/MenuPushCommand.php
+
+		-
+			message: '#^Caught class Omnifood\\Exception\\InvalidMenuException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Command/MenuPushCommand.php
+
+		-
+			message: '#^Class Omnifood\\MenuInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Command/MenuPushCommand.php
+
+		-
+			message: '#^Parameter \#1 \$capability of method Base\\Restaurant\\Omnifood\\Platforms\:\:having\(\) expects class\-string\<Omnifood\\PlatformInterface\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Omnifood/Command/MenuPushCommand.php
+
+		-
+			message: '#^Call to method reservations\(\) on an unknown class Omnifood\\PlatformInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Command/ReservationsSyncCommand.php
+
+		-
+			message: '#^Class Omnifood\\ReservationsInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Command/ReservationsSyncCommand.php
+
+		-
+			message: '#^Parameter \#1 \$capability of method Base\\Restaurant\\Omnifood\\Platforms\:\:having\(\) expects class\-string\<Omnifood\\PlatformInterface\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Omnifood/Command/ReservationsSyncCommand.php
+
+		-
+			message: '#^Call to an undefined method Base\\Restaurant\\Entity\\Menu\\MenuSection\:\:getLabel\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Omnifood/MenuExport.php
+
+		-
+			message: '#^Call to static method of\(\) on an unknown class Omnifood\\Model\\Money\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/MenuExport.php
+
+		-
+			message: '#^Call to static method tryFrom\(\) on an unknown class Omnifood\\Model\\Allergen\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/MenuExport.php
+
+		-
+			message: '#^Instantiated class Omnifood\\Model\\Menu\\Category not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/MenuExport.php
+
+		-
+			message: '#^Instantiated class Omnifood\\Model\\Menu\\Item not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/MenuExport.php
+
+		-
+			message: '#^Instantiated class Omnifood\\Model\\Menu\\Menu not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/MenuExport.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\MenuExport\:\:item\(\) has invalid return type Omnifood\\Model\\Menu\\Item\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/MenuExport.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\MenuExport\:\:menu\(\) has invalid return type Omnifood\\Model\\Menu\\Menu\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/MenuExport.php
+
+		-
+			message: '#^Access to constant ACCEPTED on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to constant CANCELLED on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to constant DELIVERED on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to constant DENIED on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to constant NEW on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to constant PICKED_UP on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to constant READY on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to constant UNKNOWN on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$customer on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$cutlery on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$displayId on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$lines on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$modifiers on an unknown class Omnifood\\Model\\Modifier\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$name on an unknown class Omnifood\\Model\\Modifier\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$note on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$pickupAt on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$placedAt on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$quantity on an unknown class Omnifood\\Model\\Modifier\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$reference on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$status on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to property \$total on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: Omnifood\\Model\\OrderStatus$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Parameter \$modifiers of method Base\\Restaurant\\Omnifood\\OrderTickets\:\:options\(\) has invalid type Omnifood\\Model\\Modifier\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Parameter \$order of method Base\\Restaurant\\Omnifood\\OrderTickets\:\:make\(\) has invalid type Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Parameter \$status of method Base\\Restaurant\\Omnifood\\OrderTickets\:\:status\(\) has invalid type Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>amount" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>currency" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Omnifood/OrderTickets.php
+
+		-
+			message: '#^Access to constant CONFIRMED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Access to constant FINISHED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Access to constant NO_SHOW on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Access to constant SEATED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Access to constant TOO_BUSY on an unknown class Omnifood\\Model\\DenyReason\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to method accept\(\) on an unknown class Omnifood\\OrdersInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to method cancel\(\) on an unknown class Omnifood\\OrdersInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to method cancelReservation\(\) on an unknown class Omnifood\\ReservationsInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to method deny\(\) on an unknown class Omnifood\\OrdersInterface\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to method ready\(\) on an unknown class Omnifood\\OrdersInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to method setAvailability\(\) on an unknown class Omnifood\\PlatformInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to method setStatus\(\) on an unknown class Omnifood\\ReservationsInterface\.$#'
+			identifier: class.notFound
+			count: 4
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to static method tryFrom\(\) on an unknown class Omnifood\\Model\\DenyReason\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Class Omnifood\\MenuInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Parameter \#1 \$capability of method Base\\Restaurant\\Omnifood\\Platforms\:\:having\(\) expects class\-string\<Omnifood\\PlatformInterface\>, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Omnifood/PlatformSubscriber.php
+
+		-
+			message: '#^Call to method create\(\) on an unknown class Omnifood\\Registry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Call to method has\(\) on an unknown class Omnifood\\Registry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Call to method names\(\) on an unknown class Omnifood\\Registry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Call to method options\(\) on an unknown class Omnifood\\Registry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Class Omnifood\\MenuInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Class Omnifood\\NotifiableInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Class Omnifood\\OrdersInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Class Omnifood\\ReservationsInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Class Omnifood\\StoreInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\Platforms\:\:get\(\) has invalid return type Omnifood\\PlatformInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\Platforms\:\:having\(\) has invalid return type Omnifood\\PlatformInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\Platforms\:\:menu\(\) has invalid return type Omnifood\\MenuInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\Platforms\:\:notifiable\(\) has invalid return type Omnifood\\NotifiableInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\Platforms\:\:orders\(\) has invalid return type Omnifood\\OrdersInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\Platforms\:\:reservations\(\) has invalid return type Omnifood\\ReservationsInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Omnifood\\Platforms\:\:store\(\) has invalid return type Omnifood\\StoreInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^PHPDoc tag @return with type T\|null is not subtype of native type object\|null\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^PHPDoc tag @template T for method Base\\Restaurant\\Omnifood\\Platforms\:\:having\(\) has invalid bound type Omnifood\\PlatformInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Parameter \$capability of method Base\\Restaurant\\Omnifood\\Platforms\:\:having\(\) has invalid type Omnifood\\PlatformInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Parameter \$registry of method Base\\Restaurant\\Omnifood\\Platforms\:\:__construct\(\) has invalid type Omnifood\\Registry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Omnifood\\Platforms\:\:\$built has unknown class Omnifood\\PlatformInterface as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Omnifood\\Platforms\:\:\$registry has unknown class Omnifood\\Registry as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Platforms.php
+
+		-
+			message: '#^Access to constant ARRIVED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant CANCELLED on an unknown class Omnifood\\Model\\OrderStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant CANCELLED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant CONFIRMED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant FINISHED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant NO_SHOW on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant ORDER on an unknown class Omnifood\\Model\\NotificationSubject\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant REFUSED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant REQUESTED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant RESERVATION on an unknown class Omnifood\\Model\\NotificationSubject\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant SEATED on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to constant UNKNOWN on an unknown class Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$allergies on an unknown class Omnifood\\Model\\Reservation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$covers on an unknown class Omnifood\\Model\\Reservation\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$date on an unknown class Omnifood\\Model\\Reservation\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$event on an unknown class Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$guest on an unknown class Omnifood\\Model\\Reservation\.$#'
+			identifier: class.notFound
+			count: 5
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$id on an unknown class Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$notes on an unknown class Omnifood\\Model\\Reservation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$order on an unknown class Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$reference on an unknown class Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 6
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$reference on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$reference on an unknown class Omnifood\\Model\\Reservation\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$reservation on an unknown class Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$status on an unknown class Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$status on an unknown class Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Access to property \$status on an unknown class Omnifood\\Model\\Reservation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Call to method capabilities\(\) on an unknown class Omnifood\\PlatformInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Call to method notify\(\) on an unknown class Omnifood\\NotifiableInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Call to method order\(\) on an unknown class Omnifood\\OrdersInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Call to method reservation\(\) on an unknown class Omnifood\\ReservationsInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Instantiated class Omnifood\\Exception\\NotSupportedException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: Omnifood\\Model\\ReservationStatus$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Parameter \$booking of method Base\\Restaurant\\Omnifood\\Receiver\:\:booking\(\) has invalid type Omnifood\\Model\\Reservation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Parameter \$notification of method Base\\Restaurant\\Omnifood\\Receiver\:\:order\(\) has invalid type Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Parameter \$notification of method Base\\Restaurant\\Omnifood\\Receiver\:\:remember\(\) has invalid type Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Parameter \$notification of method Base\\Restaurant\\Omnifood\\Receiver\:\:reservation\(\) has invalid type Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Parameter \$notification of method Base\\Restaurant\\Omnifood\\Receiver\:\:seen\(\) has invalid type Omnifood\\Model\\Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Parameter \$order of method Base\\Restaurant\\Omnifood\\Receiver\:\:ticket\(\) has invalid type Omnifood\\Model\\Order\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Parameter \$status of method Base\\Restaurant\\Omnifood\\Receiver\:\:booked\(\) has invalid type Omnifood\\Model\\ReservationStatus\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Throwing object of an unknown class Omnifood\\Exception\\NotSupportedException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Omnifood/Receiver.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<Base\\Restaurant\\Entity\\Product\\TakeHome\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: src/Repository/TakeHomeRepository.php
+
+		-
+			message: '#^Access to property \$owner on an unknown class Omnipulse\\Model\\Place\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Access to property \$reply on an unknown class Omnipulse\\Model\\Review\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Call to method get\(\) on an unknown class Omnipulse\\Registry\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Call to method has\(\) on an unknown class Omnipulse\\Registry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Call to method reviews\(\) on an unknown class Omnipulse\\Bridge\\Twig\\OmnipulseExtension\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Call to method widget\(\) on an unknown class Omnipulse\\Bridge\\Twig\\OmnipulseExtension\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Instantiated class Omnipulse\\Model\\Place not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Reviews\\RestaurantReviews\:\:latest\(\) has invalid return type Omnipulse\\Model\\Review\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Reviews\\RestaurantReviews\:\:places\(\) has invalid return type Omnipulse\\Model\\Place\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Method Base\\Restaurant\\Reviews\\RestaurantReviews\:\:unanswered\(\) has invalid return type Omnipulse\\Model\\Review\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Parameter \#1 \$array of function usort contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function usort contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Parameter \$omnipulse of method Base\\Restaurant\\Reviews\\RestaurantReviews\:\:__construct\(\) has invalid type Omnipulse\\Bridge\\Twig\\OmnipulseExtension\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Parameter \$place of method Base\\Restaurant\\Reviews\\RestaurantReviews\:\:widget\(\) has invalid type Omnipulse\\Model\\Place\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Parameter \$registry of method Base\\Restaurant\\Reviews\\RestaurantReviews\:\:__construct\(\) has invalid type Omnipulse\\Registry\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Reviews\\RestaurantReviews\:\:\$omnipulse has unknown class Omnipulse\\Bridge\\Twig\\OmnipulseExtension as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php
+
+		-
+			message: '#^Property Base\\Restaurant\\Reviews\\RestaurantReviews\:\:\$registry has unknown class Omnipulse\\Registry as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Reviews/RestaurantReviews.php

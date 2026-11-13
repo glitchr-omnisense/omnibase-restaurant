@@ -88,7 +88,7 @@ final class ReviewsTest extends TestCase
         };
     }
 
-    private static function reviews(array $places = ['google' => 'ChIJ-nakaya', 'tripadvisor' => '1234567', 'trustpilot' => ''], array $owners = ['google' => 'accounts/1/locations/2']): RestaurantReviews
+    private static function reviews(array $places = ['google' => 'ChIJ-example', 'tripadvisor' => '1234567', 'trustpilot' => ''], array $owners = ['google' => 'accounts/1/locations/2']): RestaurantReviews
     {
         // "stats": the family's audience provider, which a site may name as it names a review platform.
         $registry = new Registry([self::factory('google', true), self::factory('trustpilot', false), new FixedReachFactory()], ['google' => ['factory' => 'google'], 'trustpilot' => ['factory' => 'trustpilot'], 'stats' => ['factory' => 'fixed']]);
@@ -101,15 +101,15 @@ final class ReviewsTest extends TestCase
         $places = self::reviews()->places();
 
         self::assertSame(['google'], array_column($places, 'gateway'), 'tripadvisor has no provider (no key), trustpilot no ID: left out');
-        self::assertSame(['ChIJ-nakaya', 'accounts/1/locations/2'], [$places[0]['place']->id, $places[0]['place']->owner]);
-        self::assertSame([], (new RestaurantReviews(null, null, ['google' => 'ChIJ-nakaya']))->places(), 'without the family\'s bundle: none');
+        self::assertSame(['ChIJ-example', 'accounts/1/locations/2'], [$places[0]['place']->id, $places[0]['place']->owner]);
+        self::assertSame([], (new RestaurantReviews(null, null, ['google' => 'ChIJ-example']))->places(), 'without the family\'s bundle: none');
         self::assertSame([], (new ReviewsTwigExtension(null))->getFunctions()[0]->getCallable()(), 'without omnisense/omnipulse: none');
-        self::assertSame(['google'], array_column(self::reviews(['google' => 'ChIJ-nakaya', 'stats' => 'https://example.org/'])->places(), 'gateway'), 'an audience provider is no review platform: left out');
+        self::assertSame(['google'], array_column(self::reviews(['google' => 'ChIJ-example', 'stats' => 'https://example.org/'])->places(), 'gateway'), 'an audience provider is no review platform: left out');
     }
 
     public function testTheLatestReviewsAndThoseNotAnswered(): void
     {
-        $reviews = self::reviews(['google' => 'ChIJ-nakaya', 'trustpilot' => 'unit-42'], ['google' => 'accounts/1/locations/2']);
+        $reviews = self::reviews(['google' => 'ChIJ-example', 'trustpilot' => 'unit-42'], ['google' => 'accounts/1/locations/2']);
 
         $latest = $reviews->latest(3);
         self::assertSame(['trustpilot-1', 'google-1', 'trustpilot-2'], array_map(static fn ($r) => $r['review']->id, $latest), 'newest first, over every platform');
@@ -136,7 +136,7 @@ final class ReviewsTest extends TestCase
         $html = $twig->render('@Restaurant/client/_reviews.html.twig', ['reviews' => $reviews->places(), 'limit' => 3]);
 
         self::assertStringContainsString('@restaurant.reviews.title', $html);
-        self::assertStringContainsString('href="https://google.example/ChIJ-nakaya"', $html, 'the rating links to its origin');
+        self::assertStringContainsString('href="https://google.example/ChIJ-example"', $html, 'the rating links to its origin');
         self::assertStringContainsString('<time datetime="2026-09-20T00:00:00+00:00">20/09/2026</time>', $html);
         self::assertStringContainsString('href="https://google.example/r/1"', $html);
         self::assertStringContainsString('Le meilleur ramen &lt;de&gt; la ville', $html, 'escaped');
@@ -146,7 +146,7 @@ final class ReviewsTest extends TestCase
 
     public function testTheTileListsTheLatestAndThoseToAnswerAndNothingWithoutAProvider(): void
     {
-        $reviews = self::reviews(['google' => 'ChIJ-nakaya', 'trustpilot' => 'unit-42']);
+        $reviews = self::reviews(['google' => 'ChIJ-example', 'trustpilot' => 'unit-42']);
         $twig = $this->twig();
         $widget = new class {
             public string $label = 'Avis';

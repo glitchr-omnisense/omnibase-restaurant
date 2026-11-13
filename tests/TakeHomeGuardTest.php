@@ -53,7 +53,7 @@ final class TakeHomeGuardTest extends KernelTestCase
             'slot' => '18:00-18:30',
             'name' => 'Léa Martin',
             'email' => 'lea.martin@example.org',
-            'phone' => '06 11 22 33 44',
+            'phone' => '06 00 00 00 01',
             'guard_website' => '',
             'guard_opened' => static::getContainer()->get(FormGuard::class)->stamp(time() - 10),
         ];
