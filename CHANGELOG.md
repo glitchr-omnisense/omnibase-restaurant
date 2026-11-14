@@ -5,6 +5,14 @@ versions [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.1] — 2026-11-14
+
+### Changed
+- The bundle's classes extend omnibridge/symfony's `AbstractBaseBundle`, `AbstractBaseExtension` and
+  `AbstractBaseConfiguration` by their names (`Omnibridge\Symfony\Omnibase\Bundle\*`), no longer by the former
+  `Base\Bundle\*` ones, which omnisense/omnibase keeps only as aliases until 6.0. The same classes: nothing changes for
+  an application.
+
 ## [1.0.0] — 2026-11-13
 
 ### Changed
