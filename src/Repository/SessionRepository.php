@@ -2,36 +2,47 @@
 
 namespace Base\Restaurant\Repository;
 
+use Base\Database\Type\Utc;
 use Base\Restaurant\Entity\Order\Session;
 use Base\Restaurant\Entity\Table;
 use Base\Restaurant\Enum\SessionStatus;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Base\Database\Repository\Finder\Criterion;
+use Base\Database\Repository\Finder\Group;
+use Base\Database\Repository\Finder\Key;
+use Base\Database\Repository\Finder\Parser;
+use Base\Database\Repository\Finders;
+use Base\Database\Repository\ServiceEntityRepository;
 
-/** @extends ServiceEntityRepository<Session> */
+/**
+ * @method Session|null find($id)
+ * @method Session|null findOneBy(array $criteria, ?array $orderBy = null)
+ * @method list<Session> findAll()
+ * @method list<Session> findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method mixed maxOfUpdatedAtBy(array $criteria) the latest change, as the database gives it
+ */
 class SessionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(Finders $finders)
     {
-        parent::__construct($registry, Session::class);
+        parent::__construct($finders, Session::class);
     }
 
     public function openAt(Table $table): ?Session
     {
-        return $this->createQueryBuilder('s')
-            ->where('s.table = :table AND s.status != :settled')
-            ->setParameter('table', $table)->setParameter('settled', SessionStatus::SETTLED)
-            ->orderBy('s.id', 'DESC')->setMaxResults(1)
-            ->getQuery()->getOneOrNullResult();
+        return $this->findOneBy([
+            'table' => Key::of($table),
+            Group::of(Parser::SEPARATOR_AND, Criterion::of('status', SessionStatus::SETTLED, Parser::OPTION_NOT_EQUAL)),
+        ], ['id' => 'DESC']);
     }
 
     /** @return array<int, Session> table id => its open session */
     public function openByTable(): array
     {
         $open = [];
-        foreach ($this->createQueryBuilder('s')->leftJoin('s.tickets', 't')->addSelect('t')->leftJoin('t.lines', 'l')->addSelect('l')
-            ->where('s.status != :settled')->setParameter('settled', SessionStatus::SETTLED)
-            ->orderBy('s.id', 'ASC')->getQuery()->getResult() as $session) {
+        // The hand-written query fetch-joined the tickets and their lines (addSelect): they load when read now.
+        foreach ($this->findBy([
+            Group::of(Parser::SEPARATOR_AND, Criterion::of('status', SessionStatus::SETTLED, Parser::OPTION_NOT_EQUAL)),
+        ], ['id' => 'ASC']) as $session) {
             $open[$session->getTable()->getId()] = $session;
         }
 
@@ -40,17 +51,20 @@ class SessionRepository extends ServiceEntityRepository
 
     public function revision(): int
     {
-        $last = $this->createQueryBuilder('s')->select('MAX(s.updatedAt)')->getQuery()->getSingleScalarResult();
+        $last = $this->maxOfUpdatedAtBy([]);
+        if ($last && !$last instanceof \DateTimeInterface) {
+            $last = new \DateTimeImmutable($last, Utc::zone());
+        }
 
-        return $last ? (int) (new \DateTimeImmutable($last))->format('Uv') : 0;
+        return $last ? (int) $last->format('Uv') : 0;
     }
 
     /** @return list<Session> settled since then, newest first */
     public function settledSince(\DateTimeImmutable $since): array
     {
-        return $this->createQueryBuilder('s')
-            ->where('s.status = :settled AND s.settledAt >= :since')
-            ->setParameter('settled', SessionStatus::SETTLED)->setParameter('since', \Base\Database\Type\Utc::from($since))
-            ->orderBy('s.settledAt', 'DESC')->getQuery()->getResult();
+        return $this->findBy([
+            'status' => SessionStatus::SETTLED,
+            Group::of(Parser::SEPARATOR_AND, Criterion::of('settledAt', \Base\Database\Type\Utc::from($since), Parser::OPTION_GREATER_EQUAL)),
+        ], ['settledAt' => 'DESC']);
     }
 }

@@ -14,7 +14,8 @@ use Base\Restaurant\Repository\ReservationRepository;
 use Base\Restaurant\Repository\TicketRepository;
 use Base\Restaurant\Service\Availability;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
+use Base\Database\Repository\Repositories;
 use Doctrine\Persistence\ManagerRegistry;
 use Omnifood\Exception\NotSupportedException;
 use Omnifood\Model\Notification;
@@ -36,7 +37,8 @@ class Receiver
 {
     public function __construct(
         private readonly Platforms $platforms,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
+        private readonly Repositories $repositories,
         private readonly ManagerRegistry $doctrine,
         private readonly TicketRepository $tickets,
         private readonly ReservationRepository $reservations,
@@ -81,14 +83,14 @@ class Receiver
         $from = $ticket?->getStatus();
         if (!$ticket) {
             $ticket = OrderTickets::make($name, $order, $this->platforms->get($name)->capabilities()->acceptanceDelay, fn (string $ref) => $this->dishes->findOneBy(['slug' => $ref]) ?? (ctype_digit($ref) ? $this->dishes->find((int) $ref) : null));
-            $this->entityManager->persist($ticket);
+            $this->unitOfWork->persist($ticket);
         }
 
         $status = OrderTickets::status($order->status);
         if ($status && $status !== $ticket->getStatus() && !$ticket->getStatus()->isFinal()) {
             $ticket->force($status);
         }
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
         if ($from !== $ticket->getStatus()) {
             $this->dispatcher->dispatch(new TicketMovedEvent($ticket, $from, null, true));
         }
@@ -113,8 +115,8 @@ class Receiver
             $this->availability->book($reservation, $booking->date->format('Y-m-d'), $booking->date->format('H:i'), false);
         }
         $reservation->setStatus($status);
-        $this->entityManager->persist($reservation);
-        $this->entityManager->flush();
+        $this->unitOfWork->persist($reservation);
+        $this->unitOfWork->flush();
         $this->dispatcher->dispatch(new ReservationChangedEvent($reservation, $previous, true));
 
         return $reservation;
@@ -134,7 +136,7 @@ class Receiver
         if ($ticket && OrderStatus::CANCELLED === $notification->status && !$ticket->getStatus()->isFinal()) {
             $from = $ticket->getStatus();
             $ticket->force(TicketStatus::CANCELLED);
-            $this->entityManager->flush();
+            $this->unitOfWork->flush();
             $this->dispatcher->dispatch(new TicketMovedEvent($ticket, $from, null, true));
         }
 
@@ -153,14 +155,14 @@ class Receiver
 
     private function seen(string $name, Notification $notification): bool
     {
-        return null !== $this->entityManager->getRepository(PlatformEvent::class)->findOneBy(['platform' => $name, 'eventId' => mb_substr((string) $notification->id, 0, 190)]);
+        return null !== $this->repositories->of(PlatformEvent::class)->findOneBy(['platform' => $name, 'eventId' => mb_substr((string) $notification->id, 0, 190)]);
     }
 
     private function remember(string $name, Notification $notification): void
     {
         try {
-            $this->entityManager->persist(new PlatformEvent($name, mb_substr((string) $notification->id, 0, 190), mb_substr($notification->event, 0, 80)));
-            $this->entityManager->flush();
+            $this->unitOfWork->persist(new PlatformEvent($name, mb_substr((string) $notification->id, 0, 190), mb_substr($notification->event, 0, 80)));
+            $this->unitOfWork->flush();
         } catch (UniqueConstraintViolationException) {
             // The same event, at the same moment, from the platform's retry: the ticket's own
             // unique reference has kept it single.

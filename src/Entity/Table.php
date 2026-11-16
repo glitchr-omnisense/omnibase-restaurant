@@ -4,7 +4,7 @@ namespace Base\Restaurant\Entity;
 
 use Base\Restaurant\Enum\TableShape;
 use Base\Restaurant\Repository\TableRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A table of a room: its label ("12", "C3"), how many it seats, its shape

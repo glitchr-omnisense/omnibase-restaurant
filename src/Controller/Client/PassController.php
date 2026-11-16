@@ -15,7 +15,8 @@ use Base\Restaurant\Omnifood\Platforms;
 use Base\Restaurant\Repository\DishRepository;
 use Base\Restaurant\Service\Pass;
 use Base\Restaurant\Service\Reservations;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
+use Base\Database\Repository\Repositories;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,7 +38,8 @@ class PassController extends AbstractController
     public function __construct(
         private readonly Pass $pass,
         private readonly Reservations $reservations,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
+        private readonly Repositories $repositories,
         private readonly TranslatorInterface $translator,
         private readonly ?Platforms $platforms = null,
         private readonly ?PlatformHealth $health = null,
@@ -81,14 +83,14 @@ class PassController extends AbstractController
     public function table(Request $request, Table $id, string $action): Response
     {
         return $this->act($request, function () use ($request, $id, $action) {
-            $session = $this->entityManager->getRepository(Session::class)->findOneBy(['table' => $id], ['id' => 'DESC']);
+            $session = $this->repositories->of(Session::class)->findOneBy(['table' => \Base\Database\Repository\Finder\Key::of($id)], ['id' => 'DESC']);
             $session = $session?->isOpen() ? $session : null;
             match ($action) {
                 'settle' => $session ? $this->pass->settle($session, (string) ($request->request->get('with') ?: 'till')) : throw new RestaurantException('pass.error.no_bill'),
                 'answer' => $session ? $this->pass->answerCall($session) : null,
                 'ordering' => $this->pass->toggleOrdering($id),
                 'open' => $session ?? $this->openAt($id, $request->request->getInt('covers') ?: null),
-                'transfer' => $session ? $this->pass->transfer($session, $this->entityManager->find(Table::class, $request->request->getInt('to')) ?? throw new RestaurantException('pass.error.no_table')) : throw new RestaurantException('pass.error.no_bill'),
+                'transfer' => $session ? $this->pass->transfer($session, $this->repositories->of(Table::class)->find($request->request->getInt('to')) ?? throw new RestaurantException('pass.error.no_table')) : throw new RestaurantException('pass.error.no_bill'),
             };
         });
     }
@@ -185,8 +187,8 @@ class PassController extends AbstractController
     private function openAt(Table $table, ?int $covers): Session
     {
         $session = new Session($table, $covers);
-        $this->entityManager->persist($session);
-        $this->entityManager->flush();
+        $this->unitOfWork->persist($session);
+        $this->unitOfWork->flush();
 
         return $session;
     }

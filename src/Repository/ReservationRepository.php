@@ -2,23 +2,32 @@
 
 namespace Base\Restaurant\Repository;
 
+use Base\Service\ParameterBagInterface;
+use Base\Database\Type\Utc;
+use Base\Contract\Runtime;
 use Base\Restaurant\Entity\Reservation;
 use Base\Restaurant\Enum\ReservationStatus;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\Persistence\ManagerRegistry;
+use Base\Database\Repository\Finder\Criterion;
+use Base\Database\Repository\Finder\Group;
+use Base\Database\Repository\Finder\Parser;
+use Base\Database\Repository\Finders;
+use Base\Database\Repository\ServiceEntityRepository;
 
 /**
  * Reservations are kept in the restaurant's wall-clock time: days and
  * hours are compared as written ("2026-10-04 20:00"), never through a time zone.
  *
- * @extends ServiceEntityRepository<Reservation>
+ * @method Reservation|null find($id)
+ * @method Reservation|null findOneBy(array $criteria, ?array $orderBy = null)
+ * @method list<Reservation> findAll()
+ * @method list<Reservation> findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method mixed maxOfUpdatedAtBy(array $criteria) the latest change, as the database gives it
  */
 class ReservationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(Finders $finders)
     {
-        parent::__construct($registry, Reservation::class);
+        parent::__construct($finders, Reservation::class);
     }
 
     public function findOneByToken(string $token): ?Reservation
@@ -36,12 +45,13 @@ class ReservationRepository extends ServiceEntityRepository
     {
         [$from, $to] = self::bounds($day);
 
-        return $this->createQueryBuilder('r')
-            ->leftJoin('r.tables', 't')->addSelect('t')
-            ->where('r.startsAt >= :from AND r.startsAt < :to')
-            ->setParameter('from', $from, Types::DATETIME_IMMUTABLE)->setParameter('to', $to, Types::DATETIME_IMMUTABLE)
-            ->orderBy('r.startsAt', 'ASC')->addOrderBy('r.id', 'ASC')
-            ->getQuery()->getResult();
+        // The hand-written query fetch-joined the tables (addSelect): they load when read now.
+        return $this->findBy([
+            Group::of(Parser::SEPARATOR_AND,
+                Criterion::of('startsAt', $from, Parser::OPTION_GREATER_EQUAL),
+                Criterion::of('startsAt', $to, Parser::OPTION_LOWER),
+            ),
+        ], ['startsAt' => 'ASC', 'id' => 'ASC']);
     }
 
     /** @return list<Reservation> that day's still holding their tables (asked, confirmed, seated) */
@@ -53,12 +63,10 @@ class ReservationRepository extends ServiceEntityRepository
     /** @return list<Reservation> asked for and not answered yet, from today on */
     public function toConfirm(\DateTimeInterface $today): array
     {
-        return $this->createQueryBuilder('r')
-            ->where('r.status = :status AND r.startsAt >= :from')
-            ->setParameter('status', ReservationStatus::REQUESTED)
-            ->setParameter('from', self::bounds($today)[0], Types::DATETIME_IMMUTABLE)
-            ->orderBy('r.startsAt', 'ASC')
-            ->getQuery()->getResult();
+        return $this->findBy([
+            'status' => ReservationStatus::REQUESTED,
+            Group::of(Parser::SEPARATOR_AND, Criterion::of('startsAt', self::bounds($today)[0], Parser::OPTION_GREATER_EQUAL)),
+        ], ['startsAt' => 'ASC']);
     }
 
     public function coversOn(\DateTimeInterface $day): int
@@ -69,15 +77,19 @@ class ReservationRepository extends ServiceEntityRepository
     /** Microseconds of the last change, for the pass's polling. */
     public function revision(): int
     {
-        $last = $this->createQueryBuilder('r')->select('MAX(r.updatedAt)')->getQuery()->getSingleScalarResult();
+        $last = $this->maxOfUpdatedAtBy([]);
+        if ($last && !$last instanceof \DateTimeInterface) {
+            $last = new \DateTimeImmutable($last, Utc::zone());
+        }
 
-        return $last ? (int) (new \DateTimeImmutable($last))->format('Uv') : 0;
+        return $last ? (int) $last->format('Uv') : 0;
     }
 
-    /** @return array{0: \DateTimeImmutable, 1: \DateTimeImmutable} the day's wall-clock bounds */
+    /** @return array{0: \DateTimeImmutable, 1: \DateTimeImmutable} the day's bounds: its midnights at the place (its zone, base.opening_hours.timezone) */
     public static function bounds(\DateTimeInterface $day): array
     {
-        $from = new \DateTimeImmutable($day->format('Y-m-d').' 00:00:00');
+        $zone = Runtime::find(ParameterBagInterface::class)?->get('base.opening_hours.timezone');
+        $from = new \DateTimeImmutable($day->format('Y-m-d').' 00:00:00', new \DateTimeZone(\is_string($zone) && \in_array($zone, timezone_identifiers_list(), true) ? $zone : 'Europe/Paris'));
 
         return [$from, $from->modify('+1 day')];
     }

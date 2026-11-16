@@ -9,7 +9,7 @@
     <tr><td style="padding:24px 28px;font-size:16px;line-height:1.5">
         <p>{{ 'mail.hello'|trans({name: r.name}, 'restaurant', locale) }}</p>
         <p>{{ ('mail.' ~ what ~ '.body')|trans({}, 'restaurant', locale) }}</p>
-        <p style="font-size:18px"><strong>{{ r.startsAt|format_date('full', locale: locale) }} · {{ r.time }}</strong><br>
+        <p style="font-size:18px"><strong>{{ r.startsAt|format_date('full', locale: locale, timezone: false) }} · {{ r.time }}</strong><br>
             {{ 'manage.covers'|trans({count: r.covers}, 'restaurant', locale) }}</p>
         {% if r.allergies %}<p>{{ 'book.allergies'|trans({}, 'restaurant', locale) }} : {{ r.allergies }}</p>{% endif %}
         {% if what not in ['cancelled', 'refused'] %}

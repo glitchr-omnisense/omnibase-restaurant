@@ -4,7 +4,7 @@ namespace Base\Restaurant\Entity\Menu;
 
 use Base\Database\Attribute\DiscriminatorEntry;
 use Base\Entity\Thread\Taxon;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A part of the menu - "Entrées", "Ramen", "Boissons": an omnibase taxon

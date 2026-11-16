@@ -5,7 +5,7 @@ namespace Base\Restaurant\Entity;
 use Base\Restaurant\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A dining room (or a terrace): its size in centimetres, what is drawn in it

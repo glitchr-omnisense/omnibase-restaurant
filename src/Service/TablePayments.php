@@ -11,7 +11,7 @@ use Base\Marketplace\Service\QuickOrder;
 use Base\Restaurant\Entity\Order\Session;
 use Base\Restaurant\Exception\RestaurantException;
 use Base\Restaurant\Repository\SessionRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
@@ -32,7 +32,7 @@ class TablePayments
         private readonly Pass $pass,
         private readonly SessionRepository $sessions,
         private readonly Pricing $pricing,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
         #[Autowire('%restaurant.table.pay_online%')] private readonly bool $enabled = false,
     ) {
     }
@@ -106,7 +106,7 @@ class TablePayments
         // The bill is asked for - no more rounds from the phones - and tied to its order.
         $session->requestBill();
         $session->setOrderReference((string) $payment->order->getReference());
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
         if ($payment->order->isPaid()) {
             $this->settle($payment->order);
         }

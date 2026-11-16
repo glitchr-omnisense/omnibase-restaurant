@@ -4,7 +4,7 @@ namespace Base\Restaurant\Entity\Menu;
 
 use Base\Database\Attribute\DiscriminatorEntry;
 use Base\Restaurant\Entity\MealService;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A set menu at one price - "Teishoku du midi: le plat du jour, une soupe

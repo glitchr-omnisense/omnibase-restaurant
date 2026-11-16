@@ -11,7 +11,7 @@ use Base\Restaurant\Model\Booking;
 use Base\Service\Calendar\CalendarEntry;
 use Base\Service\Calendar\Ics;
 use Base\Service\OpeningHours;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -31,7 +31,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class Reservations
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
         private readonly Availability $availability,
         private readonly Ics $ics,
         private readonly OpeningHours $hours,
@@ -89,7 +89,7 @@ class Reservations
             $this->availability->book($reservation, $day, $time);
         } catch (UnavailableException $e) {
             $reservation->setCovers($was[2]);
-            $this->entityManager->refresh($reservation);
+            $this->unitOfWork->refresh($reservation);
 
             throw $e;
         }
@@ -118,7 +118,7 @@ class Reservations
             $this->availability->book($reservation, $day, $time, false);
         } catch (UnavailableException $e) {
             $reservation->setCovers($was);
-            $this->entityManager->refresh($reservation);
+            $this->unitOfWork->refresh($reservation);
 
             throw $e;
         }
@@ -152,7 +152,7 @@ class Reservations
             throw new TransitionException(sprintf('A reservation %s cannot become %s.', $previous->value, $to->value));
         }
         $reservation->setStatus($to);
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
         $this->changed($reservation, $previous, $fromPlatform);
         if (!$fromPlatform && \in_array($to, [ReservationStatus::CONFIRMED, ReservationStatus::REFUSED, ReservationStatus::CANCELLED], true)) {
             $this->mail($reservation, $to->value);

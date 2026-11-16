@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Entity;
 
 use Base\Restaurant\Repository\LayoutRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A named arrangement of a room - "Midi", "Soir", "Privatisation": where each

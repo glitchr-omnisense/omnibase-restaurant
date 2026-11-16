@@ -2,6 +2,7 @@
 
 namespace Base\Restaurant\Service;
 
+use Base\Database\Type\Utc;
 use Base\Restaurant\Entity\MealService;
 use Base\Restaurant\Entity\Reservation;
 use Base\Restaurant\Entity\Table;
@@ -11,7 +12,7 @@ use Base\Restaurant\Model\Slot;
 use Base\Restaurant\Repository\MealServiceRepository;
 use Base\Restaurant\Repository\ReservationRepository;
 use Base\Service\OpeningHours;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Lock\LockFactory;
 
@@ -24,7 +25,7 @@ use Symfony\Component\Lock\LockFactory;
 class Availability
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
         private readonly Seating $seating,
         private readonly FloorPlan $plans,
         private readonly MealServiceRepository $services,
@@ -45,13 +46,13 @@ class Availability
     /** The restaurant's today, in its own time zone. */
     public function today(): \DateTimeImmutable
     {
-        return new \DateTimeImmutable((new \DateTimeImmutable('now', $this->hours->timezone()))->format('Y-m-d'));
+        return new \DateTimeImmutable(Utc::now()->setTimezone($this->hours->timezone())->format('Y-m-d'));
     }
 
     /** The restaurant's wall-clock now. */
     public function now(): \DateTimeImmutable
     {
-        return new \DateTimeImmutable((new \DateTimeImmutable('now', $this->hours->timezone()))->format('Y-m-d H:i:s'));
+        return new \DateTimeImmutable(Utc::now()->setTimezone($this->hours->timezone())->format('Y-m-d H:i:s'));
     }
 
     public function lastDay(): \DateTimeImmutable
@@ -76,7 +77,7 @@ class Availability
         $slots = [];
         foreach ($this->services->runningOn($day) as $service) {
             $floor = $this->plans->floor($day, $service);
-            array_push($slots, ...$this->seating->slots($service, $day, $covers, $floor, $holding, $online ? new \DateTimeImmutable() : null, $online ? $this->notice : 0, $online));
+            array_push($slots, ...$this->seating->slots($service, $day, $covers, $floor, $holding, $online ? Utc::now() : null, $online ? $this->notice : 0, $online));
         }
 
         return $slots;
@@ -144,8 +145,8 @@ class Availability
             if (!$reservation->getId() || ReservationStatus::REQUESTED === $reservation->getStatus()) {
                 $reservation->setStatus(!$online || $slot->service->confirmsAtOnce($reservation->getCovers()) ? ReservationStatus::CONFIRMED : ReservationStatus::REQUESTED);
             }
-            $this->entityManager->persist($reservation);
-            $this->entityManager->flush();
+            $this->unitOfWork->persist($reservation);
+            $this->unitOfWork->flush();
         } finally {
             $lock->release();
         }
@@ -165,8 +166,8 @@ class Availability
         $lock->acquire(true);
         try {
             $reservation->assign($tables);
-            $this->entityManager->persist($reservation);
-            $this->entityManager->flush();
+            $this->unitOfWork->persist($reservation);
+            $this->unitOfWork->flush();
         } finally {
             $lock->release();
         }

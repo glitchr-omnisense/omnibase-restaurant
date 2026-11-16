@@ -16,7 +16,7 @@
 
     <div class="restaurant-ticket is-{{ r.status.value }}">
         <p class="restaurant-status">{{ ('@restaurant.' ~ r.status.trans)|trans }}</p>
-        <p class="restaurant-when"><strong>{{ r.startsAt|format_date('full') }}</strong></p>
+        <p class="restaurant-when"><strong>{{ r.startsAt|format_date('full', timezone: false) }}</strong></p>
         <p class="restaurant-when-time">{{ r.time }} · {{ '@restaurant.manage.covers'|trans({count: r.covers}) }}</p>
         <p>{{ r.name }}{% if r.phone %} · {{ r.phone }}{% endif %}</p>
         {% if r.allergies %}<p class="restaurant-muted">{{ '@restaurant.book.allergies'|trans }} : {{ r.allergies }}</p>{% endif %}

@@ -2,13 +2,15 @@
 
 namespace Base\Restaurant\Entity;
 
+use Base\Contract\Runtime;
 use Base\Database\Type\Utc;
-use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
+use Base\Service\ParameterBagInterface;
+use Base\Database\Type\UtcDateTimeImmutableType;
 use Base\Restaurant\Enum\ReservationStatus;
 use Base\Restaurant\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A table booked: when (the restaurant's wall-clock time: stored and read
@@ -37,6 +39,7 @@ class Reservation
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?MealService $service = null;
 
+    /** An instant, stored in UTC; entered and shown in the place's zone (base.opening_hours.timezone). */
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $startsAt;
 
@@ -93,7 +96,7 @@ class Reservation
 
     public function __construct(?\DateTimeImmutable $startsAt = null, int $covers = 2, string $name = '')
     {
-        $this->startsAt = $startsAt ?? new \DateTimeImmutable('today 20:00');
+        $this->startsAt = $startsAt ? self::atPlace($startsAt) : Utc::now()->setTimezone(self::place())->setTime(20, 0);
         $this->endsAt = $this->startsAt->modify('+90 minutes');
         $this->covers = max(1, $covers);
         $this->name = $name;
@@ -110,20 +113,21 @@ class Reservation
 
     public function __toString(): string
     {
-        return sprintf('%s · %d · %s', $this->startsAt->format('d/m H:i'), $this->covers, $this->name);
+        return sprintf('%s · %d · %s', $this->getStartsAt()->format('d/m H:i'), $this->covers, $this->name);
     }
 
     public function getId(): ?int { return $this->id; }
     public function getService(): ?MealService { return $this->service; }
     public function setService(?MealService $service): self { $this->service = $service; return $this; }
 
-    /** The wall-clock time in the restaurant's zone (the zone PHP happens to hydrate it in is meaningless). */
-    public function getStartsAt(): \DateTimeImmutable { return $this->startsAt; }
-    public function getEndsAt(): \DateTimeImmutable { return $this->endsAt; }
+    /** The time at the restaurant: the instant, in the place's zone (never the visitor's). */
+    public function getStartsAt(): \DateTimeImmutable { return $this->startsAt->setTimezone(self::place()); }
+    public function getEndsAt(): \DateTimeImmutable { return $this->endsAt->setTimezone(self::place()); }
 
-    /** When, and for how long (minutes). */
+    /** When (the hour at the place, whatever zone the value carries), and for how long (minutes). */
     public function schedule(\DateTimeImmutable $startsAt, int $minutes): self
     {
+        $startsAt = self::atPlace($startsAt);
         $this->startsAt = $startsAt;
         $this->endsAt = $startsAt->modify(sprintf('+%d minutes', max(15, $minutes)));
 
@@ -137,14 +141,14 @@ class Reservation
         return $this->schedule($startsAt, $minutes > 0 ? $minutes : 90);
     }
 
-    public function getDay(): string { return $this->startsAt->format('Y-m-d'); }
-    public function getTime(): string { return $this->startsAt->format('H:i'); }
+    public function getDay(): string { return $this->getStartsAt()->format('Y-m-d'); }
+    public function getTime(): string { return $this->getStartsAt()->format('H:i'); }
     public function getMinutes(): int { return (int) round(($this->endsAt->getTimestamp() - $this->startsAt->getTimestamp()) / 60); }
 
     /** Both wall-clock "Y-m-d H:i", compared as such. */
     public function overlaps(string $from, string $until): bool
     {
-        return $this->startsAt->format('Y-m-d H:i') < $until && $from < $this->endsAt->format('Y-m-d H:i');
+        return $this->getStartsAt()->format('Y-m-d H:i') < $until && $from < $this->getEndsAt()->format('Y-m-d H:i');
     }
 
     public function getCovers(): int { return $this->covers; }
@@ -212,4 +216,18 @@ class Reservation
     public function setLocale(?string $locale): self { $this->locale = $locale ? substr($locale, 0, 8) : null; return $this; }
     public function getCreatedAt(): \DateTimeImmutable { return $this->createdAt; }
     public function getUpdatedAt(): \DateTimeImmutable { return $this->updatedAt; }
+
+    /** The place's zone: the hours the restaurant gives (OpeningHours', base.opening_hours.timezone). */
+    private static function place(): \DateTimeZone
+    {
+        $zone = Runtime::find(ParameterBagInterface::class)?->get('base.opening_hours.timezone');
+
+        return new \DateTimeZone(\is_string($zone) && \in_array($zone, timezone_identifiers_list(), true) ? $zone : 'Europe/Paris');
+    }
+
+    /** A wall clock - "20:00" as typed or offered, whatever zone the value carries - as that hour at the place. */
+    private static function atPlace(\DateTimeInterface $wall): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable($wall->format('Y-m-d H:i:s'), self::place());
+    }
 }

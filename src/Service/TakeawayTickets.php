@@ -17,7 +17,8 @@ use Base\Restaurant\Enum\TicketChannel;
 use Base\Restaurant\Enum\TicketStatus;
 use Base\Restaurant\Event\TicketMovedEvent;
 use Base\Restaurant\Repository\TicketRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
+use Base\Database\Repository\Repositories;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -32,7 +33,8 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 class TakeawayTickets
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
+        private readonly Repositories $repositories,
         private readonly TicketRepository $tickets,
         private readonly Pickups $pickups,
         private readonly EventDispatcherInterface $dispatcher,
@@ -80,8 +82,8 @@ class TakeawayTickets
             ->setCurrency((string) $order->getCurrency())
             ->setPaid((int) $order->getNetPrice())
             ->setPickupAt($this->moment($pickup));
-        $this->entityManager->persist($ticket);
-        $this->entityManager->flush();
+        $this->unitOfWork->persist($ticket);
+        $this->unitOfWork->flush();
         $this->dispatcher->dispatch(new TicketMovedEvent($ticket, null));
 
         return $ticket;
@@ -93,7 +95,7 @@ class TakeawayTickets
         if (TicketChannel::TAKEAWAY !== $ticket->getChannel() || !$ticket->getExternalRef()) {
             return;
         }
-        $order = $this->entityManager->getRepository(Order::class)->findOneBy(['reference' => $ticket->getExternalRef()]);
+        $order = $this->repositories->of(Order::class)->findOneBy(['reference' => $ticket->getExternalRef()]);
         $pickup = $order ? $this->pickups->of($order) : null;
         if (!$pickup) {
             return;

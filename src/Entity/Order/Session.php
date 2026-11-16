@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Entity\Order;
 
 use Base\Database\Type\Utc;
-use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
+use Base\Database\Type\UtcDateTimeImmutableType;
 use Base\Restaurant\Entity\Reservation;
 use Base\Restaurant\Entity\Table;
 use Base\Restaurant\Enum\SessionStatus;
@@ -11,7 +11,7 @@ use Base\Restaurant\Enum\TicketStatus;
 use Base\Restaurant\Repository\SessionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A table's bill, from the first scan of its code to the till: the rounds

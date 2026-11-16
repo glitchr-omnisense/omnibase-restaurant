@@ -3,15 +3,20 @@
 namespace Base\Restaurant\Repository;
 
 use Base\Restaurant\Entity\Table;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Base\Database\Repository\Finders;
+use Base\Database\Repository\ServiceEntityRepository;
 
-/** @extends ServiceEntityRepository<Table> */
+/**
+ * @method Table|null find($id)
+ * @method Table|null findOneBy(array $criteria, ?array $orderBy = null)
+ * @method list<Table> findAll()
+ * @method list<Table> findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ */
 class TableRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(Finders $finders)
     {
-        parent::__construct($registry, Table::class);
+        parent::__construct($finders, Table::class);
     }
 
     /** @return list<Table> */
@@ -28,9 +33,7 @@ class TableRepository extends ServiceEntityRepository
     /** @return list<Table> every table in use, room by room */
     public function active(): array
     {
-        return $this->createQueryBuilder('t')->join('t.room', 'r')->addSelect('r')
-            ->where('t.active = true')
-            ->orderBy('r.position', 'ASC')->addOrderBy('r.id', 'ASC')->addOrderBy('t.position', 'ASC')->addOrderBy('t.id', 'ASC')
-            ->getQuery()->getResult();
+        // The hand-written query fetch-joined the room (addSelect): it loads when read now.
+        return $this->findBy(['active' => true], ['room.position' => 'ASC', 'room.id' => 'ASC', 'position' => 'ASC', 'id' => 'ASC']);
     }
 }

@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Entity\Order;
 
 use Base\Database\Type\Utc;
-use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
+use Base\Database\Type\UtcDateTimeImmutableType;
 use Base\Restaurant\Entity\Table;
 use Base\Restaurant\Enum\Station;
 use Base\Restaurant\Enum\TicketChannel;
@@ -12,7 +12,7 @@ use Base\Restaurant\Exception\TransitionException;
 use Base\Restaurant\Repository\TicketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * What the kitchen makes, one ticket at a time, whatever it comes from: a

@@ -21,7 +21,7 @@ use Base\Restaurant\Repository\ReservationRepository;
 use Base\Restaurant\Repository\RoomRepository;
 use Base\Restaurant\Repository\SessionRepository;
 use Base\Restaurant\Repository\TicketRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -39,7 +39,7 @@ class Pass
     public const SOON = 45;
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
         private readonly TicketRepository $tickets,
         private readonly SessionRepository $sessions,
         private readonly ReservationRepository $reservations,
@@ -170,7 +170,7 @@ class Pass
             default => null,
         } ?? throw new TransitionException('pass.error.action');
         $ticket->moveTo($to);
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
         $this->dispatcher->dispatch(new TicketMovedEvent($ticket, $from, \in_array($to, [TicketStatus::REFUSED, TicketStatus::CANCELLED], true) ? ($reason ?: 'too_busy') : null));
     }
 
@@ -190,7 +190,7 @@ class Pass
         if ($reservation && ReservationStatus::SEATED === $reservation->getStatus()) {
             $reservation->setStatus(ReservationStatus::FINISHED);
         }
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
         foreach ($session->getTickets() as $ticket) {
             $from = $before[spl_object_id($ticket)] ?? null;
             if ($from !== $ticket->getStatus()) {
@@ -214,7 +214,7 @@ class Pass
         if ($reservation) {
             $reservation->assign(array_map(fn (Table $t) => $t === $from ? $to : $t, $reservation->getTables()->toArray()));
         }
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
     }
 
     /** Seat a reservation: its table's bill opened and tied to it. */
@@ -225,9 +225,9 @@ class Pass
         if ($table instanceof Table) {
             $session = $this->sessions->openAt($table) ?? new Session($table, $reservation->getCovers());
             $session->setReservation($reservation)->setCovers($reservation->getCovers());
-            $this->entityManager->persist($session);
+            $this->unitOfWork->persist($session);
         }
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
 
         return $session;
     }
@@ -235,21 +235,21 @@ class Pass
     public function answerCall(Session $session): void
     {
         $session->answerCall();
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
     }
 
     /** Guests may order from their phones at this table, or not any more. */
     public function toggleOrdering(Table $table): void
     {
         $table->setOrdering(!$table->isOrdering());
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
     }
 
     /** Run out ("rupture"), or back. */
     public function stock(Dish $dish, bool $available): void
     {
         $available ? $dish->restock() : $dish->runOut();
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
         $this->dispatcher->dispatch(new DishAvailabilityEvent($dish, $available));
     }
 

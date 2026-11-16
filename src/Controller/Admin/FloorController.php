@@ -12,7 +12,8 @@ use Base\Restaurant\Repository\RoomRepository;
 use Base\Restaurant\Repository\TableRepository;
 use Base\Restaurant\Service\FloorPlan;
 use Base\Service\Qr\QrSheet;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
+use Base\Database\Repository\Repositories;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,7 +33,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class FloorController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
+        private readonly Repositories $repositories,
         private readonly RoomRepository $rooms,
         private readonly TableRepository $tables,
         private readonly FloorPlan $plans,
@@ -48,8 +50,8 @@ class FloorController extends AbstractController
     {
         $this->denyAccessUnlessGranted($this->managerRole);
         $rooms = $this->rooms->ordered();
-        $room = $request->query->getInt('salle') ? $this->entityManager->find(Room::class, $request->query->getInt('salle')) : ($rooms[0] ?? null);
-        $layout = $request->query->getInt('disposition') ? $this->entityManager->find(Layout::class, $request->query->getInt('disposition')) : null;
+        $room = $request->query->getInt('salle') ? $this->repositories->of(Room::class)->find($request->query->getInt('salle')) : ($rooms[0] ?? null);
+        $layout = $request->query->getInt('disposition') ? $this->repositories->of(Layout::class)->find($request->query->getInt('disposition')) : null;
         if ($layout && $layout->getRoom() !== $room) {
             $layout = null;
         }
@@ -69,8 +71,8 @@ class FloorController extends AbstractController
         $this->guard($request);
         $room = new Room(trim((string) $request->request->get('name')) ?: 'Salle', max(300, $request->request->getInt('width', 1200)), max(300, $request->request->getInt('height', 800)));
         $room->setPosition(\count($this->rooms->ordered()));
-        $this->entityManager->persist($room);
-        $this->entityManager->flush();
+        $this->unitOfWork->persist($room);
+        $this->unitOfWork->flush();
 
         return $this->redirectToRoute('restaurant_admin_floor', ['salle' => $room->getId()]);
     }
@@ -84,8 +86,8 @@ class FloorController extends AbstractController
             $layout->place($table, $table->getX(), $table->getY(), $table->getRotation(), $table->isActive());
         }
         $layout->setDefault(null === $room->getDefaultLayout());
-        $this->entityManager->persist($layout);
-        $this->entityManager->flush();
+        $this->unitOfWork->persist($layout);
+        $this->unitOfWork->flush();
 
         return $this->redirectToRoute('restaurant_admin_floor', ['salle' => $room->getId(), 'disposition' => $layout->getId()]);
     }
@@ -99,7 +101,7 @@ class FloorController extends AbstractController
         if (!\is_array($data)) {
             return $this->json(['error' => 'json'], 400);
         }
-        $layout = isset($data['layout']) && $data['layout'] ? $this->entityManager->find(Layout::class, (int) $data['layout']) : null;
+        $layout = isset($data['layout']) && $data['layout'] ? $this->repositories->of(Layout::class)->find((int) $data['layout']) : null;
         if ($layout && $layout->getRoom() !== $room) {
             return $this->json(['error' => 'layout'], 400);
         }
@@ -124,7 +126,7 @@ class FloorController extends AbstractController
             if (!$table) {
                 $table = new Table();
                 $room->addTable($table);
-                $this->entityManager->persist($table);
+                $this->unitOfWork->persist($table);
             }
             $table->setLabel(mb_substr(trim((string) ($t['label'] ?? '')), 0, 20) ?: (string) ($i + 1))
                 ->setCovers((int) ($t['min'] ?? 1), (int) ($t['max'] ?? 2))
@@ -146,10 +148,10 @@ class FloorController extends AbstractController
             $table = $this->tables->find((int) $id);
             if ($table && $table->getRoom() === $room) {
                 $room->removeTable($table);
-                $this->entityManager->remove($table);
+                $this->unitOfWork->remove($table);
             }
         }
-        $this->entityManager->flush(); // the new tables get their ids
+        $this->unitOfWork->flush(); // the new tables get their ids
 
         if ($layout) {
             $positions = [];
@@ -162,7 +164,7 @@ class FloorController extends AbstractController
                 $joins[] = array_values(array_filter(array_map(fn ($key) => $byKey[(string) $key] ?? null, (array) $group)));
             }
             $layout->setJoins(array_map(fn (array $g) => array_map(fn (Table $t) => (int) $t->getId(), $g), $joins));
-            $this->entityManager->flush();
+            $this->unitOfWork->flush();
         }
 
         return $this->json([
@@ -178,7 +180,7 @@ class FloorController extends AbstractController
     {
         $this->denyAccessUnlessGranted($this->managerRole);
         $format = \in_array($request->query->get('format'), ['a4', 'L7121', 'L7160', 'L7163'], true) ? (string) $request->query->get('format') : 'a4';
-        $room = $request->query->getInt('salle') ? $this->entityManager->find(Room::class, $request->query->getInt('salle')) : null;
+        $room = $request->query->getInt('salle') ? $this->repositories->of(Room::class)->find($request->query->getInt('salle')) : null;
         $items = [];
         foreach ($this->tables->active() as $table) {
             if ($room && $table->getRoom() !== $room) {
@@ -204,7 +206,7 @@ class FloorController extends AbstractController
     {
         $this->guard($request);
         $id->regenerateToken();
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
         $this->addFlash('success', '@restaurant.admin.floor.token_renewed');
 
         return $this->redirectToRoute('restaurant_admin_floor', ['salle' => $id->getRoom()?->getId()]);

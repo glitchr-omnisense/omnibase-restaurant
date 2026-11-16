@@ -9,7 +9,7 @@ use Base\Marketplace\Enum\ProductAvailability;
 use Base\Restaurant\Enum\Diet;
 use Base\Restaurant\Enum\Station;
 use Base\Restaurant\Repository\DishRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A dish of the menu: an omnibase/marketplace product (its title and text,

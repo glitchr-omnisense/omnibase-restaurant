@@ -13,7 +13,7 @@ use Base\Marketplace\Service\QuickOrder;
 use Base\Restaurant\Exception\RestaurantException;
 use Base\Restaurant\Model\TakeHomeOrder;
 use Base\Restaurant\Repository\TakeHomeRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Database\Repository\Repositories;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
@@ -36,7 +36,7 @@ class TakeHomeOrders
         private readonly ColdChain $coldChain,
         private readonly Pickups $pickups,
         private readonly TakeHomeRepository $dishes,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly Repositories $repositories,
         #[Autowire('%restaurant.takehome.max_quantity%')] private readonly int $maxQuantity = 20,
         #[Autowire('%restaurant.delivery.fee_product%')] private readonly ?string $deliveryFee = null,
         #[Autowire('%restaurant.parcel.fee_product%')] private readonly ?string $parcelFee = null,
@@ -64,7 +64,7 @@ class TakeHomeOrders
             PickupMode::SHIPPING => $this->parcelFee,
             default => null,
         };
-        $product = $slug ? $this->entityManager->getRepository(Product::class)->findOneBy(['slug' => $slug]) : null;
+        $product = $slug ? $this->repositories->of(Product::class)->findOneBy(['slug' => $slug]) : null;
 
         return $product instanceof Product && $product->isForSell() ? $product : null;
     }

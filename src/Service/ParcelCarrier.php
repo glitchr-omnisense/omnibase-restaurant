@@ -4,7 +4,7 @@ namespace Base\Restaurant\Service;
 
 use Base\Marketplace\Entity\Order\Method\ShippingMethod;
 use Base\Marketplace\Service\Shipping;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Database\Repository\Repositories;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class ParcelCarrier
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly Repositories $repositories,
         private readonly Shipping $shipping,
         #[Autowire('%restaurant.parcel.shipping_method%')] private readonly ?string $slug = null,
     ) {
@@ -25,7 +25,7 @@ class ParcelCarrier
 
     public function shippingMethod(): ?ShippingMethod
     {
-        return $this->slug ? $this->entityManager->getRepository(ShippingMethod::class)->findOneBy(['slug' => $this->slug]) : null;
+        return $this->slug ? $this->repositories->of(ShippingMethod::class)->findOneBy(['slug' => $this->slug]) : null;
     }
 
     public function isConfigured(): bool

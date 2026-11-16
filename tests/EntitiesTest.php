@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Tests;
 
 use Base\Database\Type\Utc;
-use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
+use Base\Database\Type\UtcDateTimeImmutableType;
 use Base\Restaurant\Entity\Layout;
 use Base\Restaurant\Entity\MealService;
 use Base\Restaurant\Entity\Order\Session;
@@ -19,7 +19,7 @@ use Base\Restaurant\Enum\TicketChannel;
 use Base\Restaurant\Enum\TicketStatus;
 use Base\Restaurant\Exception\TransitionException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\ORM\Mapping\Column;
+use Base\Mapping\Column;
 use PHPUnit\Framework\TestCase;
 
 class EntitiesTest extends TestCase

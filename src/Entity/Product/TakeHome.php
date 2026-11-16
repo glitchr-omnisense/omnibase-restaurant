@@ -7,7 +7,7 @@ use Base\Enum\Allergen;
 use Base\Marketplace\Entity\Product;
 use Base\Restaurant\Enum\Keeping;
 use Base\Restaurant\Repository\TakeHomeRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A dish to cook at home, sold by the restaurant's take-home shop - fresh,

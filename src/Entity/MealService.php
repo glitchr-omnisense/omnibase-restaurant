@@ -3,7 +3,7 @@
 namespace Base\Restaurant\Entity;
 
 use Base\Restaurant\Repository\MealServiceRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * A meal service - lunch, dinner: the days it runs, the first and last

@@ -3,8 +3,8 @@
 namespace Base\Restaurant\Entity;
 
 use Base\Database\Type\Utc;
-use Omnibridge\Doctrine\Omnibase\Database\Type\UtcDateTimeImmutableType;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Database\Type\UtcDateTimeImmutableType;
+use Base\Mapping as ORM;
 
 /**
  * A platform's webhook already handled: platforms retry, and the same event

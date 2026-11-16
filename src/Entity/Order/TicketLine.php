@@ -4,7 +4,7 @@ namespace Base\Restaurant\Entity\Order;
 
 use Base\Restaurant\Entity\Menu\Dish;
 use Base\Restaurant\Enum\Station;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 
 /**
  * One line of a ticket: so many of a dish, its options ("bien cuit", "sans

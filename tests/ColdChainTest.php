@@ -9,7 +9,7 @@ use Base\Restaurant\Entity\Product\TakeHome;
 use Base\Restaurant\Exception\RestaurantException;
 use Base\Restaurant\Service\ColdChain;
 use Base\Restaurant\Service\ParcelCarrier;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -22,7 +22,7 @@ class ColdChainTest extends TestCase
 
     private function chain(bool $carrier = true, array $zips = ['67000', '674*'], int $notice = 1, int $minimum = 0, array $parcel = []): ColdChain
     {
-        $pickups = new Pickups($this->createStub(EntityManagerInterface::class), $this->createStub(PickupRepository::class), new EventDispatcher(), $this->createStub(UrlGeneratorInterface::class), ['pickup', 'delivery', 'shipping'], [], ['from' => '11:00', 'to' => '19:00', 'step' => 30], 60, 14, self::ZONE);
+        $pickups = new Pickups($this->createStub(UnitOfWork::class), $this->createStub(PickupRepository::class), new EventDispatcher(), $this->createStub(UrlGeneratorInterface::class), ['pickup', 'delivery', 'shipping'], [], ['from' => '11:00', 'to' => '19:00', 'step' => 30], 60, 14, self::ZONE);
         $parcelCarrier = $this->createStub(ParcelCarrier::class);
         $parcelCarrier->method('isConfigured')->willReturn($carrier);
 

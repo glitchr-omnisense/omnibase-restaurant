@@ -4,15 +4,20 @@ namespace Base\Restaurant\Repository;
 
 use Base\Restaurant\Entity\Menu\Dish;
 use Base\Restaurant\Entity\Menu\MenuSection;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Base\Database\Repository\Finders;
+use Base\Database\Repository\ServiceEntityRepository;
 
-/** @extends ServiceEntityRepository<Dish> */
+/**
+ * @method Dish|null find($id)
+ * @method Dish|null findOneBy(array $criteria, ?array $orderBy = null)
+ * @method list<Dish> findAll()
+ * @method list<Dish> findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ */
 class DishRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(Finders $finders)
     {
-        parent::__construct($registry, Dish::class);
+        parent::__construct($finders, Dish::class);
     }
 
     /** @return list<Dish> every dish (set menus included) in the menu's order */

@@ -17,7 +17,7 @@ use Base\Restaurant\Exception\RestaurantException;
 use Base\Restaurant\Model\Round;
 use Base\Restaurant\Repository\DishRepository;
 use Base\Restaurant\Repository\SessionRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -32,7 +32,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class TableOrders
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
         private readonly SessionRepository $sessions,
         private readonly DishRepository $dishes,
         private readonly Pricing $pricing,
@@ -49,8 +49,8 @@ class TableOrders
         $session = $this->sessions->openAt($table);
         if (!$session && $open) {
             $session = new Session($table);
-            $this->entityManager->persist($session);
-            $this->entityManager->flush();
+            $this->unitOfWork->persist($session);
+            $this->unitOfWork->flush();
         }
 
         return $session;
@@ -102,8 +102,8 @@ class TableOrders
             $session->setCovers($round->covers);
         }
         $session->addTicket($ticket);
-        $this->entityManager->persist($ticket);
-        $this->entityManager->flush();
+        $this->unitOfWork->persist($ticket);
+        $this->unitOfWork->flush();
         $this->dispatcher->dispatch(new TicketMovedEvent($ticket, null));
 
         return $ticket;
@@ -112,13 +112,13 @@ class TableOrders
     public function callWaiter(Session $session): void
     {
         $session->callWaiter();
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
     }
 
     public function requestBill(Session $session): void
     {
         $session->requestBill();
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
     }
 
     /**
