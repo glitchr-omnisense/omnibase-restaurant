@@ -3,13 +3,14 @@
 All notable changes to omnibase/restaurant. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versions [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [2.0.0]
 
-omnibase/restaurant 1.0.0: the restaurant of omnibase sites (menu, rooms and tables, reservations, table orders and
+omnibase/restaurant 2.0.0: the restaurant of omnibase sites (menu, rooms and tables, reservations, table orders and
 the pass, take-home shop, delivery platforms through omnisense/omnifood) on the agnostic persistence. Its repositories
 extend `Base\Database\Repository\ServiceEntityRepository` and query in omnibase's finder language; its services write
 through `Base\Contract\UnitOfWork`. The code names `Base\` and its own `Base\Restaurant\` only. Requires
-omnisense/omnibase and the omnibridge bridges `^1.0`.
+omnisense/omnibase `^7.0` and the omnibridge bridges at their new majors (omnibridge/symfony and
+omnibridge/doctrine `^3.0`, omnibridge/eloquent `^2.0`).
 
 ## [1.0.2] — 2026-11-14
 

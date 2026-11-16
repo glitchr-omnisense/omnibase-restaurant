@@ -6,7 +6,7 @@ order: 10
 # Installation
 
 ```sh
-composer require omnibase/restaurant          # needs omnisense/omnibase 5.1, omnibase/admin, omnibase/marketplace
+composer require omnibase/restaurant          # needs omnisense/omnibase 7.0, omnibase/admin, omnibase/marketplace
 composer require omnisense/omnifood omnifood/ubereats omnifood/thefork   # optional: the platforms
 ```
 
