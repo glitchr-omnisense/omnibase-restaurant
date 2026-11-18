@@ -3,6 +3,10 @@
 All notable changes to omnibase/restaurant. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versions [Semantic Versioning](https://semver.org/).
 
+## [2.0.1]
+
+- omnibridge/doctrine `^3.0|^4.0`: the bundle runs on omnibridge/doctrine 4.0 (dates read as `\DateTimeImmutable` in UTC) as on 3.x.
+
 ## [2.0.0]
 
 omnibase/restaurant 2.0.0: the restaurant of omnibase sites (menu, rooms and tables, reservations, table orders and
